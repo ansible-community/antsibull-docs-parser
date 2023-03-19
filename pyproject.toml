@@ -23,3 +23,8 @@ maintainers = [
 
 [project.urls]
 "Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
+
+[tool.isort]
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
