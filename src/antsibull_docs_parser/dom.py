@@ -9,12 +9,9 @@ DOM classes used by parser.
 
 import abc
 import sys
-
+import typing as t
 from enum import Enum
 from typing import NamedTuple
-
-import typing as t
-
 
 if sys.version_info >= (3, 8):
     ErrorType = t.Union[t.Literal['ignore'], t.Literal['message'], t.Literal['exception']]

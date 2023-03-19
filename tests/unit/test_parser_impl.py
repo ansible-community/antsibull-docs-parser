@@ -9,7 +9,6 @@ import pytest
 
 from antsibull_docs_parser._parser_impl import parse_parameters_escaped, parse_parameters_unescaped
 
-
 ESCAPED_TESTS = [
     ['(a)', 1, 1, ['a'], 3, None],
     ['(a,b)', 1, 1, ['a,b'], 5, None],

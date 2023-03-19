@@ -10,7 +10,8 @@ ReStructured Text serialization.
 import typing as t
 
 from . import dom
-from .format import Formatter, LinkProvider, format_paragraphs as _format_paragraphs
+from .format import Formatter, LinkProvider
+from .format import format_paragraphs as _format_paragraphs
 from .html import _url_escape
 
 

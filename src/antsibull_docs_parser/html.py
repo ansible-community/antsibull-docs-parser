@@ -8,12 +8,12 @@ HTML serialization.
 """
 
 import typing as t
-
 from html import escape as _html_escape
 from urllib.parse import quote
 
 from . import dom
-from .format import Formatter, LinkProvider, format_paragraphs as _format_paragraphs
+from .format import Formatter, LinkProvider
+from .format import format_paragraphs as _format_paragraphs
 
 
 def html_escape(text: str) -> str:
