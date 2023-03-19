@@ -78,4 +78,4 @@ def codeqa(session: nox.Session):
 def typing(session: nox.Session):
     install(session, ".", "mypy", "pyre-check", editable=True)
     session.run("mypy", "src/antsibull_docs_parser")
-    session.run("pyre", "--source-directory", "src/antsibull_docs_parser")
+    session.run("pyre", "--source-directory", "src")
