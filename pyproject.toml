@@ -1,0 +1,20 @@
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2023, Ansible Project
+
+[project]
+name = "antsibull-docs-parser"
+version = "0.0.1"
+description = "Python library for processing Ansible documentation markup"
+readme = "README.md"
+requires-python = ">=3.6.1"
+license = "GPL-3.0-or-later"
+authors = [
+  { name = "Felix Fontein", email = "felix@fontein.de" },
+]
+maintainers = [
+  { name = "Felix Fontein", email = "felix@fontein.de" },
+]
+
+[project.urls]
+"Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
