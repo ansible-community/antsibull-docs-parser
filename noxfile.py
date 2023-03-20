@@ -79,3 +79,46 @@ def typing(session: nox.Session):
     install(session, ".", "mypy", "pyre-check", editable=True)
     session.run("mypy", "src/antsibull_docs_parser")
     session.run("pyre", "--source-directory", "src")
+
+
+def _repl_version(session: nox.Session, new_version: str):
+    with open("pyproject.toml", "r+") as fp:
+        lines = tuple(fp)
+        fp.seek(0)
+        for line in lines:
+            if line.startswith("version = "):
+                line = f'version = "{new_version}"\n'
+            fp.write(line)
+
+
+@nox.session
+def bump(session: nox.Session):
+    version = session.posargs[0]
+    install(session, "antsibull-changelog")
+    _repl_version(session, version)
+    if len(session.posargs) > 1:
+        with open(f"changelogs/fragments/{version}.yml", "w") as fp:
+            print("release_summary:", session.posargs[1], file=fp)
+    session.run("antsibull-changelog", "release")
+    install(session, ".")  # Smoke test
+    session.run("git", "commit", "-a", "-m", f"Release {version}", external=True)
+    session.run(
+        "git",
+        "tag",
+        "-a",
+        "-m",
+        f"antsibull-docs-parser {version}",
+        "--edit",
+        version,
+        external=True,
+    )
+
+
+@nox.session
+def publish(session: nox.Session):
+    install(session, "hatch")
+    session.run("hatch", "publish", *session.posargs)
+    session.run("git", "push", "--follow-tags")
+    version = session.run("hatch", "version", silent=True).strip()
+    _repl_version(session, f"{version}.post0")
+    session.run("git", "commit", "-a", "-m", "Post release version bump", external=True)
