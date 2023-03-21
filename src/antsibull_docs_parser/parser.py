@@ -349,6 +349,8 @@ def parse(
         has_paragraphs = False
         text = [text] if text else []
     parser = _CLASSIC if only_classic_markup else _SEMANTIC_MARKUP
+    if text == ["foobarbaz"]:
+        print("hi")
     return [
         parser.parse_string(
             par,
