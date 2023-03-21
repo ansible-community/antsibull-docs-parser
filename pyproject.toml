@@ -39,6 +39,9 @@ classifiers = [
 "Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
 
 [tool.isort]
-line_length = 100
+# Match black
+profile = "black"
+line_length = 89
+#
 multi_line_output = 3
 include_trailing_comma = true

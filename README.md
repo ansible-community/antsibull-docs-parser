@@ -19,7 +19,7 @@ Install and run `nox` to run all tests. `nox` will create virtual environments i
 To run specific tests:
 1. `nox -e test` to only run unit tests;
 2. `nox -e lint` to run all linters and formatters at once;
-3. `nox -e formatters` to run `isort`;
+3. `nox -e formatters` to run `isort` and `black`;
 4. `nox -e codeqa` to run `flake8`, `pylint`, and `reuse lint`;
 5. `nox -e typing` to run `mypy` and `pyre`.
 
