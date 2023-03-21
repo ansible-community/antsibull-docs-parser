@@ -30,10 +30,10 @@ To run specific tests:
    * Creates `changelogs/fragments/<version>.yml` with a `release_summary` section.
    * Runs `antsibull-changelog release` and adds the changed files to git.
    * Commits with message `Release <version>.` and runs `git tag -a -m 'antsibull-docs-parser <version>' <version>`.
-2. Run `git push upstream main && git push`.
+2. Run `git push` to the appropriate remotes.
 3. Once CI passes on GitHub, run `nox -e publish`. This:
    * Runs `hatch publish`;
    * Runs `git push --follow-tags`;
    * Bumps the version to `<version>.post0`;
    * Adds the changed file to git and run `git commit -m 'Post-release version bump.'`;
-4. Run `git push upstream main` and create a GitHub release;
+4. Run `git push --follow-tags` to the appropriate remotes and create a GitHub release.
