@@ -60,15 +60,7 @@ def formatters(session: nox.Session):
 @nox.session
 def codeqa(session: nox.Session):
     install(session, ".", "flake8", "pylint", "reuse", editable=True)
-    session.run(
-        "flake8",
-        "--count",
-        "--max-complexity=10",
-        "--max-line-length=100",
-        "--statistics",
-        "src/antsibull_docs_parser",
-        *session.posargs,
-    )
+    session.run("flake8", "src/antsibull_docs_parser", *session.posargs)
     session.run(
         "pylint", "--rcfile", ".pylintrc.automated", "src/antsibull_docs_parser"
     )

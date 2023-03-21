@@ -5,3 +5,7 @@
 
 [flake8]
 extend-ignore = E203
+count = true
+max-complexity = 10
+max-line-length = 89
+statistics = true
