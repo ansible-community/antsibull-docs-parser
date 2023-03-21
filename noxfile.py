@@ -102,8 +102,8 @@ def bump(session: nox.Session):
     check_no_modifications(session)
     if len(session.posargs) not in (1, 2):
         session.error(
-            'Must specify 1-2 positional arguments: nox -e bump -- <version> [ <release_summary_message> ].'
-            ' If release_summary_message has not been specified, a file changelogs/fragments/<version>.yml must exist'
+            "Must specify 1-2 positional arguments: nox -e bump -- <version> [ <release_summary_message> ]."
+            "If release_summary_message has not been specified, a file changelogs/fragments/<version>.yml must exist"
         )
     version = session.posargs[0]
     fragment_file = f"changelogs/fragments/{version}.yml"
@@ -142,5 +142,5 @@ def publish(session: nox.Session):
     session.run("git", "push", "--follow-tags")
     version = session.run("hatch", "version", silent=True).strip()
     _repl_version(session, f"{version}.post0")
-    session.run("git", "commit", "pyproject.toml")
+    session.run("git", "add", "pyproject.toml")
     session.run("git", "commit", "-m", "Post-release version bump.", external=True)
