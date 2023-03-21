@@ -7,5 +7,6 @@
 extend-ignore = E203
 count = true
 max-complexity = 10
-max-line-length = 89
+# black's max-line-length is 89, but it doesn't touch long string literals.
+max-line-length = 100
 statistics = true

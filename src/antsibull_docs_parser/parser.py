@@ -26,9 +26,10 @@ def _is_fqcn(text: str) -> bool:
 
 
 def _is_plugin_type(text: str) -> bool:
-    # We do not want to hard-code a list of valid plugin types that might be inaccurate, so we
-    # simply check whether this is a valid kind of Python identifier usually used for plugin
-    # types. If ansible-core ever adds one with digits, we'll have to update this.
+    # We do not want to hard-code a list of valid plugin types that might be
+    # inaccurate, so we simply check whether this is a valid kind of Python
+    # identifier usually used for plugin types. If ansible-core ever adds one
+    # with digits, we'll have to update this.
     return _PLUGIN_TYPE.match(text) is not None
 
 
