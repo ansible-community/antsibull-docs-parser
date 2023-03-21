@@ -100,8 +100,9 @@ def bump(session: nox.Session):
         with open(f"changelogs/fragments/{version}.yml", "w") as fp:
             print("release_summary:", session.posargs[1], file=fp)
     session.run("antsibull-changelog", "release")
+    session.run("git", "add", "CHANGELOG.rst", "changelogs/changelog.yaml", "changelogs/fragments/", external=True)
     install(session, ".")  # Smoke test
-    session.run("git", "commit", "-a", "-m", f"Release {version}", external=True)
+    session.run("git", "commit", "-m", f"Release {version}.", external=True)
     session.run(
         "git",
         "tag",
@@ -121,4 +122,5 @@ def publish(session: nox.Session):
     session.run("git", "push", "--follow-tags")
     version = session.run("hatch", "version", silent=True).strip()
     _repl_version(session, f"{version}.post0")
-    session.run("git", "commit", "-a", "-m", "Post release version bump", external=True)
+    session.run("git", "commit", "pyproject.toml")
+    session.run("git", "commit", "-m", "Post-release version bump.", external=True)
