@@ -49,25 +49,18 @@ def lint(session: nox.Session):
 
 @nox.session
 def formatters(session: nox.Session):
-    install(session, "isort")
+    install(session, "isort", "black")
     posargs = list(session.posargs)
     if IN_CI:
         posargs.append("--check")
-    session.run("isort", *posargs, "src", "tests")
+    session.run("isort", *posargs, "src", "tests", "noxfile.py")
+    session.run("black", *posargs, "src", "tests", "noxfile.py")
 
 
 @nox.session
 def codeqa(session: nox.Session):
     install(session, ".", "flake8", "pylint", "reuse", editable=True)
-    session.run(
-        "flake8",
-        "--count",
-        "--max-complexity=10",
-        "--max-line-length=100",
-        "--statistics",
-        "src/antsibull_docs_parser",
-        *session.posargs,
-    )
+    session.run("flake8", "src/antsibull_docs_parser", *session.posargs)
     session.run(
         "pylint", "--rcfile", ".pylintrc.automated", "src/antsibull_docs_parser"
     )
@@ -92,9 +85,18 @@ def _repl_version(session: nox.Session, new_version: str):
 
 
 def check_no_modifications(session: nox.Session) -> None:
-    modified = session.run("git", "status", "--porcelain=v1", "--untracked=normal", external=True, silent=True)
+    modified = session.run(
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked=normal",
+        external=True,
+        silent=True,
+    )
     if modified:
-        session.error('There are modified or untracked files. Commit, restore, or remove them before running this')
+        session.error(
+            "There are modified or untracked files. Commit, restore, or remove them before running this"
+        )
 
 
 @nox.session
@@ -109,17 +111,31 @@ def bump(session: nox.Session):
     fragment_file = f"changelogs/fragments/{version}.yml"
     if len(session.posargs) == 1:
         if not os.path.isfile(fragment_file):
-            session.error(f"Either {fragment_file} must already exist, or two positional arguments must be provided.")
+            session.error(
+                f"Either {fragment_file} must already exist, or two positional arguments must be provided."
+            )
     install(session, "antsibull-changelog", "tomli ; python_version < '3.11'")
     _repl_version(session, version)
     if len(session.posargs) > 1:
-        fragment = session.run("python", "-c", f"import yaml ; print(yaml.dump(dict(release_summary={repr(session.posargs[1])})))", silent=True)
+        fragment = session.run(
+            "python",
+            "-c",
+            f"import yaml ; print(yaml.dump(dict(release_summary={repr(session.posargs[1])})))",
+            silent=True,
+        )
         with open(fragment_file, "w") as fp:
             print(fragment, file=fp)
         session.run("git", "add", "pyproject.toml", fragment_file, external=True)
         session.run("git", "commit", "-m", f"Prepare {version}.", external=True)
     session.run("antsibull-changelog", "release")
-    session.run("git", "add", "CHANGELOG.rst", "changelogs/changelog.yaml", "changelogs/fragments/", external=True)
+    session.run(
+        "git",
+        "add",
+        "CHANGELOG.rst",
+        "changelogs/changelog.yaml",
+        "changelogs/fragments/",
+        external=True,
+    )
     install(session, ".")  # Smoke test
     session.run("git", "commit", "-m", f"Release {version}.", external=True)
     session.run(

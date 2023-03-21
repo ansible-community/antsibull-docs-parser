@@ -14,23 +14,28 @@ from . import dom
 
 
 class LinkProvider(abc.ABC):
-    '''
+    """
     Provide URLs for objects, if available.
-    '''
+    """
 
-    def plugin_link(self,  # pylint:disable=no-self-use
-                    plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
-                    ) -> t.Optional[str]:
-        '''Provides a link to a plugin.'''
+    def plugin_link(  # pylint:disable=no-self-use
+        self,
+        plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
+    ) -> t.Optional[str]:
+        """Provides a link to a plugin."""
         return None
 
-    def plugin_option_like_link(self,  # pylint:disable=no-self-use
-                                plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
-                                # pylint:disable-next=unused-argument
-                                what: "t.Union[t.Literal['option'], t.Literal['retval']]",
-                                # pylint:disable-next=unused-argument
-                                name: t.List[str], current_plugin: bool) -> t.Optional[str]:
-        '''Provides a link to a plugin's option or return value.'''
+    def plugin_option_like_link(  # pylint:disable=no-self-use
+        self,
+        plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
+        # pylint:disable-next=unused-argument
+        what: "t.Union[t.Literal['option'], t.Literal['retval']]",
+        # pylint:disable-next=unused-argument
+        name: t.List[str],
+        # pylint:disable-next=unused-argument
+        current_plugin: bool,
+    ) -> t.Optional[str]:
+        """Provides a link to a plugin's option or return value."""
         return None
 
 
@@ -39,9 +44,10 @@ class _DefaultLinkProvider(LinkProvider):
 
 
 class Formatter(abc.ABC):
-    '''
-    Abstract base class for a formatter whose functions will be called for parts of a paragraph.
-    '''
+    """
+    Abstract base class for a formatter whose functions will be called for
+    parts of a paragraph.
+    """
 
     @abc.abstractmethod
     def format_error(self, part: dom.ErrorPart) -> str:
@@ -100,24 +106,29 @@ class Formatter(abc.ABC):
         pass  # pragma: no cover
 
     @abc.abstractmethod
-    def format_return_value(self, part: dom.ReturnValuePart, url: t.Optional[str]) -> str:
+    def format_return_value(
+        self, part: dom.ReturnValuePart, url: t.Optional[str]
+    ) -> str:
         pass  # pragma: no cover
 
 
 class _FormatWalker(dom.Walker):
-    '''
+    """
     Walker which calls a formatter's functions and stores the result in a list.
-    '''
+    """
 
     destination: t.List[str]
     formatter: Formatter
     link_provider: LinkProvider
     current_plugin: t.Optional[dom.PluginIdentifier]
 
-    def __init__(self, destination: t.List[str],
-                 formatter: Formatter,
-                 link_provider: LinkProvider,
-                 current_plugin: t.Optional[dom.PluginIdentifier]):
+    def __init__(
+        self,
+        destination: t.List[str],
+        formatter: Formatter,
+        link_provider: LinkProvider,
+        current_plugin: t.Optional[dom.PluginIdentifier],
+    ):
         self.destination = destination
         self.formatter = formatter
         self.link_provider = link_provider
@@ -142,7 +153,9 @@ class _FormatWalker(dom.Walker):
         self.destination.append(self.formatter.format_link(part))
 
     def process_module(self, part: dom.ModulePart) -> None:
-        url = self.link_provider.plugin_link(dom.PluginIdentifier(fqcn=part.fqcn, type='module'))
+        url = self.link_provider.plugin_link(
+            dom.PluginIdentifier(fqcn=part.fqcn, type="module")
+        )
         self.destination.append(self.formatter.format_module(part, url))
 
     def process_rst_ref(self, part: dom.RSTRefPart) -> None:
@@ -161,7 +174,8 @@ class _FormatWalker(dom.Walker):
         url = None
         if part.plugin:
             url = self.link_provider.plugin_option_like_link(
-                part.plugin, 'option', part.link, part.plugin == self.current_plugin)
+                part.plugin, "option", part.link, part.plugin == self.current_plugin
+            )
         self.destination.append(self.formatter.format_option_name(part, url))
 
     def process_option_value(self, part: dom.OptionValuePart) -> None:
@@ -175,25 +189,28 @@ class _FormatWalker(dom.Walker):
         url = None
         if part.plugin:
             url = self.link_provider.plugin_option_like_link(
-                part.plugin, 'retval', part.link, part.plugin == self.current_plugin)
+                part.plugin, "retval", part.link, part.plugin == self.current_plugin
+            )
         self.destination.append(self.formatter.format_return_value(part, url))
 
 
-def format_paragraphs(paragraphs: t.Sequence[dom.Paragraph],
-                      formatter: Formatter,
-                      link_provider: t.Optional[LinkProvider] = None,
-                      par_start: str = '',
-                      par_end: str = '',
-                      par_sep: str = '',
-                      par_empty: str = '',
-                      current_plugin: t.Optional[dom.PluginIdentifier] = None) -> str:
-    '''
+def format_paragraphs(
+    paragraphs: t.Sequence[dom.Paragraph],
+    formatter: Formatter,
+    link_provider: t.Optional[LinkProvider] = None,
+    par_start: str = "",
+    par_end: str = "",
+    par_sep: str = "",
+    par_empty: str = "",
+    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+) -> str:
+    """
     Apply the formatter to all parts of the given paragraphs, concatenate the results,
     and insert start and end sequences for paragraphs and sequences between paragraphs.
 
     ``link_provider`` and ``current_plugin`` will be used to compute optional URLs
     that will be passed to the formatter.
-    '''
+    """
     if link_provider is None:
         link_provider = _DefaultLinkProvider()
     result: t.List[str] = []
@@ -207,4 +224,4 @@ def format_paragraphs(paragraphs: t.Sequence[dom.Paragraph],
         if before_len == len(result):
             result.append(par_empty)
         result.append(par_end)
-    return ''.join(result)
+    return "".join(result)
