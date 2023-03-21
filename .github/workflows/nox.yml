@@ -1,0 +1,67 @@
+---
+# GNU General Public License v3.0+ (see LICENSES/GPL-3.0-or-later.txt or
+# https://www.gnu.org/licenses/gpl-3.0.txt)
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: 2023 Maxwell G <maxwell@gtmx.me
+
+name: nox
+'on':
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Run once per week (Monday at 04:00 UTC)
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+jobs:
+  nox-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: antsibull-docs-parser
+    steps:
+      - name: Check out antsibull-docs-parser
+        uses: actions/checkout@v3
+        with:
+          path: antsibull-docs-parser
+      - name: Setup nox
+        uses: wntrblm/nox@2022.11.21
+        with:
+          python-versions: "3.11"
+      - run: |
+          nox -e lint
+  nox-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: antsibull-docs-parser
+    steps:
+      - name: Check out antsibull-docs-parser
+        uses: actions/checkout@v3
+        with:
+          path: antsibull-docs-parser
+      - name: Setup nox
+        uses: wntrblm/nox@2022.11.21
+        with:
+          python-versions: "3.7, 3.8, 3.9, 3.10, 3.11"
+      - run: |
+          nox -e test -p 3.7 3.8 3.9 3.10 3.11
+  nox-test-36:
+    # python3.6 is not available on ubuntu-latest
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: antsibull-docs-parser
+    steps:
+      - name: Check out antsibull-docs-parser
+        uses: actions/checkout@v3
+        with:
+          path: antsibull-docs-parser
+      - name: Setup nox
+        uses: wntrblm/nox@2022.11.21
+        with:
+          python-versions: "3.6"
+      - run: |
+          nox -e test -p 3.6

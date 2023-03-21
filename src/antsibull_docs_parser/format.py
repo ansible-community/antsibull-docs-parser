@@ -8,7 +8,6 @@ Flexible formatting of DOM.
 """
 
 import abc
-
 import typing as t
 
 from . import dom

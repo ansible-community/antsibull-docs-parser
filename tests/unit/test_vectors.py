@@ -9,11 +9,11 @@ import pytest
 import yaml
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.parser import parse, Context
+from antsibull_docs_parser.format import LinkProvider
 from antsibull_docs_parser.html import to_html, to_html_plain
 from antsibull_docs_parser.md import to_md
+from antsibull_docs_parser.parser import Context, parse
 from antsibull_docs_parser.rst import to_rst
-from antsibull_docs_parser.format import LinkProvider
 
 _SafeLoader: t.Any
 try:

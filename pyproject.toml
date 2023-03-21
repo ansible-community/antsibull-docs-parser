@@ -2,19 +2,43 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: 2023, Ansible Project
 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "antsibull-docs-parser"
 version = "0.0.1"
 description = "Python library for processing Ansible documentation markup"
 readme = "README.md"
 requires-python = ">=3.6.1"
-license = "GPL-3.0-or-later"
+license = "GPL-3.0-or-later AND BSD-2-Clause"
+license-files.globs = ["LICENSES/*.txt"]
 authors = [
   { name = "Felix Fontein", email = "felix@fontein.de" },
 ]
 maintainers = [
   { name = "Felix Fontein", email = "felix@fontein.de" },
+  { name = "Maxwell G", email = "maxwell@gtmx.me" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Ansible",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
 ]
 
 [project.urls]
 "Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
+
+[tool.isort]
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true

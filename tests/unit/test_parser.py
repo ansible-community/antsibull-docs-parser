@@ -8,8 +8,7 @@ import typing as t
 import pytest
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.parser import parse, CommandParser, Context, Parser
-
+from antsibull_docs_parser.parser import CommandParser, Context, Parser, parse
 
 TEST_PARSE_DATA: t.List[t.Tuple[t.Union[str, t.List[str]], Context, t.Dict[str, t.Any], t.List[dom.Paragraph]]] = [
     ('', Context(), {}, []),

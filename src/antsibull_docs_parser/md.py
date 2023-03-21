@@ -11,9 +11,10 @@ import re
 import typing as t
 
 from . import dom
-from .format import Formatter, LinkProvider, format_paragraphs as _format_paragraphs
-from .html import _url_escape, html_escape as _html_escape
-
+from .format import Formatter, LinkProvider
+from .format import format_paragraphs as _format_paragraphs
+from .html import _url_escape
+from .html import html_escape as _html_escape
 
 _MD_ESCAPE = re.compile(r'''([!"#$%&'()*+,:;<=>?@[\\\]^_`{|}~-])''')
 
