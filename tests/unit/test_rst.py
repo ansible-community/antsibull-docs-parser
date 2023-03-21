@@ -9,11 +9,12 @@ from antsibull_docs_parser.rst import rst_escape, to_rst
 
 
 def test_rst_escape():
-    assert rst_escape('') == ''
-    assert rst_escape('  foo  ') == '  foo  '
-    assert rst_escape('  foo  ', True) == '\\   foo  \\ '
-    assert rst_escape('\\<_>`*<_>*`\\') == '\\\\\\<\\_\\>\\`\\*\\<\\_\\>\\*\\`\\\\'
+    assert rst_escape("") == ""
+    assert rst_escape("  foo  ") == "  foo  "
+    assert rst_escape("  foo  ", True) == "\\   foo  \\ "
+    assert rst_escape("\\<_>`*<_>*`\\") == "\\\\\\<\\_\\>\\`\\*\\<\\_\\>\\*\\`\\\\"
+
 
 def test_to_rst():
-    assert to_rst([]) == ''
-    assert to_rst([[dom.TextPart(text='test')]]) == 'test'
+    assert to_rst([]) == ""
+    assert to_rst([[dom.TextPart(text="test")]]) == "test"

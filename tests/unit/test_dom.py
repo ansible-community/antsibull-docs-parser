@@ -80,41 +80,43 @@ class _TestWalker(dom.Walker):
 
 TEST_WALKER = [
     [],
-    [dom.ErrorPart(message='foo')],
+    [dom.ErrorPart(message="foo")],
     [
-        dom.TextPart(text='foo '),
-        dom.ItalicPart(text='bar'),
-        dom.TextPart(text=' baz '),
-        dom.CodePart(text=' bam '),
-        dom.TextPart(text=' '),
-        dom.BoldPart(text=' ( boo '),
-        dom.TextPart(text=' ) '),
-        dom.URLPart(url='https://example.com/?foo=bar'),
+        dom.TextPart(text="foo "),
+        dom.ItalicPart(text="bar"),
+        dom.TextPart(text=" baz "),
+        dom.CodePart(text=" bam "),
+        dom.TextPart(text=" "),
+        dom.BoldPart(text=" ( boo "),
+        dom.TextPart(text=" ) "),
+        dom.URLPart(url="https://example.com/?foo=bar"),
         dom.HorizontalLinePart(),
-        dom.TextPart(text=' '),
-        dom.LinkPart(text='foo', url='https://bar.com'),
-        dom.TextPart(text=' '),
-        dom.RSTRefPart(text=' a', ref='b '),
-        dom.ModulePart(fqcn='foo.bar.baz'),
-        dom.TextPart(text='HORIZONTALLINEx '),
-        dom.ModulePart(fqcn='foo.bar.baz.bam'),
+        dom.TextPart(text=" "),
+        dom.LinkPart(text="foo", url="https://bar.com"),
+        dom.TextPart(text=" "),
+        dom.RSTRefPart(text=" a", ref="b "),
+        dom.ModulePart(fqcn="foo.bar.baz"),
+        dom.TextPart(text="HORIZONTALLINEx "),
+        dom.ModulePart(fqcn="foo.bar.baz.bam"),
     ],
     [
-        dom.TextPart(text='foo '),
-        dom.EnvVariablePart(name='a),b'),
-        dom.TextPart(text=' '),
-        dom.PluginPart(plugin=dom.PluginIdentifier(fqcn='foo.bar.baz', type='bam')),
-        dom.TextPart(text=' baz '),
-        dom.OptionValuePart(value=' b,na)\\m, '),
-        dom.TextPart(text=' '),
-        dom.OptionNamePart(plugin=None, link=['foo'], name='foo', value=None),
-        dom.TextPart(text=' '),
-        dom.ReturnValuePart(plugin=None, link=['bar', 'baz'], name='bar.baz[1]', value=None),
+        dom.TextPart(text="foo "),
+        dom.EnvVariablePart(name="a),b"),
+        dom.TextPart(text=" "),
+        dom.PluginPart(plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam")),
+        dom.TextPart(text=" baz "),
+        dom.OptionValuePart(value=" b,na)\\m, "),
+        dom.TextPart(text=" "),
+        dom.OptionNamePart(plugin=None, link=["foo"], name="foo", value=None),
+        dom.TextPart(text=" "),
+        dom.ReturnValuePart(
+            plugin=None, link=["bar", "baz"], name="bar.baz[1]", value=None
+        ),
     ],
 ]
 
 
-@pytest.mark.parametrize('data', TEST_WALKER)
+@pytest.mark.parametrize("data", TEST_WALKER)
 def test_walk(data: dom.Paragraph) -> None:
     walker = _TestWalker()
     dom.walk(data, walker)
@@ -131,4 +133,4 @@ def test_internal_error() -> None:
 
     with pytest.raises(RuntimeError) as exc:
         dom.walk([FakePart()], dom.NoopWalker())
-    assert str(exc.value) == 'Internal error: unknown type 23'
+    assert str(exc.value) == "Internal error: unknown type 23"

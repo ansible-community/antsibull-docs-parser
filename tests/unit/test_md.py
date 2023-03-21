@@ -9,10 +9,14 @@ from antsibull_docs_parser.md import md_escape, to_md
 
 
 def test_md_escape():
-    assert md_escape('') == ''
-    assert md_escape('  foo  ') == '  foo  '
-    assert md_escape(r'[]!.()-\@<>?[]!.()-\@<>?') == r'\[\]\!.\(\)\-\\\@\<\>\?\[\]\!.\(\)\-\\\@\<\>\?'
+    assert md_escape("") == ""
+    assert md_escape("  foo  ") == "  foo  "
+    assert (
+        md_escape(r"[]!.()-\@<>?[]!.()-\@<>?")
+        == r"\[\]\!.\(\)\-\\\@\<\>\?\[\]\!.\(\)\-\\\@\<\>\?"
+    )
+
 
 def test_to_rst():
-    assert to_md([]) == ''
-    assert to_md([[dom.TextPart(text='test')]]) == 'test'
+    assert to_md([]) == ""
+    assert to_md([[dom.TextPart(text="test")]]) == "test"

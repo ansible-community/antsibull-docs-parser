@@ -14,7 +14,9 @@ from enum import Enum
 from typing import NamedTuple
 
 if sys.version_info >= (3, 8):
-    ErrorType = t.Union[t.Literal['ignore'], t.Literal['message'], t.Literal['exception']]
+    ErrorType = t.Union[
+        t.Literal["ignore"], t.Literal["message"], t.Literal["exception"]
+    ]
 else:
     # Python 3.6/3.7 do not have t.Literal
     ErrorType = str  # pragma: no cover
@@ -45,49 +47,49 @@ class PartType(Enum):
 
 class TextPart(NamedTuple):
     text: str
-    type: 't.Literal[PartType.TEXT]' = PartType.TEXT
+    type: "t.Literal[PartType.TEXT]" = PartType.TEXT
 
 
 class ItalicPart(NamedTuple):
     text: str
-    type: 't.Literal[PartType.ITALIC]' = PartType.ITALIC
+    type: "t.Literal[PartType.ITALIC]" = PartType.ITALIC
 
 
 class BoldPart(NamedTuple):
     text: str
-    type: 't.Literal[PartType.BOLD]' = PartType.BOLD
+    type: "t.Literal[PartType.BOLD]" = PartType.BOLD
 
 
 class ModulePart(NamedTuple):
     fqcn: str
-    type: 't.Literal[PartType.MODULE]' = PartType.MODULE
+    type: "t.Literal[PartType.MODULE]" = PartType.MODULE
 
 
 class PluginPart(NamedTuple):
     plugin: PluginIdentifier
-    type: 't.Literal[PartType.PLUGIN]' = PartType.PLUGIN
+    type: "t.Literal[PartType.PLUGIN]" = PartType.PLUGIN
 
 
 class URLPart(NamedTuple):
     url: str
-    type: 't.Literal[PartType.URL]' = PartType.URL
+    type: "t.Literal[PartType.URL]" = PartType.URL
 
 
 class LinkPart(NamedTuple):
     text: str
     url: str
-    type: 't.Literal[PartType.LINK]' = PartType.LINK
+    type: "t.Literal[PartType.LINK]" = PartType.LINK
 
 
 class RSTRefPart(NamedTuple):
     text: str
     ref: str
-    type: 't.Literal[PartType.RST_REF]' = PartType.RST_REF
+    type: "t.Literal[PartType.RST_REF]" = PartType.RST_REF
 
 
 class CodePart(NamedTuple):
     text: str
-    type: 't.Literal[PartType.CODE]' = PartType.CODE
+    type: "t.Literal[PartType.CODE]" = PartType.CODE
 
 
 class OptionNamePart(NamedTuple):
@@ -95,17 +97,17 @@ class OptionNamePart(NamedTuple):
     link: t.List[str]
     name: str
     value: t.Optional[str]
-    type: 't.Literal[PartType.OPTION_NAME]' = PartType.OPTION_NAME
+    type: "t.Literal[PartType.OPTION_NAME]" = PartType.OPTION_NAME
 
 
 class OptionValuePart(NamedTuple):
     value: str
-    type: 't.Literal[PartType.OPTION_VALUE]' = PartType.OPTION_VALUE
+    type: "t.Literal[PartType.OPTION_VALUE]" = PartType.OPTION_VALUE
 
 
 class EnvVariablePart(NamedTuple):
     name: str
-    type: 't.Literal[PartType.ENV_VARIABLE]' = PartType.ENV_VARIABLE
+    type: "t.Literal[PartType.ENV_VARIABLE]" = PartType.ENV_VARIABLE
 
 
 class ReturnValuePart(NamedTuple):
@@ -113,16 +115,16 @@ class ReturnValuePart(NamedTuple):
     link: t.List[str]
     name: str
     value: t.Optional[str]
-    type: 't.Literal[PartType.RETURN_VALUE]' = PartType.RETURN_VALUE
+    type: "t.Literal[PartType.RETURN_VALUE]" = PartType.RETURN_VALUE
 
 
 class HorizontalLinePart(NamedTuple):
-    type: 't.Literal[PartType.HORIZONTAL_LINE]' = PartType.HORIZONTAL_LINE
+    type: "t.Literal[PartType.HORIZONTAL_LINE]" = PartType.HORIZONTAL_LINE
 
 
 class ErrorPart(NamedTuple):
     message: str
-    type: 't.Literal[PartType.ERROR]' = PartType.ERROR
+    type: "t.Literal[PartType.ERROR]" = PartType.ERROR
 
 
 AnyPart = t.Union[
@@ -148,9 +150,9 @@ Paragraph = t.List[AnyPart]
 
 
 class Walker(abc.ABC):
-    '''
+    """
     Abstract base class for walker whose methods will be called for parts of a paragraph.
-    '''
+    """
 
     @abc.abstractmethod
     def process_error(self, part: ErrorPart) -> None:
@@ -214,10 +216,10 @@ class Walker(abc.ABC):
 
 
 class NoopWalker(Walker):
-    '''
+    """
     Concrete base class for walker whose methods will be called for parts of a paragraph.
     The default implementation for every part will not do anything.
-    '''
+    """
 
     def process_error(self, part: ErrorPart) -> None:
         pass
@@ -267,9 +269,9 @@ class NoopWalker(Walker):
 
 # pylint:disable-next=too-many-branches
 def walk(paragraph: Paragraph, walker: Walker) -> None:  # noqa: C901
-    '''
+    """
     Call the corresponding methods of a walker object for every part of the paragraph.
-    '''
+    """
     for part in paragraph:
         if part.type == PartType.ERROR:
             walker.process_error(t.cast(ErrorPart, part))
@@ -302,4 +304,4 @@ def walk(paragraph: Paragraph, walker: Walker) -> None:  # noqa: C901
         elif part.type == PartType.RETURN_VALUE:
             walker.process_return_value(t.cast(ReturnValuePart, part))
         else:
-            raise RuntimeError(f'Internal error: unknown type {part.type!r}')
+            raise RuntimeError(f"Internal error: unknown type {part.type!r}")
