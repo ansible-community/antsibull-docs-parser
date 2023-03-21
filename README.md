@@ -25,15 +25,15 @@ To run specific tests:
 
 ## Releasing a new version
 
-1. Update package version in `pyproject.toml`.
-2. Run `nox -e bump -- <version> <release_summary_message>`. This does:
-   * Create `changelogs/fragments/<version>.yml` with a `release_summary` section.
-   * Run `antsibull-changelog release` and add the changed files to git.
-   * Commit with message `Release <version>.` and run `git tag -a -m 'antsibull-docs-parser <version>' <version>`.
-3. Run `git push upstream main && git push`.
-4. Once CI passes on GitHub, run `nox -e publish`. This does:
-   * Run `hatch publish`;
-   * Run `git push --follow-tags`;
+1. Run `nox -e bump -- <version> <release_summary_message>`. This:
+   * Bumps the package version in `pyproject.toml`. 
+   * Creates `changelogs/fragments/<version>.yml` with a `release_summary` section.
+   * Runs `antsibull-changelog release` and adds the changed files to git.
+   * Commits with message `Release <version>.` and runs `git tag -a -m 'antsibull-docs-parser <version>' <version>`.
+2. Run `git push upstream main && git push`.
+3. Once CI passes on GitHub, run `nox -e publish`. This:
+   * Runs `hatch publish`;
+   * Runs `git push --follow-tags`;
    * Bumps the version to `<version>.post0`;
-   * Add the changed file to git and run `git commit -m 'Post-release version bump.'`;
-5. Run `git push upstream main` and create a GitHub release;
+   * Adds the changed file to git and run `git commit -m 'Post-release version bump.'`;
+4. Run `git push upstream main` and create a GitHub release;
