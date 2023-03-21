@@ -113,8 +113,9 @@ def bump(session: nox.Session):
     install(session, "antsibull-changelog", "tomli ; python_version < '3.11'")
     _repl_version(session, version)
     if len(session.posargs) > 1:
+        fragment = session.run("python", "-c", f"import yaml ; print(yaml.dump(dict(release_summary={repr(session.posargs[1])})))", silent=True)
         with open(fragment_file, "w") as fp:
-            print("release_summary:", session.posargs[1], file=fp)
+            print(fragment, file=fp)
         session.run("git", "add", "pyproject.toml", fragment_file, external=True)
         session.run("git", "commit", "-m", f"Prepare {version}.", external=True)
     session.run("antsibull-changelog", "release")
