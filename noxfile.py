@@ -110,7 +110,7 @@ def bump(session: nox.Session):
     if len(session.posargs) == 1:
         if not os.path.isfile(fragment_file):
             session.error(f"Either {fragment_file} must already exist, or two positional arguments must be provided.")
-    install(session, "antsibull-changelog")
+    install(session, "antsibull-changelog", "tomli ; python_version < '3.11'")
     _repl_version(session, version)
     if len(session.posargs) > 1:
         with open(fragment_file, "w") as fp:
