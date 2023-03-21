@@ -91,14 +91,32 @@ def _repl_version(session: nox.Session, new_version: str):
             fp.write(line)
 
 
+def check_no_modifications(session: nox.Session) -> None:
+    modified = session.run("git", "status", "--porcelain=v1", "--untracked=normal", external=True, silent=True)
+    if modified:
+        session.error('There are modified or untracked files. Commit, restore, or remove them before running this')
+
+
 @nox.session
 def bump(session: nox.Session):
+    check_no_modifications(session)
+    if len(session.posargs) not in (1, 2):
+        session.error(
+            'Must specify 1-2 positional arguments: nox -e bump -- <version> [ <release_summary_message> ].'
+            ' If release_summary_message has not been specified, a file changelogs/fragments/<version>.yml must exist'
+        )
     version = session.posargs[0]
+    fragment_file = f"changelogs/fragments/{version}.yml"
+    if len(session.posargs) == 1:
+        if not os.path.isfile(fragment_file):
+            session.error(f"Either {fragment_file} must already exist, or two positional arguments must be provided.")
     install(session, "antsibull-changelog")
     _repl_version(session, version)
     if len(session.posargs) > 1:
-        with open(f"changelogs/fragments/{version}.yml", "w") as fp:
+        with open(fragment_file, "w") as fp:
             print("release_summary:", session.posargs[1], file=fp)
+        session.run("git", "add", "pyproject.toml", fragment_file, external=True)
+        session.run("git", "commit", "-m", f"Prepare {version}.", external=True)
     session.run("antsibull-changelog", "release")
     session.run("git", "add", "CHANGELOG.rst", "changelogs/changelog.yaml", "changelogs/fragments/", external=True)
     install(session, ".")  # Smoke test
@@ -117,6 +135,7 @@ def bump(session: nox.Session):
 
 @nox.session
 def publish(session: nox.Session):
+    check_no_modifications(session)
     install(session, "hatch")
     session.run("hatch", "publish", *session.posargs)
     session.run("git", "push", "--follow-tags")
