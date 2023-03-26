@@ -50,6 +50,8 @@ jobs:
           nox -v -e test -p 3.7 3.8 3.9 3.10 3.11 -- --cov-report=xml --cov-append
       - name: Upload coverage
         uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs-parser
   nox-test-36:
     # python3.6 is not available on ubuntu-latest
     runs-on: ubuntu-20.04
@@ -67,5 +69,6 @@ jobs:
           python-versions: "3.6"
       - run: |
           nox -v -e test -p 3.6 -- --cov-report=xml --cov-append
-      - name: Upload coverage
         uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs-parser
