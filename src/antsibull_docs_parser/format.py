@@ -28,6 +28,7 @@ class LinkProvider(abc.ABC):
     def plugin_option_like_link(  # pylint:disable=no-self-use
         self,
         plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
+        entrypoint: t.Optional[str],  # pylint:disable=unused-argument
         # pylint:disable-next=unused-argument
         what: "t.Union[t.Literal['option'], t.Literal['retval']]",
         # pylint:disable-next=unused-argument
@@ -174,7 +175,11 @@ class _FormatWalker(dom.Walker):
         url = None
         if part.plugin:
             url = self.link_provider.plugin_option_like_link(
-                part.plugin, "option", part.link, part.plugin == self.current_plugin
+                part.plugin,
+                part.entrypoint,
+                "option",
+                part.link,
+                part.plugin == self.current_plugin,
             )
         self.destination.append(self.formatter.format_option_name(part, url))
 
@@ -189,7 +194,11 @@ class _FormatWalker(dom.Walker):
         url = None
         if part.plugin:
             url = self.link_provider.plugin_option_like_link(
-                part.plugin, "retval", part.link, part.plugin == self.current_plugin
+                part.plugin,
+                part.entrypoint,
+                "retval",
+                part.link,
+                part.plugin == self.current_plugin,
             )
         self.destination.append(self.formatter.format_return_value(part, url))
 

@@ -1,0 +1,4 @@
+minor_changes:
+  - "Add support for semantic markup in roles (https://github.com/ansible-community/antsibull-docs-parser/pull/9)."
+breaking_changes:
+  - "Modify ``LinkProvider.plugin_option_like_link`` signature to include optional string argument ``entrypoint`` after ``plugin`` (https://github.com/ansible-community/antsibull-docs-parser/pull/9)."

@@ -94,6 +94,7 @@ class CodePart(NamedTuple):
 
 class OptionNamePart(NamedTuple):
     plugin: t.Optional[PluginIdentifier]
+    entrypoint: t.Optional[str]  # present iff plugin.type == 'role'
     link: t.List[str]
     name: str
     value: t.Optional[str]
@@ -112,6 +113,7 @@ class EnvVariablePart(NamedTuple):
 
 class ReturnValuePart(NamedTuple):
     plugin: t.Optional[PluginIdentifier]
+    entrypoint: t.Optional[str]  # present iff plugin.type == 'role'
     link: t.List[str]
     name: str
     value: t.Optional[str]
