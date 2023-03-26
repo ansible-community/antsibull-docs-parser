@@ -37,6 +37,8 @@ def test(session: nox.Session):
         "pytest",
         "--cov-branch",
         "--cov=antsibull_docs_parser",
+        "--cov-report",
+        "term-missing",
         *session.posargs,
     )
 
