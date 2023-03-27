@@ -4,6 +4,7 @@
 # SPDX-FileCopyrightText: 2023 Maxwell G <maxwell@gtmx.me>
 
 import os
+from pathlib import Path
 
 import nox
 
@@ -15,7 +16,7 @@ ALLOW_EDITABLE = os.environ.get("ALLOW_EDITABLE", str(not IN_CI)).lower() in (
 
 # Always install latest pip version
 os.environ["VIRTUALENV_DOWNLOAD"] = "1"
-nox.options.sessions = "lint", "test"
+nox.options.sessions = "lint", "test", "coverage"
 
 
 def install(session: nox.Session, *args, editable=False, **kwargs):
@@ -32,7 +33,10 @@ def install(session: nox.Session, *args, editable=False, **kwargs):
 
 @nox.session(python=["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"])
 def test(session: nox.Session):
-    install(session, ".", "pytest", "pytest-cov", "pyyaml", editable=True)
+    install(
+        session, ".", "coverage[toml]", "pytest", "pytest-cov", "pyyaml", editable=True
+    )
+    covfile = Path(session.create_tmp(), ".coverage")
     session.run(
         "pytest",
         "--cov-branch",
@@ -40,7 +44,20 @@ def test(session: nox.Session):
         "--cov-report",
         "term-missing",
         *session.posargs,
+        env={"COVERAGE_FILE": f"{covfile}", **os.environ},
     )
+
+
+@nox.session
+def coverage(session: nox.Session):
+    install(session, "coverage[toml]")
+    combined = map(str, Path().glob(".nox/test*/tmp/.coverage"))
+    # Combine the results into a single .coverage file in the root
+    session.run("coverage", "combine", "--keep", *combined)
+    # Create a coverage.xml for codecov
+    session.run("coverage", "xml")
+    # Display the combined results to the user
+    session.run("coverage", "report", "-m")
 
 
 @nox.session

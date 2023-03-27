@@ -46,10 +46,16 @@ jobs:
         uses: wntrblm/nox@2022.11.21
         with:
           python-versions: "3.7, 3.8, 3.9, 3.10, 3.11"
-      - run: |
-          nox -v -e test -p 3.7 3.8 3.9 3.10 3.11 -- --cov-report=xml
+      - name: Run unit tests
+        run: |
+          nox -v -e test -p 3.7 3.8 3.9 3.10 3.11
+      - name: Report coverage
+        run: |
+          nox -v -e coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs-parser
   nox-test-36:
     # python3.6 is not available on ubuntu-latest
     runs-on: ubuntu-20.04
@@ -65,7 +71,13 @@ jobs:
         uses: wntrblm/nox@2022.11.21
         with:
           python-versions: "3.6"
-      - run: |
-          nox -v -e test -p 3.6 -- --cov-report=xml
+      - name: Run unit tests
+        run: |
+          nox -v -e test -p 3.6
+      - name: Report coverage
+        run: |
+          nox -v -e coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v3
+        with:
+          working-directory: antsibull-docs-parser
