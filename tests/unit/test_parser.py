@@ -86,7 +86,9 @@ TEST_PARSE_DATA: t.List[
                 dom.TextPart(text=" baz "),
                 dom.OptionValuePart(value=" b,na)\\m, "),
                 dom.TextPart(text=" "),
-                dom.OptionNamePart(plugin=None, link=["foo"], name="foo", value=None),
+                dom.OptionNamePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value=None
+                ),
                 dom.TextPart(text=" "),
             ],
         ],
@@ -98,7 +100,9 @@ TEST_PARSE_DATA: t.List[
         {},
         [
             [
-                dom.OptionNamePart(plugin=None, link=["foo"], name="foo", value=None),
+                dom.OptionNamePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value=None
+                ),
             ],
         ],
     ),
@@ -108,7 +112,9 @@ TEST_PARSE_DATA: t.List[
         {},
         [
             [
-                dom.OptionNamePart(plugin=None, link=["foo"], name="foo", value=None),
+                dom.OptionNamePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value=None
+                ),
             ],
         ],
     ),
@@ -120,6 +126,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.OptionNamePart(
                     plugin=dom.PluginIdentifier("foo.bar.baz", type="bam"),
+                    entrypoint=None,
                     link=["foo"],
                     name="foo",
                     value=None,
@@ -135,6 +142,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.OptionNamePart(
                     plugin=dom.PluginIdentifier("foo.bar.baz", type="bam"),
+                    entrypoint=None,
                     link=["foo"],
                     name="foo",
                     value=None,
@@ -148,7 +156,9 @@ TEST_PARSE_DATA: t.List[
         {},
         [
             [
-                dom.OptionNamePart(plugin=None, link=["foo"], name="foo", value="bar"),
+                dom.OptionNamePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value="bar"
+                ),
             ],
         ],
     ),
@@ -159,7 +169,11 @@ TEST_PARSE_DATA: t.List[
         [
             [
                 dom.OptionNamePart(
-                    plugin=None, link=["foo", "baz"], name="foo.baz", value="bam"
+                    plugin=None,
+                    entrypoint=None,
+                    link=["foo", "baz"],
+                    name="foo.baz",
+                    value="bam",
                 ),
             ],
         ],
@@ -172,6 +186,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.OptionNamePart(
                     plugin=None,
+                    entrypoint=None,
                     link=["foo", "baz", "boo"],
                     name="foo[1].baz[bam.bar.boing].boo",
                     value=None,
@@ -187,6 +202,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.OptionNamePart(
                     plugin=dom.PluginIdentifier("bar.baz.bam.boo", type="lookup"),
+                    entrypoint=None,
                     link=["foo", "baz", "boo"],
                     name="foo[1].baz[bam.bar.boing].boo",
                     value=None,
@@ -201,7 +217,9 @@ TEST_PARSE_DATA: t.List[
         {},
         [
             [
-                dom.ReturnValuePart(plugin=None, link=["foo"], name="foo", value=None),
+                dom.ReturnValuePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value=None
+                ),
             ],
         ],
     ),
@@ -211,7 +229,9 @@ TEST_PARSE_DATA: t.List[
         {},
         [
             [
-                dom.ReturnValuePart(plugin=None, link=["foo"], name="foo", value=None),
+                dom.ReturnValuePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value=None
+                ),
             ],
         ],
     ),
@@ -223,6 +243,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.ReturnValuePart(
                     plugin=dom.PluginIdentifier("foo.bar.baz", type="bam"),
+                    entrypoint=None,
                     link=["foo"],
                     name="foo",
                     value=None,
@@ -238,6 +259,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.ReturnValuePart(
                     plugin=dom.PluginIdentifier("foo.bar.baz", type="bam"),
+                    entrypoint=None,
                     link=["foo"],
                     name="foo",
                     value=None,
@@ -251,7 +273,9 @@ TEST_PARSE_DATA: t.List[
         {},
         [
             [
-                dom.ReturnValuePart(plugin=None, link=["foo"], name="foo", value="bar"),
+                dom.ReturnValuePart(
+                    plugin=None, entrypoint=None, link=["foo"], name="foo", value="bar"
+                ),
             ],
         ],
     ),
@@ -262,7 +286,11 @@ TEST_PARSE_DATA: t.List[
         [
             [
                 dom.ReturnValuePart(
-                    plugin=None, link=["foo", "baz"], name="foo.baz", value="bam"
+                    plugin=None,
+                    entrypoint=None,
+                    link=["foo", "baz"],
+                    name="foo.baz",
+                    value="bam",
                 ),
             ],
         ],
@@ -275,6 +303,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.ReturnValuePart(
                     plugin=None,
+                    entrypoint=None,
                     link=["foo", "baz", "boo"],
                     name="foo[1].baz[bam.bar.boing].boo",
                     value=None,
@@ -290,6 +319,7 @@ TEST_PARSE_DATA: t.List[
             [
                 dom.ReturnValuePart(
                     plugin=dom.PluginIdentifier("bar.baz.bam.boo", type="lookup"),
+                    entrypoint=None,
                     link=["foo", "baz", "boo"],
                     name="foo[1].baz[bam.bar.boing].boo",
                     value=None,
@@ -509,6 +539,18 @@ TEST_PARSE_DATA: t.List[
             ],
         ],
     ),
+    (
+        "O(foo.bar.baz#role:bam)",
+        Context(),
+        dict(errors="message"),
+        [
+            [
+                dom.ErrorPart(
+                    message="While parsing O() at index 1: Role reference is missing entrypoint"
+                ),
+            ],
+        ],
+    ),
     # bad parameter parsing (no escaping, ignore error):
     ("M(", Context(), dict(errors="ignore"), [[]]),
     ("M(foo", Context(), dict(errors="ignore"), [[]]),
@@ -517,6 +559,7 @@ TEST_PARSE_DATA: t.List[
     ("L(foo), bar", Context(), dict(errors="ignore"), [[]]),
     ("P(", Context(), dict(errors="ignore"), [[]]),
     ("P(foo", Context(), dict(errors="ignore"), [[]]),
+    ("O(foo.bar.baz#role:bam)", Context(), dict(errors="ignore"), [[]]),
     # bad module ref (ignore error):
     ("M(foo)", Context(), dict(errors="ignore"), [[]]),
     (" M(foo.bar)", Context(), dict(errors="ignore"), [[dom.TextPart(text=" ")]]),
@@ -668,6 +711,12 @@ TEST_PARSE_THROW_DATA: t.List[
         Context(),
         dict(errors="exception"),
         'While parsing O() at index 1: Invalid option/return value name "foo:bar:baz"',
+    ),
+    (
+        "O(foo.bar.baz#role:bam)",
+        Context(),
+        dict(errors="exception"),
+        "While parsing O() at index 1: Role reference is missing entrypoint",
     ),
 ]
 
