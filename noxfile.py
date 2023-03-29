@@ -34,15 +34,19 @@ def install(session: nox.Session, *args, editable=False, **kwargs):
 @nox.session(python=["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"])
 def test(session: nox.Session):
     install(
-        session, ".", "coverage[toml]", "pytest", "pytest-cov", "pyyaml", editable=True
+        session, ".[test, coverage]", editable=True
     )
     covfile = Path(session.create_tmp(), ".coverage")
+    more_args = []
+    if session.python == "3.11":
+        more_args.append("--error-for-skips")
     session.run(
         "pytest",
         "--cov-branch",
         "--cov=antsibull_docs_parser",
         "--cov-report",
         "term-missing",
+        *more_args,
         *session.posargs,
         env={"COVERAGE_FILE": f"{covfile}", **os.environ},
     )
@@ -79,7 +83,7 @@ def formatters(session: nox.Session):
 
 @nox.session
 def codeqa(session: nox.Session):
-    install(session, ".", "flake8", "pylint", "reuse", editable=True)
+    install(session, ".[codeqa]", editable=True)
     session.run("flake8", "src/antsibull_docs_parser", *session.posargs)
     session.run(
         "pylint", "--rcfile", ".pylintrc.automated", "src/antsibull_docs_parser"
