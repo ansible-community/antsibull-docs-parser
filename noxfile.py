@@ -71,7 +71,7 @@ def lint(session: nox.Session):
 
 @nox.session
 def formatters(session: nox.Session):
-    install(session, "isort", "black")
+    install(session, ".[formatters]")
     posargs = list(session.posargs)
     if IN_CI:
         posargs.append("--check")
@@ -91,7 +91,7 @@ def codeqa(session: nox.Session):
 
 @nox.session
 def typing(session: nox.Session):
-    install(session, ".", "mypy", "pyre-check", editable=True)
+    install(session, ".[typing]", editable=True)
     session.run("mypy", "src/antsibull_docs_parser")
     session.run("pyre", "--source-directory", "src")
 
