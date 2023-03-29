@@ -33,9 +33,7 @@ def install(session: nox.Session, *args, editable=False, **kwargs):
 
 @nox.session(python=["3.6", "3.7", "3.8", "3.9", "3.10", "3.11"])
 def test(session: nox.Session):
-    install(
-        session, ".[test, coverage]", editable=True
-    )
+    install(session, ".[test, coverage]", editable=True)
     covfile = Path(session.create_tmp(), ".coverage")
     more_args = []
     if session.python == "3.11":
