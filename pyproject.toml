@@ -66,12 +66,9 @@ dev = [
     # Used by nox sessions
     "antsibull-docs-parser[codeqa]",
     "antsibull-docs-parser[coverage]",
-    "antsibull-docs-parser[formatting]",
+    "antsibull-docs-parser[formatters]",
     "antsibull-docs-parser[test]",
     "antsibull-docs-parser[typing]",
-    # formatters
-    "isort",
-    "black",
     # misc
     "nox",
 ]
