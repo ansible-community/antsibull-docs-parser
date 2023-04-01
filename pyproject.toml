@@ -39,28 +39,28 @@ classifiers = [
 "Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
 
 [project.optional-dependencies]
+codeqa = [
+    "flake8",
+    "pylint",
+    "reuse",
+]
+coverage = [
+    "coverage[toml]",
+]
+formatters = [
+    "black",
+    "isort",
+]
 test = [
     "pyyaml",
     "pytest",
     "pytest-cov",
     "pytest-error-for-skips",
 ]
-coverage = [
-    "coverage[toml]",
-]
 typing = [
     "mypy",
     # https://github.com/facebook/pyre-check/issues/398
     "pyre-check ~= 0.9.17",
-]
-codeqa = [
-    "flake8",
-    "pylint",
-    "reuse",
-]
-formatters = [
-    "black",
-    "isort",
 ]
 dev = [
     # Used by nox sessions
