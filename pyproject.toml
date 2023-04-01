@@ -38,6 +38,41 @@ classifiers = [
 [project.urls]
 "Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
 
+[project.optional-dependencies]
+codeqa = [
+    "flake8",
+    "pylint",
+    "reuse",
+]
+coverage = [
+    "coverage[toml]",
+]
+formatters = [
+    "black",
+    "isort",
+]
+test = [
+    "pyyaml",
+    "pytest",
+    "pytest-cov",
+    "pytest-error-for-skips",
+]
+typing = [
+    "mypy",
+    # https://github.com/facebook/pyre-check/issues/398
+    "pyre-check ~= 0.9.17",
+]
+dev = [
+    # Used by nox sessions
+    "antsibull-docs-parser[codeqa]",
+    "antsibull-docs-parser[coverage]",
+    "antsibull-docs-parser[formatters]",
+    "antsibull-docs-parser[test]",
+    "antsibull-docs-parser[typing]",
+    # misc
+    "nox",
+]
+
 [tool.isort]
 # Match black
 profile = "black"
