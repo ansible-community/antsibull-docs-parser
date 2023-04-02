@@ -66,41 +66,41 @@ def get_context_parse_opts(test_data: t.Mapping[str, t.Any]):
 
 
 def get_html_opts_link_provider(test_data: t.Mapping[str, t.Any]):
-    html_opts = {}
-    html_link_provider = _TestLinkProvider()
+    opts = {}
+    link_provider = _TestLinkProvider()
     if test_data.get("html_opts"):
         if "parStart" in test_data["html_opts"]:
-            html_opts["par_start"] = test_data["html_opts"]["parStart"]
+            opts["par_start"] = test_data["html_opts"]["parStart"]
         if "parEnd" in test_data["html_opts"]:
-            html_opts["par_end"] = test_data["html_opts"]["parEnd"]
+            opts["par_end"] = test_data["html_opts"]["parEnd"]
         if "current_plugin" in test_data["html_opts"]:
-            html_opts["current_plugin"] = dom.PluginIdentifier(
+            opts["current_plugin"] = dom.PluginIdentifier(
                 fqcn=test_data["html_opts"]["current_plugin"]["fqcn"],
                 type=test_data["html_opts"]["current_plugin"]["type"],
             )
-        html_link_provider._update(test_data["html_opts"])
-    return html_opts, html_link_provider
+        link_provider._update(test_data["html_opts"])
+    return opts, link_provider
 
 
 def get_md_opts_link_provider(test_data: t.Mapping[str, t.Any]):
-    md_opts = {}
-    md_link_provider = _TestLinkProvider()
+    opts = {}
+    link_provider = _TestLinkProvider()
     if test_data.get("md_opts"):
         if "current_plugin" in test_data["md_opts"]:
-            md_opts["current_plugin"] = dom.PluginIdentifier(
+            opts["current_plugin"] = dom.PluginIdentifier(
                 fqcn=test_data["md_opts"]["current_plugin"]["fqcn"],
                 type=test_data["md_opts"]["current_plugin"]["type"],
             )
-        md_link_provider._update(test_data["md_opts"])
-    return md_opts, md_link_provider
+        link_provider._update(test_data["md_opts"])
+    return opts, link_provider
 
 
 def get_rst_opts(test_data: t.Mapping[str, t.Any]):
-    rst_opts = {}
+    opts = {}
     if test_data.get("rst_opts"):
         if "current_plugin" in test_data["rst_opts"]:
-            rst_opts["current_plugin"] = dom.PluginIdentifier(
+            opts["current_plugin"] = dom.PluginIdentifier(
                 fqcn=test_data["rst_opts"]["current_plugin"]["fqcn"],
                 type=test_data["rst_opts"]["current_plugin"]["type"],
             )
-    return rst_opts
+    return opts

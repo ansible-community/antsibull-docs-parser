@@ -6,6 +6,7 @@
 import typing as t
 
 from ruamel.yaml import YAML
+from ruamel.yaml.scalarstring import LiteralScalarString
 from vectors import (
     VECTORS_FILE,
     get_context_parse_opts,
@@ -20,6 +21,13 @@ from antsibull_docs_parser.parser import parse
 from antsibull_docs_parser.rst import to_rst
 
 
+def add(test_data: t.Dict[str, t.Any], key: str, value: t.Any) -> None:
+    if isinstance(value, str):
+        if key not in test_data and "\n" in value:
+            value = LiteralScalarString(value)
+    test_data[key] = value
+
+
 def update(test_name: str, test_data: t.Dict[str, t.Any]) -> None:
     context, parse_opts = get_context_parse_opts(test_data)
     parsed = parse(test_data["source"], context, **parse_opts)
@@ -29,16 +37,16 @@ def update(test_name: str, test_data: t.Dict[str, t.Any]) -> None:
     rst_opts = get_rst_opts(test_data)
 
     result = to_html(parsed, link_provider=html_link_provider, **html_opts)
-    test_data["html"] = result
+    add(test_data, "html", result)
 
     result = to_html_plain(parsed, link_provider=html_link_provider, **html_opts)
-    test_data["html_plain"] = result
+    add(test_data, "html_plain", result)
 
     result = to_md(parsed, link_provider=md_link_provider, **md_opts)
-    test_data["md"] = result
+    add(test_data, "md", result)
 
     result = to_rst(parsed, **rst_opts)
-    test_data["rst"] = result
+    add(test_data, "rst", result)
 
 
 def main() -> None:
