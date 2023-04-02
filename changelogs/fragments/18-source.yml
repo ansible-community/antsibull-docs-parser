@@ -1,5 +1,0 @@
-minor_changes:
-  - "Allow to add markup source to every paragraph part (https://github.com/ansible-community/antsibull-docs-parser/pull/18)."
-breaking_changes:
-  - "All DOM named tuples now have a ``source`` entry before ``type`` (https://github.com/ansible-community/antsibull-docs-parser/pull/18)."
-  - "``CommandParser.parse`` has a new ``source`` parameter (https://github.com/ansible-community/antsibull-docs-parser/pull/18)."

@@ -1,2 +1,0 @@
-minor_changes:
-  - "Add strict mode for parsing (https://github.com/ansible-community/antsibull-docs-parser/pull/15)."
