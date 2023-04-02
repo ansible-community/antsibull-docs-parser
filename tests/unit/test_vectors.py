@@ -15,6 +15,14 @@ from antsibull_docs_parser.md import to_md
 from antsibull_docs_parser.parser import Context, parse
 from antsibull_docs_parser.rst import to_rst
 
+from .vectors import (
+    VECTORS_FILE,
+    get_context_parse_opts,
+    get_html_opts_link_provider,
+    get_md_opts_link_provider,
+    get_rst_opts,
+)
+
 _SafeLoader: t.Any
 try:
     # use C version if possible for speedup
@@ -28,37 +36,7 @@ def load_yaml_file(path: str) -> t.Any:
         return yaml.load(stream, Loader=_SafeLoader)
 
 
-class _TestLinkProvider(LinkProvider):
-    _plugin_link = None
-    _plugin_option_like_link = None
-
-    def plugin_link(self, plugin: dom.PluginIdentifier) -> t.Optional[str]:
-        if self._plugin_link is not None:
-            return self._plugin_link(plugin)
-        return None
-
-    def plugin_option_like_link(
-        self,
-        plugin: dom.PluginIdentifier,
-        entrypoint: t.Optional[str],
-        what: "t.Union[t.Literal['option'], t.Literal['retval']]",
-        name: t.List[str],
-        current_plugin: bool,
-    ) -> t.Optional[str]:
-        if self._plugin_option_like_link is not None:
-            return self._plugin_option_like_link(
-                plugin, entrypoint, what, name, current_plugin
-            )
-        return None
-
-    def _update(self, config: t.Mapping[str, t.Any]):
-        if "pluginLink.py" in config:
-            self._plugin_link = eval(config["pluginLink.py"])
-        if "pluginOptionLikeLink.py" in config:
-            self._plugin_option_like_link = eval(config["pluginOptionLikeLink.py"])
-
-
-TEST_DATA = sorted(load_yaml_file("test-vectors.yaml")["test_vectors"].items())
+TEST_DATA = sorted(load_yaml_file(VECTORS_FILE)["test_vectors"].items())
 
 
 @pytest.mark.parametrize(
@@ -67,55 +45,12 @@ TEST_DATA = sorted(load_yaml_file("test-vectors.yaml")["test_vectors"].items())
     ids=[test_name for test_name, test_data in TEST_DATA],
 )
 def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
-    parse_opts = {}
-    context_opts = {}
-    if test_data.get("parse_opts"):
-        if "current_plugin" in test_data["parse_opts"]:
-            context_opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["parse_opts"]["current_plugin"]["fqcn"],
-                type=test_data["parse_opts"]["current_plugin"]["type"],
-            )
-        if "role_entrypoint" in test_data["parse_opts"]:
-            context_opts["role_entrypoint"] = test_data["parse_opts"]["role_entrypoint"]
-        if "errors" in test_data["parse_opts"]:
-            context_opts["errors"] = test_data["parse_opts"]["errors"]
-        if "onlyClassicMarkup" in test_data["parse_opts"]:
-            context_opts["only_classic_markup"] = test_data["parse_opts"][
-                "onlyClassicMarkup"
-            ]
-    parsed = parse(test_data["source"], Context(**context_opts), **parse_opts)
+    context, parse_opts = get_context_parse_opts(test_data)
+    parsed = parse(test_data["source"], context, **parse_opts)
 
-    html_opts = {}
-    html_link_provider = _TestLinkProvider()
-    if test_data.get("html_opts"):
-        if "parStart" in test_data["html_opts"]:
-            html_opts["par_start"] = test_data["html_opts"]["parStart"]
-        if "parEnd" in test_data["html_opts"]:
-            html_opts["par_end"] = test_data["html_opts"]["parEnd"]
-        if "current_plugin" in test_data["html_opts"]:
-            html_opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["html_opts"]["current_plugin"]["fqcn"],
-                type=test_data["html_opts"]["current_plugin"]["type"],
-            )
-        html_link_provider._update(test_data["html_opts"])
-
-    md_opts = {}
-    md_link_provider = _TestLinkProvider()
-    if test_data.get("md_opts"):
-        if "current_plugin" in test_data["md_opts"]:
-            md_opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["md_opts"]["current_plugin"]["fqcn"],
-                type=test_data["md_opts"]["current_plugin"]["type"],
-            )
-        md_link_provider._update(test_data["md_opts"])
-
-    rst_opts = {}
-    if test_data.get("rst_opts"):
-        if "current_plugin" in test_data["rst_opts"]:
-            rst_opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["rst_opts"]["current_plugin"]["fqcn"],
-                type=test_data["rst_opts"]["current_plugin"]["type"],
-            )
+    html_opts, html_link_provider = get_html_opts_link_provider(test_data)
+    md_opts, md_link_provider = get_md_opts_link_provider(test_data)
+    rst_opts = get_rst_opts(test_data)
 
     if "html" in test_data:
         result = to_html(parsed, link_provider=html_link_provider, **html_opts)
