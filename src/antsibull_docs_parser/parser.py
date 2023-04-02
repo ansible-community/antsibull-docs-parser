@@ -49,7 +49,9 @@ class CommandParser(abc.ABC):
         self.escaped_arguments = escaped_arguments
 
     @abc.abstractmethod
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         pass  # pragma: no cover
 
 
@@ -74,71 +76,87 @@ class _Italics(CommandParserEx):
     def __init__(self):
         super().__init__("I", 1, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.ItalicPart(text=parameters[0])
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.ItalicPart(text=parameters[0], source=source)
 
 
 class _Bold(CommandParserEx):
     def __init__(self):
         super().__init__("B", 1, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.BoldPart(text=parameters[0])
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.BoldPart(text=parameters[0], source=source)
 
 
 class _Module(CommandParserEx):
     def __init__(self):
         super().__init__("M", 1, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         fqcn = parameters[0]
         if not _is_fqcn(fqcn):
             raise ValueError(f'Module name "{fqcn}" is not a FQCN')
-        return dom.ModulePart(fqcn=fqcn)
+        return dom.ModulePart(fqcn=fqcn, source=source)
 
 
 class _URL(CommandParserEx):
     def __init__(self):
         super().__init__("U", 1, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.URLPart(url=parameters[0])
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.URLPart(url=parameters[0], source=source)
 
 
 class _Link(CommandParserEx):
     def __init__(self):
         super().__init__("L", 2, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         text = parameters[0]
         url = parameters[1]
-        return dom.LinkPart(text=text, url=url)
+        return dom.LinkPart(text=text, url=url, source=source)
 
 
 class _RSTRef(CommandParserEx):
     def __init__(self):
         super().__init__("R", 2, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         text = parameters[0]
         ref = parameters[1]
-        return dom.RSTRefPart(text=text, ref=ref)
+        return dom.RSTRefPart(text=text, ref=ref, source=source)
 
 
 class _Code(CommandParserEx):
     def __init__(self):
         super().__init__("C", 1, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.CodePart(text=parameters[0])
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.CodePart(text=parameters[0], source=source)
 
 
 class _HorizontalLine(CommandParserEx):
     def __init__(self):
         super().__init__("HORIZONTALLINE", 0, old_markup=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.HorizontalLinePart()
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.HorizontalLinePart(source=source)
 
 
 # Semantic Ansible docs markup:
@@ -148,7 +166,11 @@ def _parse_option_like(
     text: str,
     context: Context,
 ) -> t.Tuple[
-    t.Optional[dom.PluginIdentifier], t.Optional[str], t.List[str], str, t.Optional[str]
+    t.Optional[dom.PluginIdentifier],
+    t.Optional[str],
+    t.List[str],
+    str,
+    t.Optional[str],
 ]:
     value = None
     if "=" in text:
@@ -192,7 +214,9 @@ class _Plugin(CommandParserEx):
     def __init__(self):
         super().__init__("P", 1, escaped_arguments=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         name = parameters[0]
         if "#" not in name:
             raise ValueError(f'Parameter "{name}" is not of the form FQCN#type')
@@ -201,35 +225,48 @@ class _Plugin(CommandParserEx):
             raise ValueError(f'Plugin name "{fqcn}" is not a FQCN')
         if not _is_plugin_type(ptype):
             raise ValueError(f'Plugin type "{ptype}" is not valid')
-        return dom.PluginPart(plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype))
+        return dom.PluginPart(
+            plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype), source=source
+        )
 
 
 class _EnvVar(CommandParserEx):
     def __init__(self):
         super().__init__("E", 1, escaped_arguments=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.EnvVariablePart(name=parameters[0])
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.EnvVariablePart(name=parameters[0], source=source)
 
 
 class _OptionValue(CommandParserEx):
     def __init__(self):
         super().__init__("V", 1, escaped_arguments=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
-        return dom.OptionValuePart(value=parameters[0])
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
+        return dom.OptionValuePart(value=parameters[0], source=source)
 
 
 class _OptionName(CommandParserEx):
     def __init__(self):
         super().__init__("O", 1, escaped_arguments=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         plugin, entrypoint, link, name, value = _parse_option_like(
             parameters[0], context
         )
         return dom.OptionNamePart(
-            plugin=plugin, entrypoint=entrypoint, link=link, name=name, value=value
+            plugin=plugin,
+            entrypoint=entrypoint,
+            link=link,
+            name=name,
+            value=value,
+            source=source,
         )
 
 
@@ -237,12 +274,19 @@ class _ReturnValue(CommandParserEx):
     def __init__(self):
         super().__init__("RV", 1, escaped_arguments=True)
 
-    def parse(self, parameters: t.List[str], context: Context) -> dom.AnyPart:
+    def parse(
+        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+    ) -> dom.AnyPart:
         plugin, entrypoint, link, name, value = _parse_option_like(
             parameters[0], context
         )
         return dom.ReturnValuePart(
-            plugin=plugin, entrypoint=entrypoint, link=link, name=name, value=value
+            plugin=plugin,
+            entrypoint=entrypoint,
+            link=link,
+            name=name,
+            value=value,
+            source=source,
         )
 
 
@@ -297,6 +341,7 @@ class Parser:
         errors: dom.ErrorType,
         where: str,
         strict: bool,
+        add_source: bool,
     ) -> int:
         args: t.List[str]
         error: t.Optional[str] = None
@@ -310,9 +355,10 @@ class Parser:
             args, end_index, error = parse_parameters_unescaped(
                 text, end_index, cmd.parameters, strict=strict
             )
+        source = text[index:end_index] if add_source else None
         if error is None:
             try:
-                result.append(cmd.parse(args, context))
+                result.append(cmd.parse(args, context, source=source))
             except Exception as exc:  # pylint:disable=broad-except
                 error = f"{exc}"
         if error is not None:
@@ -321,10 +367,14 @@ class Parser:
                 f" at index {index + 1}{where}: {error}"
             )
             if errors == "message":
-                result.append(dom.ErrorPart(message=error))
+                result.append(dom.ErrorPart(message=error, source=source))
             elif errors == "exception":
                 raise ValueError(error)
         return end_index
+
+    @staticmethod
+    def _create_text(text: str, add_source: bool) -> dom.TextPart:
+        return dom.TextPart(text=text, source=text if add_source else None)
 
     def parse_string(
         self,
@@ -333,6 +383,7 @@ class Parser:
         errors: dom.ErrorType = "message",
         where: str = "",
         strict: bool = False,
+        add_source: bool = False,
     ) -> dom.Paragraph:
         result: dom.Paragraph = []
         length = len(text)
@@ -340,10 +391,10 @@ class Parser:
         while index < length:
             m = self._re.search(text, index)
             if m is None:
-                result.append(dom.TextPart(text=text[index:]))
+                result.append(self._create_text(text[index:], add_source))
                 break
             if m.start(1) > index:
-                result.append(dom.TextPart(text=text[index : m.start(1)]))
+                result.append(self._create_text(text[index : m.start(1)], add_source))
             index = self._parse_command(
                 result,
                 text,
@@ -354,6 +405,7 @@ class Parser:
                 errors,
                 where,
                 strict=strict,
+                add_source=add_source,
             )
         return result
 
@@ -368,6 +420,7 @@ def parse(
     errors: dom.ErrorType = "message",
     only_classic_markup: bool = False,
     strict: bool = False,
+    add_source: bool = False,
 ) -> t.List[dom.Paragraph]:
     """
     Parse a string, or a sequence of strings, to a list of paragraphs.
@@ -378,6 +431,7 @@ def parse(
     :param errors: How to handle errors while parsing.
     :param only_classic_markup: Whether to ignore semantic markup and treat it as raw text.
     :param strict: Whether to be extra strict while parsing.
+    :param add_source: Whether to add the source of every part to the part (``source`` property).
     :return: A list of paragraphs. Each paragraph consists of a list of parts.
     """
     has_paragraphs = True
@@ -392,6 +446,7 @@ def parse(
             errors=errors,
             where=f" of paragraph {index + 1}" if has_paragraphs else "",
             strict=strict,
+            add_source=add_source,
         )
         for index, par in enumerate(text)
     ]

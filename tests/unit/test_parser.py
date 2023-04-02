@@ -18,7 +18,12 @@ TEST_PARSE_DATA: t.List[
     ("", Context(), {}, []),
     ([""], Context(), {}, [[]]),
     ("test", Context(), {}, [[dom.TextPart(text="test")]]),
-    ("test", Context(), {}, [[dom.TextPart(text="test")]]),
+    (
+        "test",
+        Context(),
+        dict(add_source=True),
+        [[dom.TextPart(text="test", source="test")]],
+    ),
     # classic markup:
     (
         "foo I(bar) baz C( bam ) B( ( boo ) ) U(https://example.com/?foo=bar)HORIZONTALLINE L(foo ,  https://bar.com) R( a , b )M(foo.bar.baz)HORIZONTALLINEx M(foo.bar.baz.bam)",
@@ -42,6 +47,38 @@ TEST_PARSE_DATA: t.List[
                 dom.ModulePart(fqcn="foo.bar.baz"),
                 dom.TextPart(text="HORIZONTALLINEx "),
                 dom.ModulePart(fqcn="foo.bar.baz.bam"),
+            ],
+        ],
+    ),
+    (
+        "foo I(bar) baz C( bam ) B( ( boo ) ) U(https://example.com/?foo=bar)HORIZONTALLINE L(foo ,  https://bar.com) R( a , b )M(foo.bar.baz)HORIZONTALLINEx M(foo.bar.baz.bam)",
+        Context(),
+        dict(add_source=True),
+        [
+            [
+                dom.TextPart(text="foo ", source="foo "),
+                dom.ItalicPart(text="bar", source="I(bar)"),
+                dom.TextPart(text=" baz ", source=" baz "),
+                dom.CodePart(text=" bam ", source="C( bam )"),
+                dom.TextPart(text=" ", source=" "),
+                dom.BoldPart(text=" ( boo ", source="B( ( boo )"),
+                dom.TextPart(text=" ) ", source=" ) "),
+                dom.URLPart(
+                    url="https://example.com/?foo=bar",
+                    source="U(https://example.com/?foo=bar)",
+                ),
+                dom.HorizontalLinePart(source="HORIZONTALLINE"),
+                dom.TextPart(text=" ", source=" "),
+                dom.LinkPart(
+                    text="foo",
+                    url="https://bar.com",
+                    source="L(foo ,  https://bar.com)",
+                ),
+                dom.TextPart(text=" ", source=" "),
+                dom.RSTRefPart(text=" a", ref="b ", source="R( a , b )"),
+                dom.ModulePart(fqcn="foo.bar.baz", source="M(foo.bar.baz)"),
+                dom.TextPart(text="HORIZONTALLINEx ", source="HORIZONTALLINEx "),
+                dom.ModulePart(fqcn="foo.bar.baz.bam", source="M(foo.bar.baz.bam)"),
             ],
         ],
     ),
@@ -90,6 +127,36 @@ TEST_PARSE_DATA: t.List[
                     plugin=None, entrypoint=None, link=["foo"], name="foo", value=None
                 ),
                 dom.TextPart(text=" "),
+            ],
+        ],
+    ),
+    (
+        "foo E(a\\),b) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
+        Context(),
+        dict(add_source=True),
+        [
+            [
+                dom.TextPart(text="foo ", source="foo "),
+                dom.EnvVariablePart(name="a),b", source="E(a\\),b)"),
+                dom.TextPart(text=" ", source=" "),
+                dom.PluginPart(
+                    plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam"),
+                    source="P(foo.bar.baz#bam)",
+                ),
+                dom.TextPart(text=" baz ", source=" baz "),
+                dom.OptionValuePart(
+                    value=" b,na)\\m, ", source="V( b\\,\\na\\)\\\\m\\, )"
+                ),
+                dom.TextPart(text=" ", source=" "),
+                dom.OptionNamePart(
+                    plugin=None,
+                    entrypoint=None,
+                    link=["foo"],
+                    name="foo",
+                    value=None,
+                    source="O(foo)",
+                ),
+                dom.TextPart(text=" ", source=" "),
             ],
         ],
     ),
