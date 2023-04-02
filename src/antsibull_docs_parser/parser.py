@@ -296,6 +296,7 @@ class Parser:
         context: Context,
         errors: dom.ErrorType,
         where: str,
+        strict: bool,
     ) -> int:
         args: t.List[str]
         error: t.Optional[str] = None
@@ -303,11 +304,11 @@ class Parser:
             args = []
         elif cmd.escaped_arguments:
             args, end_index, error = parse_parameters_escaped(
-                text, end_index, cmd.parameters
+                text, end_index, cmd.parameters, strict=strict
             )
         else:
             args, end_index, error = parse_parameters_unescaped(
-                text, end_index, cmd.parameters
+                text, end_index, cmd.parameters, strict=strict
             )
         if error is None:
             try:
@@ -331,6 +332,7 @@ class Parser:
         context: Context,
         errors: dom.ErrorType = "message",
         where: str = "",
+        strict: bool = False,
     ) -> dom.Paragraph:
         result: dom.Paragraph = []
         length = len(text)
@@ -351,6 +353,7 @@ class Parser:
                 context,
                 errors,
                 where,
+                strict=strict,
             )
         return result
 
@@ -364,7 +367,19 @@ def parse(
     context: Context,
     errors: dom.ErrorType = "message",
     only_classic_markup: bool = False,
+    strict: bool = False,
 ) -> t.List[dom.Paragraph]:
+    """
+    Parse a string, or a sequence of strings, to a list of paragraphs.
+
+    :param text: A string or a sequence of strings. If given a sequence of strings, will assume
+        that this is a list of paragraphs.
+    :param context: Contextual information.
+    :param errors: How to handle errors while parsing.
+    :param only_classic_markup: Whether to ignore semantic markup and treat it as raw text.
+    :param strict: Whether to be extra strict while parsing.
+    :return: A list of paragraphs. Each paragraph consists of a list of parts.
+    """
     has_paragraphs = True
     if isinstance(text, str):
         has_paragraphs = False
@@ -376,6 +391,7 @@ def parse(
             context,
             errors=errors,
             where=f" of paragraph {index + 1}" if has_paragraphs else "",
+            strict=strict,
         )
         for index, par in enumerate(text)
     ]
