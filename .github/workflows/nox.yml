@@ -81,3 +81,19 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           working-directory: antsibull-docs-parser
+  nox-vectors:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: antsibull-docs-parser
+    steps:
+      - name: Check out antsibull-docs-parser
+        uses: actions/checkout@v3
+        with:
+          path: antsibull-docs-parser
+      - name: Setup nox
+        uses: wntrblm/nox@2022.11.21
+        with:
+          python-versions: "3.11"
+      - run: |
+          nox -v -e create_vectors

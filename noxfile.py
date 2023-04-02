@@ -16,7 +16,7 @@ ALLOW_EDITABLE = os.environ.get("ALLOW_EDITABLE", str(not IN_CI)).lower() in (
 
 # Always install latest pip version
 os.environ["VIRTUALENV_DOWNLOAD"] = "1"
-nox.options.sessions = "lint", "test", "coverage"
+nox.options.sessions = "lint", "test", "coverage", "create_vectors"
 
 
 def install(session: nox.Session, *args, editable=False, **kwargs):
@@ -96,6 +96,16 @@ def typing(session: nox.Session):
     session.run("pyre", "--source-directory", "src")
 
 
+@nox.session
+def create_vectors(session: nox.Session):
+    install(session, ".", "ruamel.yaml", editable=True)
+    session.run("python", "tests/unit/create-vectors.py")
+    if IN_CI and not test_no_modifications(session):
+        session.error(
+            "The test vectors have been updated/extended. Verify whether this is intentional, and if it is, regenerate by running 'nox -e create_vectors' and commit them."
+        )
+
+
 def _repl_version(session: nox.Session, new_version: str):
     with open("pyproject.toml", "r+") as fp:
         lines = tuple(fp)
@@ -107,7 +117,7 @@ def _repl_version(session: nox.Session, new_version: str):
         fp.truncate()
 
 
-def check_no_modifications(session: nox.Session) -> None:
+def test_no_modifications(session: nox.Session) -> bool:
     modified = session.run(
         "git",
         "status",
@@ -116,7 +126,11 @@ def check_no_modifications(session: nox.Session) -> None:
         external=True,
         silent=True,
     )
-    if modified:
+    return not modified
+
+
+def check_no_modifications(session: nox.Session) -> None:
+    if not test_no_modifications(session):
         session.error(
             "There are modified or untracked files. Commit, restore, or remove them before running this"
         )
