@@ -342,6 +342,7 @@ class Parser:
         where: str,
         strict: bool,
         add_source: bool,
+        helpful_errors: bool,
     ) -> int:
         args: t.List[str]
         error: t.Optional[str] = None
@@ -362,10 +363,12 @@ class Parser:
             except Exception as exc:  # pylint:disable=broad-except
                 error = f"{exc}"
         if error is not None:
-            error = (
-                f'While parsing {cmd.command}{"()" if cmd.parameters else ""}'
-                f" at index {index + 1}{where}: {error}"
+            error_source = (
+                f'"{text[index:end_index]}"'
+                if helpful_errors
+                else f'{cmd.command}{"()" if cmd.parameters else ""}'
             )
+            error = f"While parsing {error_source} at index {index + 1}{where}: {error}"
             if errors == "message":
                 result.append(dom.ErrorPart(message=error, source=source))
             elif errors == "exception":
@@ -384,6 +387,7 @@ class Parser:
         where: str = "",
         strict: bool = False,
         add_source: bool = False,
+        helpful_errors: bool = True,
     ) -> dom.Paragraph:
         result: dom.Paragraph = []
         length = len(text)
@@ -406,6 +410,7 @@ class Parser:
                 where,
                 strict=strict,
                 add_source=add_source,
+                helpful_errors=helpful_errors,
             )
         return result
 
@@ -421,6 +426,7 @@ def parse(
     only_classic_markup: bool = False,
     strict: bool = False,
     add_source: bool = False,
+    helpful_errors: bool = True,
 ) -> t.List[dom.Paragraph]:
     """
     Parse a string, or a sequence of strings, to a list of paragraphs.
@@ -432,6 +438,7 @@ def parse(
     :param only_classic_markup: Whether to ignore semantic markup and treat it as raw text.
     :param strict: Whether to be extra strict while parsing.
     :param add_source: Whether to add the source of every part to the part (``source`` property).
+    :param helpful_errors: Whether to include the faulty markup in error messages.
     :return: A list of paragraphs. Each paragraph consists of a list of parts.
     """
     has_paragraphs = True
@@ -447,6 +454,7 @@ def parse(
             where=f" of paragraph {index + 1}" if has_paragraphs else "",
             strict=strict,
             add_source=add_source,
+            helpful_errors=helpful_errors,
         )
         for index, par in enumerate(text)
     ]

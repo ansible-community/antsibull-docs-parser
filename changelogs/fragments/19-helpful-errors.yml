@@ -1,0 +1,4 @@
+minor_changes:
+  - "Can switch between error messages containing a shortened version of the faulty markup or the full faulty markup command (https://github.com/ansible-community/antsibull-docs-parser/pull/19)."
+breaking_changes:
+  - "By default, the error messages now contain the full faulty markup command (https://github.com/ansible-community/antsibull-docs-parser/pull/19)."

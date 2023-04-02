@@ -398,7 +398,7 @@ TEST_PARSE_DATA: t.List[
     (
         "M(",
         Context(),
-        {},
+        dict(helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -410,7 +410,7 @@ TEST_PARSE_DATA: t.List[
     (
         "M(foo",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -422,7 +422,7 @@ TEST_PARSE_DATA: t.List[
     (
         "L(foo)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -434,7 +434,7 @@ TEST_PARSE_DATA: t.List[
     (
         "L(foo,bar",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -446,7 +446,7 @@ TEST_PARSE_DATA: t.List[
     (
         "L(foo), bar",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -458,7 +458,7 @@ TEST_PARSE_DATA: t.List[
     (
         "P(",
         Context(),
-        {},
+        dict(helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -470,7 +470,7 @@ TEST_PARSE_DATA: t.List[
     (
         "P(foo",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -483,7 +483,7 @@ TEST_PARSE_DATA: t.List[
     (
         "M(foo)",
         Context(),
-        {},
+        dict(helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -495,7 +495,7 @@ TEST_PARSE_DATA: t.List[
     (
         " M(foo.bar)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.TextPart(text=" "),
@@ -508,7 +508,7 @@ TEST_PARSE_DATA: t.List[
     (
         "  M(foo. bar.baz)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.TextPart(text="  "),
@@ -521,7 +521,7 @@ TEST_PARSE_DATA: t.List[
     (
         "   M(foo) baz",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.TextPart(text="   "),
@@ -536,7 +536,7 @@ TEST_PARSE_DATA: t.List[
     (
         "P(foo)",
         Context(),
-        {},
+        dict(helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -548,7 +548,7 @@ TEST_PARSE_DATA: t.List[
     (
         "P(f o.b r.b z#bar)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -560,7 +560,7 @@ TEST_PARSE_DATA: t.List[
     (
         "P(foo.bar.baz#b m)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -573,7 +573,7 @@ TEST_PARSE_DATA: t.List[
     (
         "O(f o.b r.b z#bam:foobar)",
         Context(),
-        {},
+        dict(helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -585,7 +585,7 @@ TEST_PARSE_DATA: t.List[
     (
         "O(foo.bar.baz#b m:foobar)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -597,7 +597,7 @@ TEST_PARSE_DATA: t.List[
     (
         "O(foo:bar:baz)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -609,7 +609,7 @@ TEST_PARSE_DATA: t.List[
     (
         "O(foo.bar.baz#role:bam)",
         Context(),
-        dict(errors="message"),
+        dict(errors="message", helpful_errors=False),
         [
             [
                 dom.ErrorPart(
@@ -620,8 +620,8 @@ TEST_PARSE_DATA: t.List[
     ),
     # bad parameter parsing (no escaping, ignore error):
     ("M(", Context(), dict(errors="ignore"), [[]]),
-    ("M(foo", Context(), dict(errors="ignore"), [[]]),
-    ("L(foo)", Context(), dict(errors="ignore"), [[]]),
+    ("M(foo", Context(), dict(errors="ignore", helpful_errors=True), [[]]),
+    ("L(foo)", Context(), dict(errors="ignore", helpful_errors=False), [[]]),
     ("L(foo,bar", Context(), dict(errors="ignore"), [[]]),
     ("L(foo), bar", Context(), dict(errors="ignore"), [[]]),
     ("P(", Context(), dict(errors="ignore"), [[]]),
@@ -677,112 +677,112 @@ TEST_PARSE_THROW_DATA: t.List[
     (
         "M(",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing M() at index 1: Cannot find closing ")" after last parameter',
     ),
     (
         "M(foo",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing M() at index 1: Cannot find closing ")" after last parameter',
     ),
     (
         "L(foo)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         "While parsing L() at index 1: Cannot find comma separating parameter 1 from the next one",
     ),
     (
         "L(foo,bar",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing L() at index 1: Cannot find closing ")" after last parameter',
     ),
     (
         "L(foo), bar",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing L() at index 1: Cannot find closing ")" after last parameter',
     ),
     (
         "P(",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing P() at index 1: Cannot find closing ")" after last parameter',
     ),
     (
         "P(foo",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing P() at index 1: Cannot find closing ")" after last parameter',
     ),
     # bad module ref (throw error):
     (
         "M(foo)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing M() at index 1: Module name "foo" is not a FQCN',
     ),
     (
         " M(foo.bar)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing M() at index 2: Module name "foo.bar" is not a FQCN',
     ),
     (
         "  M(foo. bar.baz)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing M() at index 3: Module name "foo. bar.baz" is not a FQCN',
     ),
     (
         "   M(foo)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing M() at index 4: Module name "foo" is not a FQCN',
     ),
     # bad plugin ref (throw error):
     (
         "P(foo)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing P() at index 1: Parameter "foo" is not of the form FQCN#type',
     ),
     (
         "P(f o.b r.b z#bar)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing P() at index 1: Plugin name "f o.b r.b z" is not a FQCN',
     ),
     (
         "P(foo.bar.baz#b m)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing P() at index 1: Plugin type "b m" is not valid',
     ),
     # bad option name/return value (throw error):
     (
         "O(f o.b r.b z#bam:foobar)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing O() at index 1: Plugin name "f o.b r.b z" is not a FQCN',
     ),
     (
         "O(foo.bar.baz#b m:foobar)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing O() at index 1: Plugin type "b m" is not valid',
     ),
     (
         "O(foo:bar:baz)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         'While parsing O() at index 1: Invalid option/return value name "foo:bar:baz"',
     ),
     (
         "O(foo.bar.baz#role:bam)",
         Context(),
-        dict(errors="exception"),
+        dict(errors="exception", helpful_errors=False),
         "While parsing O() at index 1: Role reference is missing entrypoint",
     ),
 ]
