@@ -18,6 +18,7 @@ def parse_parameters_escaped(
     text: str,
     index: int,
     parameter_count: int,
+    strict: bool,
 ) -> t.Tuple[t.List[str], int, t.Optional[str]]:
     result: t.List[str] = []
     parameters_left = parameter_count
@@ -37,6 +38,13 @@ def parse_parameters_escaped(
             value.append(text[index : match.start(0)])
             index = match.end(0)
             if match.group(1):
+                if strict and match.group(1) not in ("\\", ")"):
+                    result.append("".join(value))
+                    return (
+                        result,
+                        index,
+                        f'Unnecessarily escaped "{match.group(1)}"',
+                    )
                 value.append(match.group(1))
             else:
                 break
@@ -50,6 +58,13 @@ def parse_parameters_escaped(
         value.append(text[index : match.start(0)])
         index = match.end(0)
         if match.group(1):
+            if strict and match.group(1) not in ("\\", ")"):
+                result.append("".join(value))
+                return (
+                    result,
+                    index,
+                    f'Unnecessarily escaped "{match.group(1)}"',
+                )
             value.append(match.group(1))
         else:
             break
@@ -61,6 +76,7 @@ def parse_parameters_unescaped(
     text: str,
     index: int,
     parameter_count: int,
+    strict: bool,  # pylint: disable=unused-argument
 ) -> t.Tuple[t.List[str], int, t.Optional[str]]:
     result: t.List[str] = []
     first = True
