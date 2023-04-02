@@ -104,3 +104,14 @@ def get_rst_opts(test_data: t.Mapping[str, t.Any]):
                 type=test_data["rst_opts"]["current_plugin"]["type"],
             )
     return opts
+
+
+def get_ansible_doc_text_opts(test_data: t.Mapping[str, t.Any]):
+    opts = {}
+    if test_data.get("ansible_doc_text_opts"):
+        if "current_plugin" in test_data["ansible_doc_text_opts"]:
+            opts["current_plugin"] = dom.PluginIdentifier(
+                fqcn=test_data["ansible_doc_text_opts"]["current_plugin"]["fqcn"],
+                type=test_data["ansible_doc_text_opts"]["current_plugin"]["type"],
+            )
+    return opts

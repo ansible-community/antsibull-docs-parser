@@ -9,6 +9,7 @@ import pytest
 import yaml
 
 from antsibull_docs_parser import dom
+from antsibull_docs_parser.ansible_doc_text import to_ansible_doc_text
 from antsibull_docs_parser.format import LinkProvider
 from antsibull_docs_parser.html import to_html, to_html_plain
 from antsibull_docs_parser.md import to_md
@@ -17,6 +18,7 @@ from antsibull_docs_parser.rst import to_rst
 
 from .vectors import (
     VECTORS_FILE,
+    get_ansible_doc_text_opts,
     get_context_parse_opts,
     get_html_opts_link_provider,
     get_md_opts_link_provider,
@@ -48,6 +50,7 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
     context, parse_opts = get_context_parse_opts(test_data)
     parsed = parse(test_data["source"], context, **parse_opts)
 
+    ansible_doc_text_opts = get_ansible_doc_text_opts(test_data)
     html_opts, html_link_provider = get_html_opts_link_provider(test_data)
     md_opts, md_link_provider = get_md_opts_link_provider(test_data)
     rst_opts = get_rst_opts(test_data)
@@ -67,3 +70,7 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
     if "rst" in test_data:
         result = to_rst(parsed, **rst_opts)
         assert result == test_data["rst"]
+
+    if "ansible_doc_text" in test_data:
+        result = to_ansible_doc_text(parsed, **ansible_doc_text_opts)
+        assert result == test_data["ansible_doc_text"]
