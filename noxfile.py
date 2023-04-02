@@ -100,7 +100,7 @@ def typing(session: nox.Session):
 def create_vectors(session: nox.Session):
     install(session, ".", "ruamel.yaml", editable=True)
     session.run("python", "tests/unit/create-vectors.py")
-    if IN_CI and not test_no_modification(session):
+    if IN_CI and not test_no_modifications(session):
         session.error(
             "The test vectors have been updated/extended. Verify whether this is intentional, and if it is, regenerate by running 'nox -e create_vectors' and commit them."
         )
@@ -130,7 +130,7 @@ def test_no_modifications(session: nox.Session) -> bool:
 
 
 def check_no_modifications(session: nox.Session) -> None:
-    if not test_no_modification(session):
+    if not test_no_modifications(session):
         session.error(
             "There are modified or untracked files. Commit, restore, or remove them before running this"
         )

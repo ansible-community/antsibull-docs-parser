@@ -1,2 +1,2 @@
 minor_changes:
-  - "Create script to update/extend the test vectors automaticaly (https://github.com/ansible-community/antsibull-docs-parser/pull/16)."
+  - "Create script to update/extend the test vectors automatically (https://github.com/ansible-community/antsibull-docs-parser/pull/16)."
