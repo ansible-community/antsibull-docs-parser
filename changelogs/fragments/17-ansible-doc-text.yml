@@ -1,0 +1,2 @@
+minor_changes:
+  - "Add support for ansible-doc like text output (https://github.com/ansible-community/antsibull-docs-parser/pull/17)."
