@@ -10,12 +10,14 @@ test_vectors:
     html_plain: ''
     rst: ''
     md: ''
+    ansible_doc_text: ''
   empty_content:
     source: ['']
     html: <p></p>
     html_plain: <p></p>
     md: ' '
     rst: '\ '
+    ansible_doc_text: ''
   simple:
     source: |-
       This is a C(test) I(module) B(markup).
@@ -27,6 +29,7 @@ test_vectors:
       This is a <code>test</code> <em>module</em> <b>markup</b>.
     rst: |-
       This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\ .
+    ansible_doc_text: This is a `test' `module' *markup*.
   module:
     source: |-
       The M(a.b.c) module.
@@ -48,6 +51,7 @@ test_vectors:
         lambda plugin_data: f"https://docs.ansible.com/ansible/devel/collections/{plugin_data.fqcn.replace('.', '/')}_{plugin_data.type}.html"
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
+    ansible_doc_text: The [a.b.c] module.
   module_no_link:
     source: |-
       The M(a.b.c) module.
@@ -59,6 +63,7 @@ test_vectors:
       The a.b.c module.
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
+    ansible_doc_text: The [a.b.c] module.
   plugin:
     source: |-
       The P(a.b.c#lookup) lookup plugin.
@@ -80,6 +85,7 @@ test_vectors:
         lambda plugin_data: f"https://docs.ansible.com/ansible/devel/collections/{plugin_data.fqcn.replace('.', '/')}_{plugin_data.type}.html"
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
+    ansible_doc_text: The [a.b.c] lookup plugin.
   plugin_no_link:
     source: |-
       The P(a.b.c#lookup) lookup plugin.
@@ -91,6 +97,7 @@ test_vectors:
       The a.b.c lookup plugin.
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
+    ansible_doc_text: The [a.b.c] lookup plugin.
   link_and_url:
     source: |-
       An URL U(https://example.com) and L(a link, https://example.org).
@@ -102,6 +109,7 @@ test_vectors:
       An URL [https\://example.com](https\://example.com) and [a link](https\://example.org).
     rst: |-
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
+    ansible_doc_text: An URL https://example.com and a link <https://example.org>.
   rst_ref:
     source: |-
       A R(RST reference, ansible_collections.community.general.ufw_module).
@@ -113,6 +121,7 @@ test_vectors:
       A RST reference.
     rst: |-
       A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\ .
+    ansible_doc_text: A RST reference.
   horizontal_line:
     source: |-
       foo HORIZONTALLINE bar
@@ -130,6 +139,10 @@ test_vectors:
         <hr>
 
        bar
+    ansible_doc_text: |-
+      foo 
+      -------------
+       bar
   semantic_markup:
     source: |-
       foo E(FOOBAR) bar P(foo.bar.baz#bam) has value V( foo\),bar\\bam ).
@@ -141,6 +154,7 @@ test_vectors:
       foo <code>FOOBAR</code> bar foo.bar.baz has value <code> foo\)\,bar\\bam </code>.
     rst: |-
       foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has value \ :ansval:`\  foo),bar\\bam \ `\ .
+    ansible_doc_text: foo `FOOBAR' bar [foo.bar.baz] has value ` foo),bar\bam '.
   option_name_no_current_plugin:
     source:
       - |-
@@ -219,6 +233,30 @@ test_vectors:
       \ :ansopt:`foo=`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=`\ 
 
       \ :ansopt:`foo=bar`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+    ansible_doc_text: |-
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role bam.baz.foo, main entrypoint)
+
+      `foo=' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role bam.baz.foo, main entrypoint)
+
+      `foo=bar' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role bam.baz.foo, main entrypoint)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   option_name_current_plugin:
     source:
       - |-
@@ -301,6 +339,30 @@ test_vectors:
       current_plugin:
         fqcn: foo.bar.baz.bam
         type: boo
+    ansible_doc_text: |-
+      `foo' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]' (of boo plugin foo.bar.baz.bam)
+
+      `foo=' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=' (of boo plugin foo.bar.baz.bam)
+
+      `foo=bar' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=bar' (of boo plugin foo.bar.baz.bam)
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role bam.baz.foo, main entrypoint)
+
+      `foo=' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role bam.baz.foo, main entrypoint)
+
+      `foo=bar' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role bam.baz.foo, main entrypoint)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   option_name_current_role:
     source:
       - |-
@@ -402,6 +464,36 @@ test_vectors:
         fqcn: foo.bar.baz
         type: role
       role_entrypoint: main
+    ansible_doc_text: |-
+      `foo' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role foo.bar.baz, main entrypoint)
+
+      `foo=' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role foo.bar.baz, main entrypoint)
+
+      `foo=bar' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role foo.bar.baz, main entrypoint)
+
+      `foo' (of role foo.bar.baz, other_entrypoint entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role foo.bar.baz, other_entrypoint entrypoint)
+
+      `foo=' (of role foo.bar.baz, other_entrypoint entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role foo.bar.baz, other_entrypoint entrypoint)
+
+      `foo=bar' (of role foo.bar.baz, other_entrypoint entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role foo.bar.baz, other_entrypoint entrypoint)
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role bam.baz.foo, main entrypoint)
+
+      `foo=' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role bam.baz.foo, main entrypoint)
+
+      `foo=bar' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role bam.baz.foo, main entrypoint)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   option_name_no_current_plugin_w_links:
     source:
       - |-
@@ -490,6 +582,30 @@ test_vectors:
       \ :ansopt:`foo=`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=`\ 
 
       \ :ansopt:`foo=bar`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+    ansible_doc_text: |-
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role bam.baz.foo, main entrypoint)
+
+      `foo=' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role bam.baz.foo, main entrypoint)
+
+      `foo=bar' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role bam.baz.foo, main entrypoint)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   option_name_current_plugin_w_links:
     source:
       - |-
@@ -582,6 +698,30 @@ test_vectors:
       current_plugin:
         fqcn: foo.bar.baz.bam
         type: boo
+    ansible_doc_text: |-
+      `foo' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]' (of boo plugin foo.bar.baz.bam)
+
+      `foo=' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=' (of boo plugin foo.bar.baz.bam)
+
+      `foo=bar' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=bar' (of boo plugin foo.bar.baz.bam)
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role bam.baz.foo, main entrypoint)
+
+      `foo=' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role bam.baz.foo, main entrypoint)
+
+      `foo=bar' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role bam.baz.foo, main entrypoint)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   option_name_current_role_w_links:
     source:
       - |-
@@ -693,6 +833,36 @@ test_vectors:
         fqcn: foo.bar.baz
         type: role
       role_entrypoint: main
+    ansible_doc_text: |-
+      `foo' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role foo.bar.baz, main entrypoint)
+
+      `foo=' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role foo.bar.baz, main entrypoint)
+
+      `foo=bar' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role foo.bar.baz, main entrypoint)
+
+      `foo' (of role foo.bar.baz, other_entrypoint entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role foo.bar.baz, other_entrypoint entrypoint)
+
+      `foo=' (of role foo.bar.baz, other_entrypoint entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role foo.bar.baz, other_entrypoint entrypoint)
+
+      `foo=bar' (of role foo.bar.baz, other_entrypoint entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role foo.bar.baz, other_entrypoint entrypoint)
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role bam.baz.foo, main entrypoint)
+
+      `foo=' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=' (of role bam.baz.foo, main entrypoint)
+
+      `foo=bar' (of role bam.baz.foo, main entrypoint) `bar.baz[123].bam[len(x) - 1]=bar' (of role bam.baz.foo, main entrypoint)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   return_value_no_current_plugin:
     source:
       - |-
@@ -753,6 +923,24 @@ test_vectors:
       \ :ansretval:`foo=`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]=`\ 
 
       \ :ansretval:`foo=bar`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+    ansible_doc_text: |-
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   return_value_current_plugin:
     source:
       - |-
@@ -817,6 +1005,24 @@ test_vectors:
       current_plugin:
         fqcn: foo.bar.baz.bam
         type: boo
+    ansible_doc_text: |-
+      `foo' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]' (of boo plugin foo.bar.baz.bam)
+
+      `foo=' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=' (of boo plugin foo.bar.baz.bam)
+
+      `foo=bar' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=bar' (of boo plugin foo.bar.baz.bam)
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   return_value_no_current_plugin_w_links:
     source:
       - |-
@@ -887,6 +1093,24 @@ test_vectors:
       \ :ansretval:`foo=`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]=`\ 
 
       \ :ansretval:`foo=bar`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+    ansible_doc_text: |-
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   return_value_current_plugin_w_links:
     source:
       - |-
@@ -961,6 +1185,24 @@ test_vectors:
       current_plugin:
         fqcn: foo.bar.baz.bam
         type: boo
+    ansible_doc_text: |-
+      `foo' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]' (of boo plugin foo.bar.baz.bam)
+
+      `foo=' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=' (of boo plugin foo.bar.baz.bam)
+
+      `foo=bar' (of boo plugin foo.bar.baz.bam) `bar.baz[123].bam[len(x) - 1]=bar' (of boo plugin foo.bar.baz.bam)
+
+      `foo' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]' (of lookup plugin bam.baz.foo)
+
+      `foo=' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=' (of lookup plugin bam.baz.foo)
+
+      `foo=bar' (of lookup plugin bam.baz.foo) `bar.baz[123].bam[len(x) - 1]=bar' (of lookup plugin bam.baz.foo)
+
+      `foo' `bar.baz[123].bam[len(x) - 1]'
+
+      `foo=' `bar.baz[123].bam[len(x) - 1]='
+
+      `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
   errors:
     source:
       - P(foo)
@@ -982,3 +1224,9 @@ test_vectors:
       \ :strong:`ERROR while parsing`\ : While parsing C() at index 1 of paragraph 2: Cannot find closing ")" after last parameter\ 
 
       \ :strong:`ERROR while parsing`\ : While parsing R() at index 1 of paragraph 3: Cannot find closing ")" after last parameter\ 
+    ansible_doc_text: |-
+      [[ERROR while parsing: While parsing P() at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type]]
+
+      [[ERROR while parsing: While parsing C() at index 1 of paragraph 2: Cannot find closing ")" after last parameter]]
+
+      [[ERROR while parsing: While parsing R() at index 1 of paragraph 3: Cannot find closing ")" after last parameter]]
