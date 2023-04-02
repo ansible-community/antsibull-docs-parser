@@ -57,11 +57,13 @@ def get_context_parse_opts(test_data: t.Mapping[str, t.Any]):
         if "role_entrypoint" in test_data["parse_opts"]:
             context_opts["role_entrypoint"] = test_data["parse_opts"]["role_entrypoint"]
         if "errors" in test_data["parse_opts"]:
-            context_opts["errors"] = test_data["parse_opts"]["errors"]
+            parse_opts["errors"] = test_data["parse_opts"]["errors"]
         if "onlyClassicMarkup" in test_data["parse_opts"]:
-            context_opts["only_classic_markup"] = test_data["parse_opts"][
+            parse_opts["only_classic_markup"] = test_data["parse_opts"][
                 "onlyClassicMarkup"
             ]
+        if "helpfulErrors" in test_data["parse_opts"]:
+            parse_opts["helpful_errors"] = test_data["parse_opts"]["helpfulErrors"]
     return Context(**context_opts), parse_opts
 
 

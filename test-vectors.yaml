@@ -1203,11 +1203,13 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
-  errors:
+  unhelpful_errors:
     source:
       - P(foo)
       - C(foo
       - R(foo,bar
+    parse_opts:
+      helpfulErrors: false
     html: |-
       <p><span class="error">ERROR while parsing: While parsing P() at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type</span></p><p><span class="error">ERROR while parsing: While parsing C() at index 1 of paragraph 2: Cannot find closing ")" after last parameter</span></p><p><span class="error">ERROR while parsing: While parsing R() at index 1 of paragraph 3: Cannot find closing ")" after last parameter</span></p>
     html_plain: |-
@@ -1230,3 +1232,30 @@ test_vectors:
       [[ERROR while parsing: While parsing C() at index 1 of paragraph 2: Cannot find closing ")" after last parameter]]
 
       [[ERROR while parsing: While parsing R() at index 1 of paragraph 3: Cannot find closing ")" after last parameter]]
+  helpful_errors:
+    source:
+      - P(foo)
+      - C(foo
+      - R(foo,bar
+    html: |-
+      <p><span class="error">ERROR while parsing: While parsing "P(foo)" at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type</span></p><p><span class="error">ERROR while parsing: While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter</span></p><p><span class="error">ERROR while parsing: While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter</span></p>
+    html_plain: |-
+      <p><span class="error">ERROR while parsing: While parsing "P(foo)" at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type</span></p><p><span class="error">ERROR while parsing: While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter</span></p><p><span class="error">ERROR while parsing: While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter</span></p>
+    md: |-
+      <b>ERROR while parsing</b>: While parsing \"P\(foo\)\" at index 1 of paragraph 1\: Parameter \"foo\" is not of the form FQCN\#type
+
+      <b>ERROR while parsing</b>: While parsing \"C\(foo\" at index 1 of paragraph 2\: Cannot find closing \"\)\" after last parameter
+
+      <b>ERROR while parsing</b>: While parsing \"R\(foo\,bar\" at index 1 of paragraph 3\: Cannot find closing \"\)\" after last parameter
+    rst: |-
+      \ :strong:`ERROR while parsing`\ : While parsing "P(foo)" at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type\ 
+
+      \ :strong:`ERROR while parsing`\ : While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter\ 
+
+      \ :strong:`ERROR while parsing`\ : While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter\ 
+    ansible_doc_text: |-
+      [[ERROR while parsing: While parsing "P(foo)" at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type]]
+
+      [[ERROR while parsing: While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter]]
+
+      [[ERROR while parsing: While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter]]
