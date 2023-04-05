@@ -11,6 +11,7 @@ test_vectors:
     rst: ''
     md: ''
     ansible_doc_text: ''
+    rst_plain: ''
   empty_content:
     source: ['']
     html: <p></p>
@@ -18,6 +19,7 @@ test_vectors:
     md: ' '
     rst: '\ '
     ansible_doc_text: ''
+    rst_plain: '\ '
   simple:
     source: |-
       This is a C(test) I(module) B(markup).
@@ -30,6 +32,8 @@ test_vectors:
     rst: |-
       This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\ .
     ansible_doc_text: This is a `test' `module' *markup*.
+    rst_plain: This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\
+      .
   module:
     source: |-
       The M(a.b.c) module.
@@ -52,6 +56,7 @@ test_vectors:
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
     ansible_doc_text: The [a.b.c] module.
+    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
   module_no_link:
     source: |-
       The M(a.b.c) module.
@@ -64,6 +69,7 @@ test_vectors:
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
     ansible_doc_text: The [a.b.c] module.
+    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
   plugin:
     source: |-
       The P(a.b.c#lookup) lookup plugin.
@@ -86,6 +92,7 @@ test_vectors:
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
     ansible_doc_text: The [a.b.c] lookup plugin.
+    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
   plugin_no_link:
     source: |-
       The P(a.b.c#lookup) lookup plugin.
@@ -98,6 +105,7 @@ test_vectors:
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
     ansible_doc_text: The [a.b.c] lookup plugin.
+    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
   link_and_url:
     source: |-
       An URL U(https://example.com) and L(a link, https://example.org).
@@ -110,6 +118,8 @@ test_vectors:
     rst: |-
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
     ansible_doc_text: An URL https://example.com and a link <https://example.org>.
+    rst_plain: An URL \ https://example.com\  and \ `a link <https://example.org>`__\
+      .
   rst_ref:
     source: |-
       A R(RST reference, ansible_collections.community.general.ufw_module).
@@ -122,6 +132,8 @@ test_vectors:
     rst: |-
       A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\ .
     ansible_doc_text: A RST reference.
+    rst_plain: A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\
+      .
   horizontal_line:
     source: |-
       foo HORIZONTALLINE bar
@@ -143,6 +155,12 @@ test_vectors:
       foo 
       -------------
        bar
+    rst_plain: |-
+      foo 
+
+      ------------
+
+       bar
   semantic_markup:
     source: |-
       foo E(FOOBAR) bar P(foo.bar.baz#bam) has value V( foo\),bar\\bam ).
@@ -155,6 +173,8 @@ test_vectors:
     rst: |-
       foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has value \ :ansval:`\  foo),bar\\bam \ `\ .
     ansible_doc_text: foo `FOOBAR' bar [foo.bar.baz] has value ` foo),bar\bam '.
+    rst_plain: foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has
+      value \ :literal:`\  foo),bar\\bam \ `\ .
   option_name_no_current_plugin:
     source:
       - |-
@@ -257,6 +277,30 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   option_name_current_plugin:
     source:
       - |-
@@ -363,6 +407,30 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   option_name_current_role:
     source:
       - |-
@@ -494,6 +562,36 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\ 
+
+      \ :literal:`foo` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\ 
+
+      \ :literal:`foo=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   option_name_no_current_plugin_w_links:
     source:
       - |-
@@ -606,6 +704,30 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   option_name_current_plugin_w_links:
     source:
       - |-
@@ -722,6 +844,30 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   option_name_current_role_w_links:
     source:
       - |-
@@ -863,6 +1009,36 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint main)\ 
+
+      \ :literal:`foo` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\ 
+
+      \ :literal:`foo=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_role>`, entrypoint other\_entrypoint)\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of role :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_role>`, entrypoint main)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   return_value_no_current_plugin:
     source:
       - |-
@@ -941,6 +1117,24 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   return_value_current_plugin:
     source:
       - |-
@@ -1023,6 +1217,24 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   return_value_no_current_plugin_w_links:
     source:
       - |-
@@ -1111,6 +1323,24 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   return_value_current_plugin_w_links:
     source:
       - |-
@@ -1203,6 +1433,24 @@ test_vectors:
       `foo=' `bar.baz[123].bam[len(x) - 1]='
 
       `foo=bar' `bar.baz[123].bam[len(x) - 1]=bar'
+    rst_plain: |-
+      \ :literal:`foo` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of boo plugin :ref:`foo.bar.baz.bam <ansible_collections.foo.bar.baz.bam_boo>`)\ 
+
+      \ :literal:`foo` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar` (of lookup plugin :ref:`bam.baz.foo <ansible_collections.bam.baz.foo_lookup>`)\ 
+
+      \ :literal:`foo`\  \ :literal:`bar.baz[123].bam[len(x) - 1]`\ 
+
+      \ :literal:`foo=`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=`\ 
+
+      \ :literal:`foo=bar`\  \ :literal:`bar.baz[123].bam[len(x) - 1]=bar`\ 
   unhelpful_errors:
     source:
       - P(foo)
@@ -1232,6 +1480,12 @@ test_vectors:
       [[ERROR while parsing: While parsing C() at index 1 of paragraph 2: Cannot find closing ")" after last parameter]]
 
       [[ERROR while parsing: While parsing R() at index 1 of paragraph 3: Cannot find closing ")" after last parameter]]
+    rst_plain: |-
+      \ :strong:`ERROR while parsing`\ : While parsing P() at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type\ 
+
+      \ :strong:`ERROR while parsing`\ : While parsing C() at index 1 of paragraph 2: Cannot find closing ")" after last parameter\ 
+
+      \ :strong:`ERROR while parsing`\ : While parsing R() at index 1 of paragraph 3: Cannot find closing ")" after last parameter\ 
   helpful_errors:
     source:
       - P(foo)
@@ -1259,3 +1513,9 @@ test_vectors:
       [[ERROR while parsing: While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter]]
 
       [[ERROR while parsing: While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter]]
+    rst_plain: |-
+      \ :strong:`ERROR while parsing`\ : While parsing "P(foo)" at index 1 of paragraph 1: Parameter "foo" is not of the form FQCN#type\ 
+
+      \ :strong:`ERROR while parsing`\ : While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter\ 
+
+      \ :strong:`ERROR while parsing`\ : While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter\ 

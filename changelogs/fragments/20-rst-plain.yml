@@ -1,0 +1,2 @@
+minor_changes:
+  - "Add support for plain RST rendering (https://github.com/ansible-community/antsibull-docs-parser/pull/20)."
