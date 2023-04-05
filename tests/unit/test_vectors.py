@@ -14,7 +14,7 @@ from antsibull_docs_parser.format import LinkProvider
 from antsibull_docs_parser.html import to_html, to_html_plain
 from antsibull_docs_parser.md import to_md
 from antsibull_docs_parser.parser import Context, parse
-from antsibull_docs_parser.rst import to_rst
+from antsibull_docs_parser.rst import to_rst, to_rst_plain
 
 from .vectors import (
     VECTORS_FILE,
@@ -70,6 +70,10 @@ def test_vectors(test_name: str, test_data: t.Mapping[str, t.Any]) -> None:
     if "rst" in test_data:
         result = to_rst(parsed, **rst_opts)
         assert result == test_data["rst"]
+
+    if "rst_plain" in test_data:
+        result = to_rst_plain(parsed, **rst_opts)
+        assert result == test_data["rst_plain"]
 
     if "ansible_doc_text" in test_data:
         result = to_ansible_doc_text(parsed, **ansible_doc_text_opts)

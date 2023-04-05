@@ -108,12 +108,116 @@ class AntsibullRSTFormatter(Formatter):
         return self._format_option_like(part, "ansretval")
 
 
+class PlainRSTFormatter(Formatter):
+    @staticmethod
+    def _format_option_like(
+        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart],
+    ) -> str:
+        plugin_result: t.List[str] = []
+        plugin = part.plugin
+        if plugin:
+            plugin_result.append(plugin.type)
+            if plugin.type not in ("module", "role", "playbook"):
+                plugin_result.append(" plugin")
+            plugin_result.append(
+                f" :ref:`{rst_escape(plugin.fqcn)}"
+                f" <ansible_collections.{plugin.fqcn}_{plugin.type}>`"
+            )
+        entrypoint = part.entrypoint
+        if entrypoint is not None:
+            if plugin_result:
+                plugin_result.append(", ")
+            plugin_result.append("entrypoint ")
+            plugin_result.append(rst_escape(entrypoint, True))
+        plugin_text = f" (of {''.join(plugin_result)})" if plugin_result else ""
+        value_text = part.name
+        value = part.value
+        if value is not None:
+            value_text = f"{value_text}={value}"
+        return f"\\ :literal:`{rst_escape(value_text, True)}`{plugin_text}\\ "
+
+    def format_error(self, part: dom.ErrorPart) -> str:
+        return (
+            f"\\ :strong:`ERROR while parsing`\\ : {rst_escape(part.message, True)}\\ "
+        )
+
+    def format_bold(self, part: dom.BoldPart) -> str:
+        return f"\\ :strong:`{rst_escape(part.text, True)}`\\ "
+
+    def format_code(self, part: dom.CodePart) -> str:
+        return f"\\ :literal:`{rst_escape(part.text, True)}`\\ "
+
+    def format_horizontal_line(self, part: dom.HorizontalLinePart) -> str:
+        return "\n\n------------\n\n"
+
+    def format_italic(self, part: dom.ItalicPart) -> str:
+        return f"\\ :emphasis:`{rst_escape(part.text, True)}`\\ "
+
+    def format_link(self, part: dom.LinkPart) -> str:
+        return f"\\ `{rst_escape(part.text)} <{_url_escape(part.url)}>`__\\ "
+
+    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+        return f"\\ :ref:`{rst_escape(part.fqcn)} <ansible_collections.{part.fqcn}_module>`\\ "
+
+    def format_rst_ref(self, part: dom.RSTRefPart) -> str:
+        return f"\\ :ref:`{rst_escape(part.text)} <{part.ref}>`\\ "
+
+    def format_url(self, part: dom.URLPart) -> str:
+        return f"\\ {_url_escape(part.url)}\\ "
+
+    def format_text(self, part: dom.TextPart) -> str:
+        return rst_escape(part.text)
+
+    def format_env_variable(self, part: dom.EnvVariablePart) -> str:
+        return f"\\ :envvar:`{rst_escape(part.name, True)}`\\ "
+
+    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+        return self._format_option_like(part)
+
+    def format_option_value(self, part: dom.OptionValuePart) -> str:
+        return f"\\ :literal:`{rst_escape(part.value, True)}`\\ "
+
+    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+        return (
+            f"\\ :ref:`{rst_escape(part.plugin.fqcn)} "
+            f"<ansible_collections.{part.plugin.fqcn}_{part.plugin.type}>`\\ "
+        )
+
+    def format_return_value(
+        self, part: dom.ReturnValuePart, url: t.Optional[str]
+    ) -> str:
+        return self._format_option_like(part)
+
+
 DEFAULT_ANTSIBULL_FORMATTER = AntsibullRSTFormatter()
+DEFAULT_PLAIN_FORMATTER = PlainRSTFormatter()
 
 
 def to_rst(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_ANTSIBULL_FORMATTER,
+    link_provider: t.Optional[LinkProvider] = None,
+    par_start: str = "",
+    par_end: str = "",
+    par_sep: str = "\n\n",
+    par_empty: str = r"\ ",
+    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+) -> str:
+    return _format_paragraphs(
+        paragraphs,
+        formatter=formatter,
+        link_provider=link_provider,
+        par_start=par_start,
+        par_end=par_end,
+        par_sep=par_sep,
+        par_empty=par_empty,
+        current_plugin=current_plugin,
+    )
+
+
+def to_rst_plain(
+    paragraphs: t.Sequence[dom.Paragraph],
+    formatter: Formatter = DEFAULT_PLAIN_FORMATTER,
     link_provider: t.Optional[LinkProvider] = None,
     par_start: str = "",
     par_end: str = "",

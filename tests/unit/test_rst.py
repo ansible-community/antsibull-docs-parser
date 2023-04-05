@@ -5,7 +5,7 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.rst import rst_escape, to_rst
+from antsibull_docs_parser.rst import rst_escape, to_rst, to_rst_plain
 
 
 def test_rst_escape():
@@ -18,3 +18,8 @@ def test_rst_escape():
 def test_to_rst():
     assert to_rst([]) == ""
     assert to_rst([[dom.TextPart(text="test")]]) == "test"
+
+
+def test_to_rst_plain():
+    assert to_rst_plain([]) == ""
+    assert to_rst_plain([[dom.TextPart(text="test")]]) == "test"

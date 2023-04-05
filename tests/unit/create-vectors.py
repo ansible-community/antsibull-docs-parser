@@ -20,7 +20,7 @@ from antsibull_docs_parser.ansible_doc_text import to_ansible_doc_text
 from antsibull_docs_parser.html import to_html, to_html_plain
 from antsibull_docs_parser.md import to_md
 from antsibull_docs_parser.parser import parse
-from antsibull_docs_parser.rst import to_rst
+from antsibull_docs_parser.rst import to_rst, to_rst_plain
 
 
 def add(test_data: t.Dict[str, t.Any], key: str, value: t.Any) -> None:
@@ -50,6 +50,9 @@ def update(test_name: str, test_data: t.Dict[str, t.Any]) -> None:
 
     result = to_rst(parsed, **rst_opts)
     add(test_data, "rst", result)
+
+    result = to_rst_plain(parsed, **rst_opts)
+    add(test_data, "rst_plain", result)
 
     result = to_ansible_doc_text(parsed, **ansible_doc_text_opts)
     add(test_data, "ansible_doc_text", result)
