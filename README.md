@@ -20,7 +20,7 @@ To run specific tests:
 1. `nox -e test` to only run unit tests;
 2. `nox -e lint` to run all linters and formatters at once;
 3. `nox -e formatters` to run `isort` and `black`;
-4. `nox -e codeqa` to run `flake8`, `pylint`, and `reuse lint`;
+4. `nox -e codeqa` to run `flake8`, `pylint`, `reuse lint`, and `antsibull-changelog lint`;
 5. `nox -e typing` to run `mypy` and `pyre`;
 6. `nox -e create_vectors` to update the `test-vectors.yml` file. Please note that this file should be synchronized with the corresponding file in [the antsibull-docs-ts project](https://github.com/ansible-community/antsibull-docs-ts).
 
