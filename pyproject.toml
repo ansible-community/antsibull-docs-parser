@@ -40,6 +40,7 @@ classifiers = [
 
 [project.optional-dependencies]
 codeqa = [
+    "antsibull-changelog",
     "flake8",
     "pylint",
     "reuse",
