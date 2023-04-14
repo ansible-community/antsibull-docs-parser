@@ -5,6 +5,19 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 .. contents:: Topics
 
 
+v0.3.0
+======
+
+Release Summary
+---------------
+
+Feature release.
+
+Minor Changes
+-------------
+
+- Add support for plain RST rendering (https://github.com/ansible-community/antsibull-docs-parser/pull/20).
+
 v0.2.0
 ======
 

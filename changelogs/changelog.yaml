@@ -36,3 +36,12 @@ releases:
     - 19-helpful-errors.yml
     - 9-semantic-markup-roles.yml
     release_date: '2023-04-02'
+  0.3.0:
+    changes:
+      minor_changes:
+      - Add support for plain RST rendering (https://github.com/ansible-community/antsibull-docs-parser/pull/20).
+      release_summary: Feature release.
+    fragments:
+    - 0.3.0.yml
+    - 20-rst-plain.yml
+    release_date: '2023-04-14'
