@@ -380,7 +380,7 @@ test_vectors:
 
       \ :ansopt:`foo=bar`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=bar`\ 
     parse_opts:
-      current_plugin:
+      currentPlugin:
         fqcn: foo.bar.baz.bam
         type: boo
     ansible_doc_text: |-
@@ -528,10 +528,10 @@ test_vectors:
 
       \ :ansopt:`foo=bar`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=bar`\ 
     parse_opts:
-      current_plugin:
+      currentPlugin:
         fqcn: foo.bar.baz
         type: role
-      role_entrypoint: main
+      roleEntrypoint: main
     ansible_doc_text: |-
       `foo' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role foo.bar.baz, main entrypoint)
 
@@ -817,7 +817,7 @@ test_vectors:
 
       \ :ansopt:`foo=bar`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=bar`\ 
     parse_opts:
-      current_plugin:
+      currentPlugin:
         fqcn: foo.bar.baz.bam
         type: boo
     ansible_doc_text: |-
@@ -975,10 +975,10 @@ test_vectors:
 
       \ :ansopt:`foo=bar`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]=bar`\ 
     parse_opts:
-      current_plugin:
+      currentPlugin:
         fqcn: foo.bar.baz
         type: role
-      role_entrypoint: main
+      roleEntrypoint: main
     ansible_doc_text: |-
       `foo' (of role foo.bar.baz, main entrypoint) `bar.baz[123].bam[len(x) - 1]' (of role foo.bar.baz, main entrypoint)
 
@@ -1196,7 +1196,7 @@ test_vectors:
 
       \ :ansretval:`foo=bar`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]=bar`\ 
     parse_opts:
-      current_plugin:
+      currentPlugin:
         fqcn: foo.bar.baz.bam
         type: boo
     ansible_doc_text: |-
@@ -1412,7 +1412,7 @@ test_vectors:
 
       \ :ansretval:`foo=bar`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]=bar`\ 
     parse_opts:
-      current_plugin:
+      currentPlugin:
         fqcn: foo.bar.baz.bam
         type: boo
     ansible_doc_text: |-
