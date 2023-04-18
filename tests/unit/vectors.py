@@ -46,13 +46,13 @@ def get_context_parse_opts(test_data: t.Mapping[str, t.Any]):
     parse_opts = {}
     context_opts = {}
     if test_data.get("parse_opts"):
-        if "current_plugin" in test_data["parse_opts"]:
+        if "currentPlugin" in test_data["parse_opts"]:
             context_opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["parse_opts"]["current_plugin"]["fqcn"],
-                type=test_data["parse_opts"]["current_plugin"]["type"],
+                fqcn=test_data["parse_opts"]["currentPlugin"]["fqcn"],
+                type=test_data["parse_opts"]["currentPlugin"]["type"],
             )
-        if "role_entrypoint" in test_data["parse_opts"]:
-            context_opts["role_entrypoint"] = test_data["parse_opts"]["role_entrypoint"]
+        if "roleEntrypoint" in test_data["parse_opts"]:
+            context_opts["role_entrypoint"] = test_data["parse_opts"]["roleEntrypoint"]
         if "errors" in test_data["parse_opts"]:
             parse_opts["errors"] = test_data["parse_opts"]["errors"]
         if "onlyClassicMarkup" in test_data["parse_opts"]:
@@ -72,10 +72,10 @@ def get_html_opts_link_provider(test_data: t.Mapping[str, t.Any]):
             opts["par_start"] = test_data["html_opts"]["parStart"]
         if "parEnd" in test_data["html_opts"]:
             opts["par_end"] = test_data["html_opts"]["parEnd"]
-        if "current_plugin" in test_data["html_opts"]:
+        if "currentPlugin" in test_data["html_opts"]:
             opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["html_opts"]["current_plugin"]["fqcn"],
-                type=test_data["html_opts"]["current_plugin"]["type"],
+                fqcn=test_data["html_opts"]["currentPlugin"]["fqcn"],
+                type=test_data["html_opts"]["currentPlugin"]["type"],
             )
         link_provider._update(test_data["html_opts"])
     return opts, link_provider
@@ -85,10 +85,10 @@ def get_md_opts_link_provider(test_data: t.Mapping[str, t.Any]):
     opts = {}
     link_provider = _TestLinkProvider()
     if test_data.get("md_opts"):
-        if "current_plugin" in test_data["md_opts"]:
+        if "currentPlugin" in test_data["md_opts"]:
             opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["md_opts"]["current_plugin"]["fqcn"],
-                type=test_data["md_opts"]["current_plugin"]["type"],
+                fqcn=test_data["md_opts"]["currentPlugin"]["fqcn"],
+                type=test_data["md_opts"]["currentPlugin"]["type"],
             )
         link_provider._update(test_data["md_opts"])
     return opts, link_provider
@@ -97,10 +97,10 @@ def get_md_opts_link_provider(test_data: t.Mapping[str, t.Any]):
 def get_rst_opts(test_data: t.Mapping[str, t.Any]):
     opts = {}
     if test_data.get("rst_opts"):
-        if "current_plugin" in test_data["rst_opts"]:
+        if "currentPlugin" in test_data["rst_opts"]:
             opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["rst_opts"]["current_plugin"]["fqcn"],
-                type=test_data["rst_opts"]["current_plugin"]["type"],
+                fqcn=test_data["rst_opts"]["currentPlugin"]["fqcn"],
+                type=test_data["rst_opts"]["currentPlugin"]["type"],
             )
     return opts
 
@@ -108,9 +108,9 @@ def get_rst_opts(test_data: t.Mapping[str, t.Any]):
 def get_ansible_doc_text_opts(test_data: t.Mapping[str, t.Any]):
     opts = {}
     if test_data.get("ansible_doc_text_opts"):
-        if "current_plugin" in test_data["ansible_doc_text_opts"]:
+        if "currentPlugin" in test_data["ansible_doc_text_opts"]:
             opts["current_plugin"] = dom.PluginIdentifier(
-                fqcn=test_data["ansible_doc_text_opts"]["current_plugin"]["fqcn"],
-                type=test_data["ansible_doc_text_opts"]["current_plugin"]["type"],
+                fqcn=test_data["ansible_doc_text_opts"]["currentPlugin"]["fqcn"],
+                type=test_data["ansible_doc_text_opts"]["currentPlugin"]["type"],
             )
     return opts
