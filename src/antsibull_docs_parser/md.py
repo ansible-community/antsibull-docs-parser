@@ -16,7 +16,7 @@ from .format import format_paragraphs as _format_paragraphs
 from .html import _url_escape
 from .html import html_escape as _html_escape
 
-_MD_ESCAPE = re.compile(r"""([!"#$%&'()*+,:;<=>?@[\\\]^_`{|}~-])""")
+_MD_ESCAPE = re.compile(r"""([!"#$%&'()*+,:;<=>?@[\\\]^_`{|}~.-])""")
 
 
 def md_escape(text: str) -> str:
