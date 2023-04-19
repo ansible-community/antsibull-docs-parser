@@ -21,10 +21,9 @@ def html_escape(text: str) -> str:
 
 
 def _url_escape(url: str) -> str:
-    # We include '<>[]{}' in safe to allow urls such as
-    # 'https://<HOST>:[PORT]/v{version}/' to remain unmangled by percent
-    # encoding
-    return quote(url, safe=":/#?%<>[]{}")
+    # We include several characters in safe to be compatible to JavaScript's encodeURI() method.
+    # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI
+    return quote(url, safe=":/#?!*'();@&=+$,")
 
 
 class AntsibullHTMLFormatter(Formatter):

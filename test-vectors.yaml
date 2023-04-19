@@ -28,7 +28,7 @@ test_vectors:
     html_plain: |-
       <p>This is a <code>test</code> <em>module</em> <b>markup</b>.</p>
     md: |-
-      This is a <code>test</code> <em>module</em> <b>markup</b>.
+      This is a <code>test</code> <em>module</em> <b>markup</b>\.
     rst: |-
       This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\ .
     ansible_doc_text: This is a `test' `module' *markup*.
@@ -47,7 +47,7 @@ test_vectors:
     html_plain: |-
       <p>The <a href='https://docs.ansible.com/ansible/devel/collections/a/b/c_module.html'>a.b.c</a> module.</p>
     md: |-
-      The [a.b.c](https\://docs.ansible.com/ansible/devel/collections/a/b/c\_module.html) module.
+      The [a\.b\.c](https\://docs\.ansible\.com/ansible/devel/collections/a/b/c\_module\.html) module\.
     md_opts:
       pluginLink.js: |-
         (plugin_data) => `https://docs.ansible.com/ansible/devel/collections/${plugin_data.fqcn.replace(/\./g, '/')}_${plugin_data.type}.html`
@@ -65,7 +65,7 @@ test_vectors:
     html_plain: |-
       <p>The <span>a.b.c</span> module.</p>
     md: |-
-      The a.b.c module.
+      The a\.b\.c module\.
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
     ansible_doc_text: The [a.b.c] module.
@@ -83,7 +83,7 @@ test_vectors:
     html_plain: |-
       <p>The <a href='https://docs.ansible.com/ansible/devel/collections/a/b/c_lookup.html'>a.b.c</a> lookup plugin.</p>
     md: |-
-      The [a.b.c](https\://docs.ansible.com/ansible/devel/collections/a/b/c\_lookup.html) lookup plugin.
+      The [a\.b\.c](https\://docs\.ansible\.com/ansible/devel/collections/a/b/c\_lookup\.html) lookup plugin\.
     md_opts:
       pluginLink.js: |-
         (plugin_data) => `https://docs.ansible.com/ansible/devel/collections/${plugin_data.fqcn.replace(/\./g, '/')}_${plugin_data.type}.html`
@@ -101,7 +101,7 @@ test_vectors:
     html_plain: |-
       <p>The <span>a.b.c</span> lookup plugin.</p>
     md: |-
-      The a.b.c lookup plugin.
+      The a\.b\.c lookup plugin\.
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
     ansible_doc_text: The [a.b.c] lookup plugin.
@@ -109,17 +109,31 @@ test_vectors:
   link_and_url:
     source: |-
       An URL U(https://example.com) and L(a link, https://example.org).
+      With special characters: U(https://example.com/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo)
+      and L(mee.boo, https://example.org/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo)
     html: |-
-      <p>An URL <a href='https://example.com'>https://example.com</a> and <a href='https://example.org'>a link</a>.</p>
+      <p>An URL <a href='https://example.com'>https://example.com</a> and <a href='https://example.org'>a link</a>.
+      With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo</a>
+      and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>mee.boo</a></p>
     html_plain: |-
-      <p>An URL <a href='https://example.com'>https://example.com</a> and <a href='https://example.org'>a link</a>.</p>
+      <p>An URL <a href='https://example.com'>https://example.com</a> and <a href='https://example.org'>a link</a>.
+      With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo</a>
+      and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>mee.boo</a></p>
     md: |-
-      An URL [https\://example.com](https\://example.com) and [a link](https\://example.org).
+      An URL [https\://example\.com](https://example.com) and [a link](https://example.org)\.
+      With special characters\: [https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253Dboo](https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo)
+      and [mee\.boo](https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo)
     rst: |-
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
-    ansible_doc_text: An URL https://example.com and a link <https://example.org>.
-    rst_plain: An URL \ https://example.com\  and \ `a link <https://example.org>`__\
-      .
+      With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\ 
+      and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\ 
+    ansible_doc_text: "An URL https://example.com and a link <https://example.org>.\n\
+      With special characters: https://example.com/test.html?foo=b<a>r&find=\\*#baz.bam%3Dboo\n\
+      and mee.boo <https://example.org/test.html?foo=b<a>r&find=\\*#baz.bam%3Dboo>"
+    rst_plain: "An URL \\ https://example.com\\  and \\ `a link <https://example.org>`__\\\
+      \ .\nWith special characters: \\ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\\\
+      \ \nand \\ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\\\
+      \ "
   rst_ref:
     source: |-
       A R(RST reference, ansible_collections.community.general.ufw_module).
@@ -128,7 +142,7 @@ test_vectors:
     html_plain: |-
       <p>A <span>RST reference</span>.</p>
     md: |-
-      A RST reference.
+      A RST reference\.
     rst: |-
       A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\ .
     ansible_doc_text: A RST reference.
@@ -169,7 +183,7 @@ test_vectors:
     html_plain: |-
       <p>foo <code>FOOBAR</code> bar <span>foo.bar.baz</span> has value <code> foo),bar\bam </code>.</p>
     md: |-
-      foo <code>FOOBAR</code> bar foo.bar.baz has value <code> foo\)\,bar\\bam </code>.
+      foo <code>FOOBAR</code> bar foo\.bar\.baz has value <code> foo\)\,bar\\bam </code>\.
     rst: |-
       foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has value \ :ansval:`\  foo),bar\\bam \ `\ .
     ansible_doc_text: foo `FOOBAR' bar [foo.bar.baz] has value ` foo),bar\bam '.
@@ -206,29 +220,29 @@ test_vectors:
     html_plain: |-
       <p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     rst: |-
       \ :ansopt:`foo`\  \ :ansopt:`bar.baz[123].bam[len(x) - 1]`\ 
 
@@ -332,29 +346,29 @@ test_vectors:
     html_plain: |-
       <p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     rst: |-
       \ :ansopt:`foo.bar.baz.bam#boo:foo`\  \ :ansopt:`foo.bar.baz.bam#boo:bar.baz[123].bam[len(x) - 1]`\ 
 
@@ -468,35 +482,35 @@ test_vectors:
     html_plain: |-
       <p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     rst: |-
       \ :ansopt:`foo.bar.baz#role:main:foo`\  \ :ansopt:`foo.bar.baz#role:main:bar.baz[123].bam[len(x) - 1]`\ 
 
@@ -628,29 +642,29 @@ test_vectors:
     html_plain: |-
       <p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     md_opts:
       pluginOptionLikeLink.js: |-
         (plugin, entrypoint, what, name, current_plugin) => `https://docs.ansible.com/ansible/devel/collections/${plugin.fqcn.replace(/\./g, '/')}_${plugin.type}.html#${what}${entrypoint ? '-' + entrypoint : ''}-${name.join('/')}`
@@ -764,29 +778,29 @@ test_vectors:
     html_plain: |-
       <p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#option\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#option\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#option\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     md_opts:
       pluginOptionLikeLink.js: |-
         (plugin, entrypoint, what, name, current_plugin) => `https://docs.ansible.com/ansible/devel/collections/${plugin.fqcn.replace(/\./g, '/')}_${plugin.type}.html#${what}${entrypoint ? '-' + entrypoint : ''}-${name.join('/')}`
@@ -910,35 +924,35 @@ test_vectors:
     html_plain: |-
       <p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></strong></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><strong>foo</strong></code> <code><strong>bar.baz[123].bam[len(x) - 1]</strong></code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-main\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-main\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-main\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-other\_entrypoint\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-other\_entrypoint\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-other\_entrypoint\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-other\_entrypoint\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-other\_entrypoint\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz\_role.html\#option\-other\_entrypoint\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz_role.html#option-other_entrypoint-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#option\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#option-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo</a></strong></code> <code><strong><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></strong></code>
+      <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo</a></strong></code> <code><strong><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></strong></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_role.html\#option\-main\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_role.html#option-main-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><strong>foo</strong></code> <code><strong>bar.baz\[123\].bam\[len\(x\) \- 1\]</strong></code>
+      <code><strong>foo</strong></code> <code><strong>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</strong></code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     md_opts:
       pluginOptionLikeLink.js: |-
         (plugin, entrypoint, what, name, current_plugin) => `https://docs.ansible.com/ansible/devel/collections/${plugin.fqcn.replace(/\./g, '/')}_${plugin.type}.html#${what}${entrypoint ? '-' + entrypoint : ''}-${name.join('/')}`
@@ -1064,23 +1078,23 @@ test_vectors:
     html_plain: |-
       <p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     rst: |-
       \ :ansretval:`foo`\  \ :ansretval:`bar.baz[123].bam[len(x) - 1]`\ 
 
@@ -1160,23 +1174,23 @@ test_vectors:
     html_plain: |-
       <p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     rst: |-
       \ :ansretval:`foo.bar.baz.bam#boo:foo`\  \ :ansretval:`foo.bar.baz.bam#boo:bar.baz[123].bam[len(x) - 1]`\ 
 
@@ -1265,23 +1279,23 @@ test_vectors:
     html_plain: |-
       <p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-foo">foo</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     md_opts:
       pluginOptionLikeLink.js: |-
         (plugin, entrypoint, what, name, current_plugin) => `https://docs.ansible.com/ansible/devel/collections/${plugin.fqcn.replace(/\./g, '/')}_${plugin.type}.html#${what}${entrypoint ? '-' + entrypoint : ''}-${name.join('/')}`
@@ -1371,23 +1385,23 @@ test_vectors:
     html_plain: |-
       <p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-foo">foo</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=</a></code></p><p><code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar.baz[123].bam[len(x) - 1]=bar</a></code></p><p><code>foo</code> <code>bar.baz[123].bam[len(x) - 1]</code></p><p><code>foo=</code> <code>bar.baz[123].bam[len(x) - 1]=</code></p><p><code>foo=bar</code> <code>bar.baz[123].bam[len(x) - 1]=bar</code></p>
     md: |-
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#retval\-foo">foo</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-foo">foo</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#retval\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#retval\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam\_boo.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/foo/bar/baz/bam_boo.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-foo">foo</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-foo">foo\=</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo\=</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</a></code>
 
-      <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-foo">foo\=bar</a></code> <code><a href="https\://docs.ansible.com/ansible/devel/collections/bam/baz/foo\_lookup.html\#retval\-bar/baz/bam">bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</a></code>
+      <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-foo">foo\=bar</a></code> <code><a href="https://docs.ansible.com/ansible/devel/collections/bam/baz/foo_lookup.html#retval-bar/baz/bam">bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</a></code>
 
-      <code>foo</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]</code>
+      <code>foo</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]</code>
 
-      <code>foo\=</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=</code>
+      <code>foo\=</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=</code>
 
-      <code>foo\=bar</code> <code>bar.baz\[123\].bam\[len\(x\) \- 1\]\=bar</code>
+      <code>foo\=bar</code> <code>bar\.baz\[123\]\.bam\[len\(x\) \- 1\]\=bar</code>
     md_opts:
       pluginOptionLikeLink.js: |-
         (plugin, entrypoint, what, name, current_plugin) => `https://docs.ansible.com/ansible/devel/collections/${plugin.fqcn.replace(/\./g, '/')}_${plugin.type}.html#${what}${entrypoint ? '-' + entrypoint : ''}-${name.join('/')}`

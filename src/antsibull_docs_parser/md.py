@@ -16,7 +16,7 @@ from .format import format_paragraphs as _format_paragraphs
 from .html import _url_escape
 from .html import html_escape as _html_escape
 
-_MD_ESCAPE = re.compile(r"""([!"#$%&'()*+,:;<=>?@[\\\]^_`{|}~-])""")
+_MD_ESCAPE = re.compile(r"""([!"#$%&'()*+,:;<=>?@[\\\]^_`{|}~.-])""")
 
 
 def md_escape(text: str) -> str:
@@ -31,7 +31,7 @@ class MDFormatter(Formatter):
         link_start = ""
         link_end = ""
         if url:
-            link_start = f'<a href="{md_escape(_html_escape(_url_escape(url)))}">'
+            link_start = f'<a href="{_html_escape(_url_escape(url))}">'
             link_end = "</a>"
         strong_start = ""
         strong_end = ""
@@ -60,7 +60,7 @@ class MDFormatter(Formatter):
         return f"<em>{md_escape(part.text)}</em>"
 
     def format_link(self, part: dom.LinkPart) -> str:
-        return f"[{md_escape(part.text)}]({md_escape(_url_escape(part.url))})"
+        return f"[{md_escape(part.text)}]({_url_escape(part.url)})"
 
     def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
         if url:
@@ -71,9 +71,7 @@ class MDFormatter(Formatter):
         return md_escape(part.text)
 
     def format_url(self, part: dom.URLPart) -> str:
-        return (
-            f"[{md_escape(_url_escape(part.url))}]({md_escape(_url_escape(part.url))})"
-        )
+        return f"[{md_escape(_url_escape(part.url))}]({_url_escape(part.url)})"
 
     def format_text(self, part: dom.TextPart) -> str:
         return md_escape(part.text)
