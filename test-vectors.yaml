@@ -127,13 +127,14 @@ test_vectors:
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
       With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\ 
       and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\ 
-    ansible_doc_text: "An URL https://example.com and a link <https://example.org>.\n\
-      With special characters: https://example.com/test.html?foo=b<a>r&find=\\*#baz.bam%3Dboo\n\
-      and mee.boo <https://example.org/test.html?foo=b<a>r&find=\\*#baz.bam%3Dboo>"
-    rst_plain: "An URL \\ https://example.com\\  and \\ `a link <https://example.org>`__\\\
-      \ .\nWith special characters: \\ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\\\
-      \ \nand \\ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\\\
-      \ "
+    ansible_doc_text: |-
+      An URL https://example.com and a link <https://example.org>.
+      With special characters: https://example.com/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo
+      and mee.boo <https://example.org/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo>
+    rst_plain: |-
+      An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
+      With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\ 
+      and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\ 
   rst_ref:
     source: |-
       A R(RST reference, ansible_collections.community.general.ufw_module).

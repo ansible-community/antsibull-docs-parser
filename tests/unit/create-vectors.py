@@ -25,7 +25,7 @@ from antsibull_docs_parser.rst import to_rst, to_rst_plain
 
 def add(test_data: t.Dict[str, t.Any], key: str, value: t.Any) -> None:
     if isinstance(value, str):
-        if key not in test_data and "\n" in value:
+        if "\n" in value:
             value = LiteralScalarString(value)
     test_data[key] = value
 
