@@ -1,5 +1,0 @@
-minor_changes:
-  - "Adjust URL escaping to be more similar to JavaScript's ``encodeURI()`` (https://github.com/ansible-community/antsibull-docs-parser/pull/24)."
-  - "Also escape ``.`` in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24)."
-bugfixes:
-  - "Fix URL escaping in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24)."

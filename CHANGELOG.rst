@@ -5,6 +5,25 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 .. contents:: Topics
 
 
+v0.4.0
+======
+
+Release Summary
+---------------
+
+Feature and bugfix release.
+
+Minor Changes
+-------------
+
+- Adjust URL escaping to be more similar to JavaScript's ``encodeURI()`` (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
+- Also escape ``.`` in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
+
+Bugfixes
+--------
+
+- Fix URL escaping in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
+
 v0.3.0
 ======
 
