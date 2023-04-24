@@ -89,7 +89,7 @@ jobs:
           set -e
       - name: Run unit tests
         run: |
-          $(which nox) -v -e test --force-python $(which python3.6) -p python3.6
+          $(which nox) -v -e test -p 3.6
       - name: Report coverage
         run: |
           nox -v -e coverage
