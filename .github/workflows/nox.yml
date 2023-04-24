@@ -71,7 +71,7 @@ jobs:
         with:
           path: antsibull-docs-parser
       - name: Setup nox
-        uses: wntrblm/nox@2023.04.22
+        uses: wntrblm/nox@2022.11.21
         with:
           python-versions: "3.6"
       - name: Debug
