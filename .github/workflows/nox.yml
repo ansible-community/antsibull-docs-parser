@@ -74,6 +74,15 @@ jobs:
         uses: wntrblm/nox@2023.04.22
         with:
           python-versions: "3.6"
+      - name: Debug
+        run: |
+          set -x
+          set +e
+          which python
+          which python3
+          which python3.6
+          which python3.11
+          set -e
       - name: Run unit tests
         run: |
           nox -v -e test -p 3.6
