@@ -74,6 +74,10 @@ jobs:
         uses: wntrblm/nox@2023.04.22
         with:
           python-versions: "3.6"
+
+      - name: Setup nox - downgrade virtualenv
+        run: |
+          pipx inject nox 'virtualenv<20.22.0'
       - name: Debug
         run: |
           set -x
