@@ -55,6 +55,7 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
+          name: nox-test
           working-directory: antsibull-docs-parser
   nox-test-36:
     # python3.6 is not available on ubuntu-latest
@@ -71,6 +72,11 @@ jobs:
         uses: wntrblm/nox@2022.11.21
         with:
           python-versions: "3.6"
+      # https://github.com/ansible-community/antsibull-docs-parser/issues/25
+      # Newer virtualenv versions seem to cause failures with Python 3.6
+      - name: Setup nox - downgrade virtualenv
+        run: |
+          pipx inject nox 'virtualenv<20.22.0'
       - name: Run unit tests
         run: |
           nox -v -e test -p 3.6
@@ -80,6 +86,7 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
+          name: nox-test-36
           working-directory: antsibull-docs-parser
   nox-vectors:
     runs-on: ubuntu-latest
