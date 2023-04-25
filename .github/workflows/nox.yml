@@ -59,7 +59,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           name: nox-test
-          working-directory: antsibull-docs-parser
+          directory: antsibull-docs-parser
   nox-test-36:
     # python3.6 is not available on ubuntu-latest
     runs-on: ubuntu-20.04
@@ -90,7 +90,7 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           name: nox-test-36
-          working-directory: antsibull-docs-parser
+          directory: antsibull-docs-parser
   nox-vectors:
     runs-on: ubuntu-latest
     defaults:
