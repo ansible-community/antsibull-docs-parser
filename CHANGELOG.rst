@@ -5,6 +5,14 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 .. contents:: Topics
 
 
+v1.0.0
+======
+
+Release Summary
+---------------
+
+First stable release. This package is using semantic versioning, so there will be no more breaking changes until the release of 2.0.0.
+
 v0.4.0
 ======
 
