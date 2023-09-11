@@ -26,7 +26,7 @@ jobs:
         working-directory: antsibull-docs-parser
     steps:
       - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: antsibull-docs-parser
       - name: Setup nox
@@ -42,7 +42,7 @@ jobs:
         working-directory: antsibull-docs-parser
     steps:
       - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: antsibull-docs-parser
       - name: Setup nox
@@ -68,7 +68,7 @@ jobs:
         working-directory: antsibull-docs-parser
     steps:
       - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: antsibull-docs-parser
       - name: Setup nox
@@ -98,7 +98,7 @@ jobs:
         working-directory: antsibull-docs-parser
     steps:
       - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: antsibull-docs-parser
       - name: Setup nox
