@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "antsibull-docs-parser"
-version = "1.0.0.post0"
+dynamic = ["version"]
 description = "Python library for processing Ansible documentation markup"
 readme = "README.md"
 requires-python = ">=3.6.1"
@@ -73,6 +73,9 @@ dev = [
     # misc
     "nox",
 ]
+
+[tool.hatch.version]
+path = "src/antsibull_docs_parser/__init__.py"
 
 [tool.isort]
 profile = "black"

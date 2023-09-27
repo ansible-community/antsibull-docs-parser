@@ -177,7 +177,9 @@ def bump(session: nox.Session):
                 f"Either {fragment_file} must already exist, or two positional arguments must be provided."
             )
     install(session, "antsibull-changelog[toml]", "hatch")
-    _repl_version(session, version)
+    current_version = session.run("hatch", "version", silent=True).strip()
+    if version != current_version:
+        session.run("hatch", "version", version)
     if len(session.posargs) > 1:
         fragment = session.run(
             "python",
@@ -223,7 +225,6 @@ def publish(session: nox.Session):
     check_no_modifications(session)
     install(session, "hatch")
     session.run("hatch", "publish", *session.posargs)
-    version = session.run("hatch", "version", silent=True).strip()
-    _repl_version(session, f"{version}.post0")
+    session.run("hatch", "version", "post")
     session.run("git", "add", "pyproject.toml", external=True)
     session.run("git", "commit", "-m", "Post-release version bump.", external=True)
