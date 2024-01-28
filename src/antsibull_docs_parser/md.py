@@ -60,7 +60,8 @@ class MDFormatter(Formatter):
         return f"<em>{md_escape(part.text)}</em>"
 
     def format_link(self, part: dom.LinkPart) -> str:
-        return f"[{md_escape(part.text)}]({_url_escape(part.url)})"
+        url_escaped = md_escape(_url_escape(part.url))
+        return f"[{md_escape(part.text)}]({url_escaped})"
 
     def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
         if url:
@@ -71,7 +72,8 @@ class MDFormatter(Formatter):
         return md_escape(part.text)
 
     def format_url(self, part: dom.URLPart) -> str:
-        return f"[{md_escape(_url_escape(part.url))}]({_url_escape(part.url)})"
+        url_escaped = md_escape(_url_escape(part.url))
+        return f"[{url_escaped}]({url_escaped})"
 
     def format_text(self, part: dom.TextPart) -> str:
         return md_escape(part.text)

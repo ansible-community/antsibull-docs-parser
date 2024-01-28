@@ -120,9 +120,9 @@ test_vectors:
       With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo</a>
       and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo'>mee.boo</a></p>
     md: |-
-      An URL [https\://example\.com](https://example.com) and [a link](https://example.org)\.
-      With special characters\: [https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo](https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo)
-      and [mee\.boo](https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo)
+      An URL [https\://example\.com](https\://example\.com) and [a link](https\://example\.org)\.
+      With special characters\: [https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo](https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo)
+      and [mee\.boo](https\://example\.org/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo)
     rst: |-
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
       With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo\ 
