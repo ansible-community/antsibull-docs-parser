@@ -1,0 +1,2 @@
+bugfixes:
+  - "Properly escape MarkDown link targets (https://github.com/ansible-community/antsibull-docs-parser/pull/37)."
