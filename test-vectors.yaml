@@ -109,32 +109,32 @@ test_vectors:
   link_and_url:
     source: |-
       An URL U(https://example.com) and L(a link, https://example.org).
-      With special characters: U(https://example.com/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo)
-      and L(mee.boo, https://example.org/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo)
+      With special characters: U(https://example.com/test.html?foo=b<a>r&find=\*#baz.bam%3D(boo)
+      and L(mee.boo, https://example.org/test.html?foo=b<a>r&find=\*#baz.bam%3D(boo)
     html: |-
       <p>An URL <a href='https://example.com'>https://example.com</a> and <a href='https://example.org'>a link</a>.
-      With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo</a>
-      and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>mee.boo</a></p>
+      With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo</a>
+      and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo'>mee.boo</a></p>
     html_plain: |-
       <p>An URL <a href='https://example.com'>https://example.com</a> and <a href='https://example.org'>a link</a>.
-      With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo</a>
-      and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253Dboo'>mee.boo</a></p>
+      With special characters: <a href='https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo'>https://example.com/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo</a>
+      and <a href='https://example.org/test.html?foo=b%3Ca%3Er&amp;find=%5C*#baz.bam%253D(boo'>mee.boo</a></p>
     md: |-
-      An URL [https\://example\.com](https://example.com) and [a link](https://example.org)\.
-      With special characters\: [https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253Dboo](https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo)
-      and [mee\.boo](https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo)
+      An URL [https\://example\.com](https\://example\.com) and [a link](https\://example\.org)\.
+      With special characters\: [https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo](https\://example\.com/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo)
+      and [mee\.boo](https\://example\.org/test\.html\?foo\=b\%3Ca\%3Er\&find\=\%5C\*\#baz\.bam\%253D\(boo)
     rst: |-
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
-      With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\ 
-      and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\ 
+      With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo\ 
+      and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo>`__\ 
     ansible_doc_text: |-
       An URL https://example.com and a link <https://example.org>.
-      With special characters: https://example.com/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo
-      and mee.boo <https://example.org/test.html?foo=b<a>r&find=\*#baz.bam%3Dboo>
+      With special characters: https://example.com/test.html?foo=b<a>r&find=\*#baz.bam%3D(boo
+      and mee.boo <https://example.org/test.html?foo=b<a>r&find=\*#baz.bam%3D(boo>
     rst_plain: |-
       An URL \ https://example.com\  and \ `a link <https://example.org>`__\ .
-      With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo\ 
-      and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253Dboo>`__\ 
+      With special characters: \ https://example.com/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo\ 
+      and \ `mee.boo <https://example.org/test.html?foo=b%3Ca%3Er&find=%5C*#baz.bam%253D(boo>`__\ 
   rst_ref:
     source: |-
       A R(RST reference, ansible_collections.community.general.ufw_module).
