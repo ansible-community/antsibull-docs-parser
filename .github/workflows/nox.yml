@@ -56,7 +56,7 @@ jobs:
         run: |
           nox -v -e coverage
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           name: nox-test
           directory: antsibull-docs-parser
@@ -87,7 +87,7 @@ jobs:
         run: |
           nox -v -e coverage
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           name: nox-test-36
           directory: antsibull-docs-parser
