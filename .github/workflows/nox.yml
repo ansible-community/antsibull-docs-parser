@@ -60,6 +60,8 @@ jobs:
         with:
           name: nox-test
           directory: antsibull-docs-parser
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   nox-test-36:
     # python3.6 is not available on ubuntu-latest
     runs-on: ubuntu-20.04
@@ -91,6 +93,8 @@ jobs:
         with:
           name: nox-test-36
           directory: antsibull-docs-parser
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   nox-vectors:
     runs-on: ubuntu-latest
     defaults:
