@@ -4,7 +4,6 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 
 .. contents:: Topics
 
-
 v1.0.0
 ======
 

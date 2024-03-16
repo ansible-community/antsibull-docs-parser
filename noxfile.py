@@ -165,7 +165,7 @@ def bump(session: nox.Session):
             session.error(
                 f"Either {fragment_file} must already exist, or two positional arguments must be provided."
             )
-    install(session, "antsibull-changelog[toml]", "hatch")
+    install(session, "antsibull-changelog[toml] >= 0.24.0", "hatch")
     current_version = session.run("hatch", "version", silent=True).strip()
     if version != current_version:
         session.run("hatch", "version", version)
@@ -173,11 +173,12 @@ def bump(session: nox.Session):
         fragment = session.run(
             "python",
             "-c",
-            f"import yaml ; print(yaml.dump(dict(release_summary={repr(session.posargs[1])})))",
+            "import sys, yaml ; "
+            f"yaml.dump(dict(release_summary={repr(session.posargs[1])}), sys.stdout)",
             silent=True,
         )
         with open(fragment_file, "w") as fp:
-            print(fragment, file=fp)
+            fp.write(fragment)
         session.run(
             "git",
             "add",
@@ -186,10 +187,11 @@ def bump(session: nox.Session):
             external=True,
         )
         session.run("git", "commit", "-m", f"Prepare {version}.", external=True)
-    session.run("antsibull-changelog", "release", "--version", version)
+    session.run("antsibull-changelog", "release")
     session.run(
         "git",
         "add",
+        "CHANGELOG.md",
         "CHANGELOG.rst",
         "changelogs/changelog.yaml",
         "changelogs/fragments/",
