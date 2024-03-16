@@ -6,7 +6,7 @@ SPDX-FileCopyrightText: 2023, Ansible Project
 -->
 
 # antsibull-docs-parser - Python library for processing Ansible documentation markup
-
+[![Discuss on Matrix at #antsibull:ansible.com](https://img.shields.io/matrix/antsibull:ansible.com.svg?server_fqdn=ansible-accounts.ems.host&label=Discuss%20on%20Matrix%20at%20%23antsibull:ansible.com&logo=matrix)](https://matrix.to/#/#antsibull:ansible.com)
 [![Nox badge](https://github.com/ansible-community/antsibull-docs-parser/actions/workflows/nox.yml/badge.svg)](https://github.com/ansible-community/antsibull-docs-parser/actions/workflows/nox.yml)
 [![Codecov badge](https://img.shields.io/codecov/c/github/ansible-community/antsibull-docs-parser)](https://codecov.io/gh/ansible-community/antsibull-docs-parser)
 
