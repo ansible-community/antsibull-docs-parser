@@ -19,47 +19,63 @@ env:
   FORCE_COLOR: "1"
 
 jobs:
-  nox-lint:
+  nox:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: antsibull-docs-parser
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - session: test
+            python-versions: "3.7, 3.8, 3.9, 3.10, 3.11, 3.12"
+            other-args: "-p 3.7 3.8 3.9 3.10 3.11 3.12"
+            codecov: true
+            packages: ""
+
+          - session: lint
+            python-versions: "3.12"
+            other-args: ""
+            codecov: false
+            packages: ""
+
+          - session: create_vectors
+            python-versions: "3.12"
+            other-args: ""
+            codecov: false
+            packages: ""
+    name: "Run nox ${{ matrix.session }} session"
     steps:
       - name: Check out antsibull-docs-parser
         uses: actions/checkout@v4
         with:
           path: antsibull-docs-parser
-      - name: Setup nox
-        uses: wntrblm/nox@2024.03.02
-        with:
-          python-versions: "3.11"
-      - run: |
-          nox -v -e lint
-  nox-test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: antsibull-docs-parser
-    steps:
-      - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v4
-        with:
-          path: antsibull-docs-parser
-      - name: Setup nox
-        uses: wntrblm/nox@2024.03.02
-        with:
-          python-versions: "3.7, 3.8, 3.9, 3.10, 3.11"
-      - name: Run unit tests
+      - name: Install extra packages
+        if: "matrix.packages != ''"
         run: |
-          nox -v -e test -p 3.7 3.8 3.9 3.10 3.11
+          sudo apt-get install -y ${{ matrix.packages }}
+      - name: Setup nox
+        uses: wntrblm/nox@2024.03.02
+        with:
+          python-versions: "${{ matrix.python-versions }}"
+      - name: Set up nox environments
+        run: |
+          nox -v -e "${{ matrix.session }}" ${{ matrix.other-args }} --install-only
+          ${{ matrix.codecov && 'nox -v -e coverage --install-only' || '' }}
+      - name: "Run nox -e ${{ matrix.session }} ${{ matrix.other-args }}"
+        run: |
+          nox -v -e "${{ matrix.session }}" ${{ matrix.other-args }} --reuse-existing-virtualenvs --no-install
       - name: Report coverage
+        if: ${{ matrix.codecov }}
         run: |
-          nox -v -e coverage
+          nox -v -e coverage --reuse-existing-virtualenvs --no-install
       - name: Upload coverage
+        if: ${{ matrix.codecov }}
         uses: codecov/codecov-action@v3
         with:
-          name: nox-test
           directory: antsibull-docs-parser
+          name: "${{ matrix.session }}"
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   nox-test-36:
@@ -82,12 +98,16 @@ jobs:
       - name: Setup nox - downgrade virtualenv
         run: |
           pipx inject nox 'virtualenv<20.22.0'
+      - name: Set up nox environments
+        run: |
+          nox -v -e test -p 3.6 --install-only
+          nox -v -e coverage --install-only
       - name: Run unit tests
         run: |
-          nox -v -e test -p 3.6
+          nox -v -e test -p 3.6 --reuse-existing-virtualenvs --no-install
       - name: Report coverage
         run: |
-          nox -v -e coverage
+          nox -v -e coverage --reuse-existing-virtualenvs --no-install
       - name: Upload coverage
         uses: codecov/codecov-action@v3
         with:
@@ -95,19 +115,3 @@ jobs:
           directory: antsibull-docs-parser
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  nox-vectors:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: antsibull-docs-parser
-    steps:
-      - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v4
-        with:
-          path: antsibull-docs-parser
-      - name: Setup nox
-        uses: wntrblm/nox@2024.03.02
-        with:
-          python-versions: "3.11"
-      - run: |
-          nox -v -e create_vectors
