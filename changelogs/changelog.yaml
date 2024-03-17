@@ -64,3 +64,15 @@ releases:
     fragments:
     - 1.0.0.yml
     release_date: '2023-04-27'
+  1.0.1:
+    changes:
+      bugfixes:
+      - Properly escape MarkDown link targets (https://github.com/ansible-community/antsibull-docs-parser/pull/37).
+      minor_changes:
+      - Declare support for Python 3.12 (https://github.com/ansible-community/antsibull-docs-parser/pull/45).
+      release_summary: Maintenance release.
+    fragments:
+    - 1.0.1.yml
+    - 37-md-link-escape.yml
+    - python-3.12.yml
+    release_date: '2024-03-17'

@@ -4,6 +4,24 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 
 .. contents:: Topics
 
+v1.0.1
+======
+
+Release Summary
+---------------
+
+Maintenance release.
+
+Minor Changes
+-------------
+
+- Declare support for Python 3.12 (https://github.com/ansible-community/antsibull-docs-parser/pull/45).
+
+Bugfixes
+--------
+
+- Properly escape MarkDown link targets (https://github.com/ansible-community/antsibull-docs-parser/pull/37).
+
 v1.0.0
 ======
 
