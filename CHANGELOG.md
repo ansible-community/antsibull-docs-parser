@@ -1,21 +1,22 @@
 # antsibull\-docs\-parser \-\- Python library for processing Ansible documentation markup Release Notes
 
 **Topics**
+
 - <a href="#v1-0-0">v1\.0\.0</a>
-  - <a href="#release-summary">Release Summary</a>
+    - <a href="#release-summary">Release Summary</a>
 - <a href="#v0-4-0">v0\.4\.0</a>
-  - <a href="#release-summary-1">Release Summary</a>
-  - <a href="#minor-changes">Minor Changes</a>
-  - <a href="#bugfixes">Bugfixes</a>
+    - <a href="#release-summary-1">Release Summary</a>
+    - <a href="#minor-changes">Minor Changes</a>
+    - <a href="#bugfixes">Bugfixes</a>
 - <a href="#v0-3-0">v0\.3\.0</a>
-  - <a href="#release-summary-2">Release Summary</a>
-  - <a href="#minor-changes-1">Minor Changes</a>
+    - <a href="#release-summary-2">Release Summary</a>
+    - <a href="#minor-changes-1">Minor Changes</a>
 - <a href="#v0-2-0">v0\.2\.0</a>
-  - <a href="#release-summary-3">Release Summary</a>
-  - <a href="#minor-changes-2">Minor Changes</a>
-  - <a href="#breaking-changes--porting-guide">Breaking Changes / Porting Guide</a>
+    - <a href="#release-summary-3">Release Summary</a>
+    - <a href="#minor-changes-2">Minor Changes</a>
+    - <a href="#breaking-changes--porting-guide">Breaking Changes / Porting Guide</a>
 - <a href="#v0-0-1">v0\.0\.1</a>
-  - <a href="#release-summary-4">Release Summary</a>
+    - <a href="#release-summary-4">Release Summary</a>
 
 <a id="v1-0-0"></a>
 ## v1\.0\.0
