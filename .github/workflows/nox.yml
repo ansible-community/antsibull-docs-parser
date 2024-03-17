@@ -72,10 +72,10 @@ jobs:
           nox -v -e coverage --reuse-existing-virtualenvs --no-install
       - name: Upload coverage
         if: ${{ matrix.codecov }}
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
-          directory: antsibull-docs-parser
           name: "${{ matrix.session }}"
+          working-directory: antsibull-docs-parser
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   nox-test-36:
@@ -109,9 +109,9 @@ jobs:
         run: |
           nox -v -e coverage --reuse-existing-virtualenvs --no-install
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           name: nox-test-36
-          directory: antsibull-docs-parser
+          working-directory: antsibull-docs-parser
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
