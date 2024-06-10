@@ -97,7 +97,7 @@ jobs:
       # Newer virtualenv versions seem to cause failures with Python 3.6
       - name: Setup nox - downgrade virtualenv
         run: |
-          pipx inject nox 'virtualenv<20.22.0'
+          pipx inject --force nox 'virtualenv<20.22.0'
       - name: Set up nox environments
         run: |
           nox -v -e test -p 3.6 --install-only
