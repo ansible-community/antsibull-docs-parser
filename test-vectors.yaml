@@ -34,6 +34,27 @@ test_vectors:
     ansible_doc_text: This is a `test' `module' *markup*.
     rst_plain: This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\
       .
+  empty_tags:
+    source: |-
+      C() I() B() C() U() L(,) R(,) V() O() RV() E()
+    html: <p><code class='docutils literal notranslate'></code> <em></em> <b></b>
+      <code class='docutils literal notranslate'></code> <a href=''></a> <a href=''></a>
+      <span class='module'></span> <code class="ansible-value literal notranslate"></code>
+      <code class="ansible-option literal notranslate"><strong></strong></code> <code
+      class="ansible-return-value literal notranslate"></code> <code class="xref std
+      std-envvar literal notranslate"></code></p>
+    html_plain: <p><code></code> <em></em> <b></b> <code></code> <a href=''></a> <a
+      href=''></a> <span></span> <code></code> <code><strong></strong></code> <code></code>
+      <code></code></p>
+    md: <code></code> <em></em> <b></b> <code></code> []() []()  <code></code> <code><strong></strong></code>
+      <code></code> <code></code>
+    rst: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\  \
+      \   \ :ref:`\  <>`\  \ :ansval:`\ `\  \ :ansopt:`\ `\  \ :ansretval:`\ `\  \
+      :envvar:`\ `\ '
+    rst_plain: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\
+      `\  \ \   \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`\ `\  \ :literal:`\
+      `\  \ :envvar:`\ `\ '
+    ansible_doc_text: "`' `' ** `'   <>  `' `' `' `'"
   module:
     source: |-
       The M(a.b.c) module.
