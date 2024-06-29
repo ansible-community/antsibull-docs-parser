@@ -1,0 +1,2 @@
+bugfixes:
+  - "Fix handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs-parser/pull/51)."
