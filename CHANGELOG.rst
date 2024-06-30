@@ -4,6 +4,19 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 
 .. contents:: Topics
 
+v1.0.2
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Fix handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs-parser/pull/51).
+
 v1.0.1
 ======
 

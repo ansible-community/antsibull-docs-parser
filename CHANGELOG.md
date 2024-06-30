@@ -2,30 +2,46 @@
 
 **Topics**
 
-- <a href="#v1-0-1">v1\.0\.1</a>
+- <a href="#v1-0-2">v1\.0\.2</a>
     - <a href="#release-summary">Release Summary</a>
-    - <a href="#minor-changes">Minor Changes</a>
     - <a href="#bugfixes">Bugfixes</a>
-- <a href="#v1-0-0">v1\.0\.0</a>
+- <a href="#v1-0-1">v1\.0\.1</a>
     - <a href="#release-summary-1">Release Summary</a>
-- <a href="#v0-4-0">v0\.4\.0</a>
-    - <a href="#release-summary-2">Release Summary</a>
-    - <a href="#minor-changes-1">Minor Changes</a>
+    - <a href="#minor-changes">Minor Changes</a>
     - <a href="#bugfixes-1">Bugfixes</a>
-- <a href="#v0-3-0">v0\.3\.0</a>
+- <a href="#v1-0-0">v1\.0\.0</a>
+    - <a href="#release-summary-2">Release Summary</a>
+- <a href="#v0-4-0">v0\.4\.0</a>
     - <a href="#release-summary-3">Release Summary</a>
+    - <a href="#minor-changes-1">Minor Changes</a>
+    - <a href="#bugfixes-2">Bugfixes</a>
+- <a href="#v0-3-0">v0\.3\.0</a>
+    - <a href="#release-summary-4">Release Summary</a>
     - <a href="#minor-changes-2">Minor Changes</a>
 - <a href="#v0-2-0">v0\.2\.0</a>
-    - <a href="#release-summary-4">Release Summary</a>
+    - <a href="#release-summary-5">Release Summary</a>
     - <a href="#minor-changes-3">Minor Changes</a>
     - <a href="#breaking-changes--porting-guide">Breaking Changes / Porting Guide</a>
 - <a href="#v0-0-1">v0\.0\.1</a>
-    - <a href="#release-summary-5">Release Summary</a>
+    - <a href="#release-summary-6">Release Summary</a>
+
+<a id="v1-0-2"></a>
+## v1\.0\.2
+
+<a id="release-summary"></a>
+### Release Summary
+
+Bugfix release\.
+
+<a id="bugfixes"></a>
+### Bugfixes
+
+* Fix handling of empty markup parameters for RST \([https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/51](https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/51)\)\.
 
 <a id="v1-0-1"></a>
 ## v1\.0\.1
 
-<a id="release-summary"></a>
+<a id="release-summary-1"></a>
 ### Release Summary
 
 Maintenance release\.
@@ -35,7 +51,7 @@ Maintenance release\.
 
 * Declare support for Python 3\.12 \([https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/45](https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/45)\)\.
 
-<a id="bugfixes"></a>
+<a id="bugfixes-1"></a>
 ### Bugfixes
 
 * Properly escape MarkDown link targets \([https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/37](https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/37)\)\.
@@ -43,7 +59,7 @@ Maintenance release\.
 <a id="v1-0-0"></a>
 ## v1\.0\.0
 
-<a id="release-summary-1"></a>
+<a id="release-summary-2"></a>
 ### Release Summary
 
 First stable release\. This package is using semantic versioning\, so there will be no more breaking changes until the release of 2\.0\.0\.
@@ -51,7 +67,7 @@ First stable release\. This package is using semantic versioning\, so there will
 <a id="v0-4-0"></a>
 ## v0\.4\.0
 
-<a id="release-summary-2"></a>
+<a id="release-summary-3"></a>
 ### Release Summary
 
 Feature and bugfix release\.
@@ -62,7 +78,7 @@ Feature and bugfix release\.
 * Adjust URL escaping to be more similar to JavaScript\'s <code>encodeURI\(\)</code> \([https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/24](https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/24)\)\.
 * Also escape <code>\.</code> in MarkDown \([https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/24](https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/24)\)\.
 
-<a id="bugfixes-1"></a>
+<a id="bugfixes-2"></a>
 ### Bugfixes
 
 * Fix URL escaping in MarkDown \([https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/24](https\://github\.com/ansible\-community/antsibull\-docs\-parser/pull/24)\)\.
@@ -70,7 +86,7 @@ Feature and bugfix release\.
 <a id="v0-3-0"></a>
 ## v0\.3\.0
 
-<a id="release-summary-3"></a>
+<a id="release-summary-4"></a>
 ### Release Summary
 
 Feature release\.
@@ -83,7 +99,7 @@ Feature release\.
 <a id="v0-2-0"></a>
 ## v0\.2\.0
 
-<a id="release-summary-4"></a>
+<a id="release-summary-5"></a>
 ### Release Summary
 
 New major release that increases compatibility with the [TypeScript code in antsibull\-docs\-ts](https\://github\.com/ansible\-community/antsibull\-docs\-ts)\.
@@ -110,7 +126,7 @@ New major release that increases compatibility with the [TypeScript code in ants
 <a id="v0-0-1"></a>
 ## v0\.0\.1
 
-<a id="release-summary-5"></a>
+<a id="release-summary-6"></a>
 ### Release Summary
 
 Initial experimental release\.

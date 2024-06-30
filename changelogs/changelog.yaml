@@ -76,3 +76,12 @@ releases:
     - 37-md-link-escape.yml
     - python-3.12.yml
     release_date: '2024-03-17'
+  1.0.2:
+    changes:
+      bugfixes:
+      - Fix handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs-parser/pull/51).
+      release_summary: Bugfix release.
+    fragments:
+    - 1.0.2.yml
+    - 51-rst.yml
+    release_date: '2024-06-30'
