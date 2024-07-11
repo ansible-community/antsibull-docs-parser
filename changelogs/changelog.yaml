@@ -1,87 +1,88 @@
+---
 ancestor: null
 releases:
   0.0.1:
     changes:
       release_summary: Initial experimental release.
     fragments:
-    - 0.0.1.yml
+      - 0.0.1.yml
     release_date: '2023-03-21'
   0.2.0:
     changes:
       breaking_changes:
-      - All DOM named tuples now have a ``source`` entry before ``type`` (https://github.com/ansible-community/antsibull-docs-parser/pull/18).
-      - By default, the error messages now contain the full faulty markup command
-        (https://github.com/ansible-community/antsibull-docs-parser/pull/19).
-      - Extend ``OptionNamePart`` and ``ReturnValuePart`` named tuples by adding ``entrypoint``
-        after ``plugin`` (https://github.com/ansible-community/antsibull-docs-parser/pull/9).
-      - Modify ``LinkProvider.plugin_option_like_link`` signature to include a new
-        argument ``entrypoint`` after ``plugin`` (https://github.com/ansible-community/antsibull-docs-parser/pull/9).
-      - '``CommandParser.parse`` has a new ``source`` parameter (https://github.com/ansible-community/antsibull-docs-parser/pull/18).'
+        - All DOM named tuples now have a ``source`` entry before ``type`` (https://github.com/ansible-community/antsibull-docs-parser/pull/18).
+        - By default, the error messages now contain the full faulty markup command
+          (https://github.com/ansible-community/antsibull-docs-parser/pull/19).
+        - Extend ``OptionNamePart`` and ``ReturnValuePart`` named tuples by adding
+          ``entrypoint`` after ``plugin`` (https://github.com/ansible-community/antsibull-docs-parser/pull/9).
+        - Modify ``LinkProvider.plugin_option_like_link`` signature to include a new
+          argument ``entrypoint`` after ``plugin`` (https://github.com/ansible-community/antsibull-docs-parser/pull/9).
+        - '``CommandParser.parse`` has a new ``source`` parameter (https://github.com/ansible-community/antsibull-docs-parser/pull/18).'
       minor_changes:
-      - Add strict mode for parsing (https://github.com/ansible-community/antsibull-docs-parser/pull/15).
-      - Add support for ansible-doc like text output (https://github.com/ansible-community/antsibull-docs-parser/pull/17).
-      - Add support for semantic markup in roles (https://github.com/ansible-community/antsibull-docs-parser/pull/9).
-      - Allow to add markup source to every paragraph part (https://github.com/ansible-community/antsibull-docs-parser/pull/18).
-      - Can switch between error messages containing a shortened version of the faulty
-        markup or the full faulty markup command (https://github.com/ansible-community/antsibull-docs-parser/pull/19).
-      - Create script to update/extend the test vectors automatically (https://github.com/ansible-community/antsibull-docs-parser/pull/16).
+        - Add strict mode for parsing (https://github.com/ansible-community/antsibull-docs-parser/pull/15).
+        - Add support for ansible-doc like text output (https://github.com/ansible-community/antsibull-docs-parser/pull/17).
+        - Add support for semantic markup in roles (https://github.com/ansible-community/antsibull-docs-parser/pull/9).
+        - Allow to add markup source to every paragraph part (https://github.com/ansible-community/antsibull-docs-parser/pull/18).
+        - Can switch between error messages containing a shortened version of the
+          faulty markup or the full faulty markup command (https://github.com/ansible-community/antsibull-docs-parser/pull/19).
+        - Create script to update/extend the test vectors automatically (https://github.com/ansible-community/antsibull-docs-parser/pull/16).
       release_summary: New major release that increases compatibility with the `TypeScript
         code in antsibull-docs-ts <https://github.com/ansible-community/antsibull-docs-ts>`__.
     fragments:
-    - 0.2.0.yml
-    - 15-lint.yml
-    - 16-create-vectors.yml
-    - 17-ansible-doc-text.yml
-    - 18-source.yml
-    - 19-helpful-errors.yml
-    - 9-semantic-markup-roles.yml
+      - 0.2.0.yml
+      - 15-lint.yml
+      - 16-create-vectors.yml
+      - 17-ansible-doc-text.yml
+      - 18-source.yml
+      - 19-helpful-errors.yml
+      - 9-semantic-markup-roles.yml
     release_date: '2023-04-02'
   0.3.0:
     changes:
       minor_changes:
-      - Add support for plain RST rendering (https://github.com/ansible-community/antsibull-docs-parser/pull/20).
+        - Add support for plain RST rendering (https://github.com/ansible-community/antsibull-docs-parser/pull/20).
       release_summary: Feature release.
     fragments:
-    - 0.3.0.yml
-    - 20-rst-plain.yml
+      - 0.3.0.yml
+      - 20-rst-plain.yml
     release_date: '2023-04-14'
   0.4.0:
     changes:
       bugfixes:
-      - Fix URL escaping in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
+        - Fix URL escaping in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
       minor_changes:
-      - Adjust URL escaping to be more similar to JavaScript's ``encodeURI()`` (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
-      - Also escape ``.`` in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
+        - Adjust URL escaping to be more similar to JavaScript's ``encodeURI()`` (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
+        - Also escape ``.`` in MarkDown (https://github.com/ansible-community/antsibull-docs-parser/pull/24).
       release_summary: Feature and bugfix release.
     fragments:
-    - 0.4.0.yml
-    - 24-urls-md.yml
+      - 0.4.0.yml
+      - 24-urls-md.yml
     release_date: '2023-04-23'
   1.0.0:
     changes:
       release_summary: First stable release. This package is using semantic versioning,
         so there will be no more breaking changes until the release of 2.0.0.
     fragments:
-    - 1.0.0.yml
+      - 1.0.0.yml
     release_date: '2023-04-27'
   1.0.1:
     changes:
       bugfixes:
-      - Properly escape MarkDown link targets (https://github.com/ansible-community/antsibull-docs-parser/pull/37).
+        - Properly escape MarkDown link targets (https://github.com/ansible-community/antsibull-docs-parser/pull/37).
       minor_changes:
-      - Declare support for Python 3.12 (https://github.com/ansible-community/antsibull-docs-parser/pull/45).
+        - Declare support for Python 3.12 (https://github.com/ansible-community/antsibull-docs-parser/pull/45).
       release_summary: Maintenance release.
     fragments:
-    - 1.0.1.yml
-    - 37-md-link-escape.yml
-    - python-3.12.yml
+      - 1.0.1.yml
+      - 37-md-link-escape.yml
+      - python-3.12.yml
     release_date: '2024-03-17'
   1.0.2:
     changes:
       bugfixes:
-      - Fix handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs-parser/pull/51).
+        - Fix handling of empty markup parameters for RST (https://github.com/ansible-community/antsibull-docs-parser/pull/51).
       release_summary: Bugfix release.
     fragments:
-    - 1.0.2.yml
-    - 51-rst.yml
+      - 1.0.2.yml
+      - 51-rst.yml
     release_date: '2024-06-30'

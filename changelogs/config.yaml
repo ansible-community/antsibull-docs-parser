@@ -36,3 +36,5 @@ sections:
     - Known Issues
 use_semantic_versioning: false
 title: antsibull-docs-parser -- Python library for processing Ansible documentation markup
+changelog_nice_yaml: true
+changelog_sort: version
