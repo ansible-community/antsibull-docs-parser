@@ -91,7 +91,7 @@ class AntsibullHTMLFormatter(Formatter):
     def format_url(self, part: dom.URLPart) -> str:
         return (
             f"<a href='{_html_escape(_url_escape(part.url))}'>"
-            f"{html_escape(_url_escape(part.url))}</a>"
+            f"{html_escape(part.url)}</a>"
         )
 
     def format_text(self, part: dom.TextPart) -> str:
@@ -175,7 +175,7 @@ class PlainHTMLFormatter(Formatter):
     def format_url(self, part: dom.URLPart) -> str:
         return (
             f"<a href='{_html_escape(_url_escape(part.url))}'>"
-            f"{html_escape(_url_escape(part.url))}</a>"
+            f"{html_escape(part.url)}</a>"
         )
 
     def format_text(self, part: dom.TextPart) -> str:

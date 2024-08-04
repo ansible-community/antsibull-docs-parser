@@ -95,6 +95,8 @@ class AntsibullRSTFormatter(Formatter):
     def format_link(self, part: dom.LinkPart) -> str:
         if not part.text:
             return ""
+        if not part.url:
+            return rst_escape(part.text)
         text = rst_escape(part.text, escape_ending_whitespace=True)
         return f"\\ `{text} <{_url_escape(part.url)}>`__\\ "
 
@@ -111,7 +113,10 @@ class AntsibullRSTFormatter(Formatter):
         return f"\\ :ref:`{text} <{part.ref}>`\\ "
 
     def format_url(self, part: dom.URLPart) -> str:
-        return f"\\ {_url_escape(part.url)}\\ "
+        if not part.url:
+            return ""
+        url_text = rst_escape(part.url, escape_ending_whitespace=True)
+        return f"\\ `{url_text} <{_url_escape(part.url)}>`__\\ "
 
     def format_text(self, part: dom.TextPart) -> str:
         return rst_escape(part.text)
@@ -208,6 +213,8 @@ class PlainRSTFormatter(Formatter):
     def format_link(self, part: dom.LinkPart) -> str:
         if not part.text:
             return ""
+        if not part.url:
+            return rst_escape(part.text)
         text = rst_escape(part.text, escape_ending_whitespace=True)
         return f"\\ `{text} <{_url_escape(part.url)}>`__\\ "
 
@@ -224,7 +231,10 @@ class PlainRSTFormatter(Formatter):
         return f"\\ :ref:`{text} <{part.ref}>`\\ "
 
     def format_url(self, part: dom.URLPart) -> str:
-        return f"\\ {_url_escape(part.url)}\\ "
+        if not part.url:
+            return ""
+        url_text = rst_escape(part.url, escape_ending_whitespace=True)
+        return f"\\ `{url_text} <{_url_escape(part.url)}>`__\\ "
 
     def format_text(self, part: dom.TextPart) -> str:
         return rst_escape(part.text)
