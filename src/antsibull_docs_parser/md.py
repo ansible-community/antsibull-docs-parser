@@ -73,7 +73,7 @@ class MDFormatter(Formatter):
 
     def format_url(self, part: dom.URLPart) -> str:
         url_escaped = md_escape(_url_escape(part.url))
-        return f"[{url_escaped}]({url_escaped})"
+        return f"[{md_escape(part.url)}]({url_escaped})"
 
     def format_text(self, part: dom.TextPart) -> str:
         return md_escape(part.text)
