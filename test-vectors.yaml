@@ -36,25 +36,25 @@ test_vectors:
       .
   empty_tags:
     source: |-
-      C() I() B() C() U() L(,) R(,) V() O() RV() E()
+      C() I() B() C() U() L(,) L(foo,) L(,bar) R(,) V() O() RV() E()
     html: <p><code class='docutils literal notranslate'></code> <em></em> <b></b>
       <code class='docutils literal notranslate'></code> <a href=''></a> <a href=''></a>
-      <span class='module'></span> <code class="ansible-value literal notranslate"></code>
-      <code class="ansible-option literal notranslate"><strong></strong></code> <code
-      class="ansible-return-value literal notranslate"></code> <code class="xref std
-      std-envvar literal notranslate"></code></p>
+      <a href=''>foo</a> <a href='bar'></a> <span class='module'></span> <code class="ansible-value
+      literal notranslate"></code> <code class="ansible-option literal notranslate"><strong></strong></code>
+      <code class="ansible-return-value literal notranslate"></code> <code class="xref
+      std std-envvar literal notranslate"></code></p>
     html_plain: <p><code></code> <em></em> <b></b> <code></code> <a href=''></a> <a
-      href=''></a> <span></span> <code></code> <code><strong></strong></code> <code></code>
-      <code></code></p>
-    md: <code></code> <em></em> <b></b> <code></code> []() []()  <code></code> <code><strong></strong></code>
-      <code></code> <code></code>
-    rst: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\    \
+      href=''></a> <a href=''>foo</a> <a href='bar'></a> <span></span> <code></code>
+      <code><strong></strong></code> <code></code> <code></code></p>
+    md: <code></code> <em></em> <b></b> <code></code> []() []() [foo]() [](bar)  <code></code>
+      <code><strong></strong></code> <code></code> <code></code>
+    rst: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\    foo  \
       :ref:`\  <>`\  \ :ansval:`\ `\  \ :ansopt:`\ `\  \ :ansretval:`\ `\  \ :envvar:`\
       `\ '
     rst_plain: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\
-      `\    \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`\ `\  \ :literal:`\ `\  \
-      :envvar:`\ `\ '
-    ansible_doc_text: "`' `' ** `'   <>  `' `' `' `'"
+      `\    foo  \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`\ `\  \ :literal:`\
+      `\  \ :envvar:`\ `\ '
+    ansible_doc_text: "`' `' ** `'   <> foo <>  <bar>  `' `' `' `'"
   module:
     source: |-
       The M(a.b.c) module.
