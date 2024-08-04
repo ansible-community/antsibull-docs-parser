@@ -36,10 +36,28 @@ class _TestLinkProvider(LinkProvider):
         return None
 
     def _update(self, config: t.Mapping[str, t.Any]):
-        if "pluginLink.py" in config:
-            self._plugin_link = eval(config["pluginLink.py"])
-        if "pluginOptionLikeLink.py" in config:
-            self._plugin_option_like_link = eval(config["pluginOptionLikeLink.py"])
+        if "pluginLinkTemplate" in config:
+            self._plugin_link = lambda plugin_data: config["pluginLinkTemplate"].format(
+                plugin_fqcn=plugin_data.fqcn,
+                plugin_fqcn_slashes=plugin_data.fqcn.replace(".", "/"),
+                plugin_type=plugin_data.type,
+            )
+
+        if "pluginOptionLikeLinkTemplate" in config:
+            self._plugin_option_like_link = (
+                lambda plugin, entrypoint, what, name, current_plugin: config[
+                    "pluginOptionLikeLinkTemplate"
+                ].format(
+                    plugin_fqcn=plugin.fqcn,
+                    plugin_fqcn_slashes=plugin.fqcn.replace(".", "/"),
+                    plugin_type=plugin.type,
+                    what=what,
+                    entrypoint=entrypoint or "",
+                    entrypoint_with_leading_dash="-" + entrypoint if entrypoint else "",
+                    name_dots=".".join(name),
+                    name_slashes="/".join(name),
+                )
+            )
 
 
 def get_context_parse_opts(test_data: t.Mapping[str, t.Any]):
