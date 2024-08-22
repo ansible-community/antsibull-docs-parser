@@ -7,7 +7,7 @@ import typing as t
 
 from antsibull_docs_parser import dom
 from antsibull_docs_parser.format import LinkProvider
-from antsibull_docs_parser.parser import Context
+from antsibull_docs_parser.parser import Context, Whitespace
 
 VECTORS_FILE = "test-vectors.yaml"
 
@@ -79,6 +79,12 @@ def get_context_parse_opts(test_data: t.Mapping[str, t.Any]):
             ]
         if "helpfulErrors" in test_data["parse_opts"]:
             parse_opts["helpful_errors"] = test_data["parse_opts"]["helpfulErrors"]
+        if "whitespace" in test_data["parse_opts"]:
+            parse_opts["whitespace"] = {
+                "ignore": Whitespace.IGNORE,
+                "strip": Whitespace.STRIP,
+                "keep_single_newlines": Whitespace.KEEP_SINGLE_NEWLINES,
+            }[test_data["parse_opts"]["whitespace"]]
     return Context(**context_opts), parse_opts
 
 

@@ -8,7 +8,93 @@ import typing as t
 import pytest
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.parser import CommandParser, Context, Parser, parse
+from antsibull_docs_parser.parser import (
+    CommandParser,
+    Context,
+    Parser,
+    Whitespace,
+    _process_whitespace,
+    parse,
+)
+
+PROCESS_WHITESPACE_DATA: t.List[t.Tuple[str, bool, bool, str, str]] = [
+    (
+        "",
+        False,
+        False,
+        "",
+        "",
+    ),
+    (
+        " ",
+        False,
+        False,
+        " ",
+        " ",
+    ),
+    (
+        "  ",
+        False,
+        False,
+        " ",
+        " ",
+    ),
+    (
+        "\n",
+        False,
+        False,
+        " ",
+        "\n",
+    ),
+    (
+        "\n",
+        False,
+        True,
+        " ",
+        " ",
+    ),
+    (
+        " \n ",
+        False,
+        False,
+        " ",
+        "\n",
+    ),
+    (
+        "Foo \n\r\t\n\r Bar",
+        False,
+        False,
+        "Foo Bar",
+        "Foo\nBar",
+    ),
+]
+
+
+@pytest.mark.parametrize(
+    "text, code_environment, no_newlines, result_strip, result_keep_single_newlines",
+    PROCESS_WHITESPACE_DATA,
+)
+def test__process_whitespace(
+    text, code_environment, no_newlines, result_strip, result_keep_single_newlines
+):
+    res_strip = _process_whitespace(
+        text,
+        whitespace=Whitespace.STRIP,
+        code_environment=code_environment,
+        no_newlines=no_newlines,
+    )
+    print(repr(res_strip))
+    assert res_strip == result_strip
+
+    res_keep_single_newlines = _process_whitespace(
+        text,
+        whitespace=Whitespace.KEEP_SINGLE_NEWLINES,
+        code_environment=code_environment,
+        no_newlines=no_newlines,
+    )
+    print(repr(res_keep_single_newlines))
+    assert res_keep_single_newlines == result_keep_single_newlines
+
 
 TEST_PARSE_DATA: t.List[
     t.Tuple[
@@ -40,7 +126,6 @@ TEST_PARSE_DATA: t.List[
                 dom.TextPart(text=" ) "),
                 dom.URLPart(url="https://example.com/?foo=bar"),
                 dom.HorizontalLinePart(),
-                dom.TextPart(text=" "),
                 dom.LinkPart(text="foo", url="https://bar.com"),
                 dom.TextPart(text=" "),
                 dom.RSTRefPart(text=" a", ref="b "),
@@ -68,7 +153,6 @@ TEST_PARSE_DATA: t.List[
                     source="U(https://example.com/?foo=bar)",
                 ),
                 dom.HorizontalLinePart(source="HORIZONTALLINE"),
-                dom.TextPart(text=" ", source=" "),
                 dom.LinkPart(
                     text="foo",
                     url="https://bar.com",
@@ -97,7 +181,6 @@ TEST_PARSE_DATA: t.List[
                 dom.TextPart(text=" ) "),
                 dom.URLPart(url="https://example.com/?foo=bar"),
                 dom.HorizontalLinePart(),
-                dom.TextPart(text=" "),
                 dom.LinkPart(text="foo", url="https://bar.com"),
                 dom.TextPart(text=" "),
                 dom.RSTRefPart(text=" a", ref="b "),

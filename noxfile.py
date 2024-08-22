@@ -102,7 +102,7 @@ def typing(session: nox.Session):
 
 @nox.session
 def create_vectors(session: nox.Session):
-    install(session, ".", "ruamel.yaml", editable=True)
+    install(session, ".", "PyYAML", editable=True)
     session.run("python", "tests/unit/create-vectors.py")
     if IN_CI and not test_no_modifications(session):
         session.error(

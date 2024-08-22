@@ -5,8 +5,7 @@
 
 import typing as t
 
-from ruamel.yaml import YAML
-from ruamel.yaml.scalarstring import LiteralScalarString
+import yaml
 from vectors import (
     VECTORS_FILE,
     get_ansible_doc_text_opts,
@@ -15,6 +14,7 @@ from vectors import (
     get_md_opts_link_provider,
     get_rst_opts,
 )
+from yaml.representer import SafeRepresenter
 
 from antsibull_docs_parser.ansible_doc_text import to_ansible_doc_text
 from antsibull_docs_parser.html import to_html, to_html_plain
@@ -23,10 +23,33 @@ from antsibull_docs_parser.parser import parse
 from antsibull_docs_parser.rst import to_rst, to_rst_plain
 
 
+class LiteralString(str):
+    pass
+
+
+def change_style(style, representer):
+    def new_representer(dumper, data):
+        scalar = representer(dumper, data)
+        scalar.style = style
+        return scalar
+
+    return new_representer
+
+
+represent_literal_str = change_style("|", SafeRepresenter.represent_str)
+
+
+yaml.add_representer(LiteralString, represent_literal_str)
+
+
 def add(test_data: t.Dict[str, t.Any], key: str, value: t.Any) -> None:
-    if isinstance(value, str):
-        if "\n" in value:
-            value = LiteralScalarString(value)
+    if isinstance(value, str) and value:
+        if "\r" in value or "\t" in value:
+            pass
+        elif "\n" in value:
+            value = LiteralString(value)
+        elif value == value.rstrip(" "):
+            value = LiteralString(value)
     test_data[key] = value
 
 
@@ -58,20 +81,32 @@ def update(test_name: str, test_data: t.Dict[str, t.Any]) -> None:
     add(test_data, "ansible_doc_text", result)
 
 
+class IndentedDumper(yaml.Dumper):
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
 def main() -> None:
-    yaml = YAML(typ="rt")
     with open(VECTORS_FILE, "r") as stream:
-        data = yaml.load(stream)
+        data = yaml.load(stream, Loader=yaml.Loader)
 
     for test_name, test_data in data["test_vectors"].items():
         update(test_name, test_data)
 
-    yaml = YAML()
-    yaml.default_flow_style = False
-    yaml.explicit_start = True
-    yaml.indent(mapping=2, sequence=4, offset=2)
     with open(VECTORS_FILE, "w") as stream:
-        yaml.dump(data, stream)
+        stream.write(
+            r"""---
+# Simplified BSD License (see LICENSES/BSD-2-Clause.txt or https://opensource.org/licenses/BSD-2-Clause)
+# SPDX-FileCopyrightText: Ansible Project
+# SPDX-License-Identifier: BSD-2-Clause
+
+"""
+        )
+        stream.write(
+            yaml.dump(
+                data, Dumper=IndentedDumper, default_flow_style=False, sort_keys=False
+            )
+        )
 
 
 if __name__ == "__main__":
