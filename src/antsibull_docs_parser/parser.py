@@ -59,9 +59,8 @@ class Whitespace(_Enum):
 
 
 def _add_whitespace(
-    result: list[str],
+    result: t.List[str],
     ws: str,
-    /,
     *,
     whitespace: Whitespace,
     no_newlines: bool = False,
@@ -78,7 +77,6 @@ def _add_whitespace(
 
 def _process_whitespace(
     text: str,
-    /,
     *,
     whitespace: Whitespace,
     code_environment: bool = False,
