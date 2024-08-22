@@ -14,8 +14,10 @@ test_vectors:
     rst_plain: ''
   empty_content:
     source: ['']
-    html: <p></p>
-    html_plain: <p></p>
+    html: |-
+      <p></p>
+    html_plain: |-
+      <p></p>
     md: ' '
     rst: '\ '
     ansible_doc_text: ''
@@ -31,30 +33,27 @@ test_vectors:
       This is a <code>test</code> <em>module</em> <b>markup</b>\.
     rst: |-
       This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\ .
-    ansible_doc_text: This is a `test' `module' *markup*.
-    rst_plain: This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\
-      .
+    ansible_doc_text: |-
+      This is a `test' `module' *markup*.
+    rst_plain: |-
+      This is a \ :literal:`test`\  \ :emphasis:`module`\  \ :strong:`markup`\ .
   empty_tags:
     source: |-
       C() I() B() C() U() L(,) L(foo,) L(,bar) R(,) V() O() RV() E()
-    html: <p><code class='docutils literal notranslate'></code> <em></em> <b></b>
-      <code class='docutils literal notranslate'></code> <a href=''></a> <a href=''></a>
-      <a href=''>foo</a> <a href='bar'></a> <span class='module'></span> <code class="ansible-value
-      literal notranslate"></code> <code class="ansible-option literal notranslate"><strong></strong></code>
-      <code class="ansible-return-value literal notranslate"></code> <code class="xref
-      std std-envvar literal notranslate"></code></p>
-    html_plain: <p><code></code> <em></em> <b></b> <code></code> <a href=''></a> <a
-      href=''></a> <a href=''>foo</a> <a href='bar'></a> <span></span> <code></code>
-      <code><strong></strong></code> <code></code> <code></code></p>
-    md: <code></code> <em></em> <b></b> <code></code> []() []() [foo]() [](bar)  <code></code>
-      <code><strong></strong></code> <code></code> <code></code>
+    html: |-
+      <p><code class='docutils literal notranslate'></code> <em></em> <b></b> <code class='docutils literal notranslate'></code> <a href=''></a> <a href=''></a> <a href=''>foo</a> <a href='bar'></a> <span class='module'></span> <code class="ansible-value literal notranslate"></code> <code class="ansible-option literal notranslate"><strong></strong></code> <code class="ansible-return-value literal notranslate"></code> <code class="xref std std-envvar literal notranslate"></code></p>
+    html_plain: |-
+      <p><code></code> <em></em> <b></b> <code></code> <a href=''></a> <a href=''></a> <a href=''>foo</a> <a href='bar'></a> <span></span> <code></code> <code><strong></strong></code> <code></code> <code></code></p>
+    md: |-
+      <code></code> <em></em> <b></b> <code></code> []() []() [foo]() [](bar)  <code></code> <code><strong></strong></code> <code></code> <code></code>
     rst: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\ `\    foo  \
       :ref:`\  <>`\  \ :ansval:`\ `\  \ :ansopt:`\ `\  \ :ansretval:`\ `\  \ :envvar:`\
       `\ '
     rst_plain: '\ :literal:`\ `\  \ :emphasis:`\ `\  \ :strong:`\ `\  \ :literal:`\
       `\    foo  \ :ref:`\  <>`\  \ :literal:`\ `\  \ :literal:`\ `\  \ :literal:`\
       `\  \ :envvar:`\ `\ '
-    ansible_doc_text: "`' `' ** `'   <> foo <>  <bar>  `' `' `' `'"
+    ansible_doc_text: |-
+      `' `' ** `'   <> foo <>  <bar>  `' `' `' `'
   module:
     source: |-
       The M(a.b.c) module.
@@ -72,8 +71,10 @@ test_vectors:
         https://docs.ansible.com/ansible/devel/collections/{plugin_fqcn_slashes}_{plugin_type}.html
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
-    ansible_doc_text: The [a.b.c] module.
-    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
+    ansible_doc_text: |-
+      The [a.b.c] module.
+    rst_plain: |-
+      The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
   module_no_link:
     source: |-
       The M(a.b.c) module.
@@ -85,8 +86,10 @@ test_vectors:
       The a\.b\.c module\.
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
-    ansible_doc_text: The [a.b.c] module.
-    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
+    ansible_doc_text: |-
+      The [a.b.c] module.
+    rst_plain: |-
+      The \ :ref:`a.b.c <ansible_collections.a.b.c_module>`\  module.
   plugin:
     source: |-
       The P(a.b.c#lookup) lookup plugin.
@@ -104,8 +107,10 @@ test_vectors:
         https://docs.ansible.com/ansible/devel/collections/{plugin_fqcn_slashes}_{plugin_type}.html
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
-    ansible_doc_text: The [a.b.c] lookup plugin.
-    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
+    ansible_doc_text: |-
+      The [a.b.c] lookup plugin.
+    rst_plain: |-
+      The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
   plugin_no_link:
     source: |-
       The P(a.b.c#lookup) lookup plugin.
@@ -117,8 +122,10 @@ test_vectors:
       The a\.b\.c lookup plugin\.
     rst: |-
       The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
-    ansible_doc_text: The [a.b.c] lookup plugin.
-    rst_plain: The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
+    ansible_doc_text: |-
+      The [a.b.c] lookup plugin.
+    rst_plain: |-
+      The \ :ref:`a.b.c <ansible_collections.a.b.c_lookup>`\  lookup plugin.
   link_and_url:
     source: |-
       An URL U(https://example.com) and L(a link, https://example.org).
@@ -159,9 +166,10 @@ test_vectors:
       A RST reference\.
     rst: |-
       A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\ .
-    ansible_doc_text: A RST reference.
-    rst_plain: A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\
-      .
+    ansible_doc_text: |-
+      A RST reference.
+    rst_plain: |-
+      A \ :ref:`RST reference <ansible_collections.community.general.ufw_module>`\ .
   horizontal_line:
     source: |-
       foo HORIZONTALLINE bar
@@ -200,9 +208,10 @@ test_vectors:
       foo <code>FOOBAR</code> bar foo\.bar\.baz has value <code> foo\)\,bar\\bam </code>\.
     rst: |-
       foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has value \ :ansval:`\  foo),bar\\bam \ `\ .
-    ansible_doc_text: foo `FOOBAR' bar [foo.bar.baz] has value ` foo),bar\bam '.
-    rst_plain: foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has
-      value \ :literal:`\  foo),bar\\bam \ `\ .
+    ansible_doc_text: |-
+      foo `FOOBAR' bar [foo.bar.baz] has value ` foo),bar\bam '.
+    rst_plain: |-
+      foo \ :envvar:`FOOBAR`\  bar \ :ref:`foo.bar.baz <ansible_collections.foo.bar.baz_bam>`\  has value \ :literal:`\  foo),bar\\bam \ `\ .
   option_name_no_current_plugin:
     source:
       - |-
@@ -1527,3 +1536,145 @@ test_vectors:
       \ :strong:`ERROR while parsing`\ : While parsing "C(foo" at index 1 of paragraph 2: Cannot find closing ")" after last parameter\ 
 
       \ :strong:`ERROR while parsing`\ : While parsing "R(foo,bar" at index 1 of paragraph 3: Cannot find closing ")" after last parameter\ 
+  whitespace_ignore:
+    source: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! B(foo\
+      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(föø\
+      \  \t b\nz \r m)\n   I(  )C(  )B(    )E(    )"
+    parse_opts:
+      whitespace: ignore
+    html: "<p>Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! <b>foo\
+      \  \t bar\nbaz \r bam</b> \n <code class='docutils literal notranslate'>foo\
+      \  \t bar\nbaz \r bam</code> \n <hr/> x <span class=\"error\">ERROR while parsing:
+      While parsing \"M(föø  \\t b\\nz \\r m)\" at index 125: Module name \"föø  \\\
+      t b\\nz \\r m\" is not a FQCN</span>\n   <em>  </em><code class='docutils literal
+      notranslate'>  </code><b>    </b><code class=\"xref std std-envvar literal notranslate\"\
+      >    </code></p>"
+    html_plain: "<p>Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\
+      \n! <b>foo  \t bar\nbaz \r bam</b> \n <code>foo  \t bar\nbaz \r bam</code> \n
+      <hr> x <span class=\"error\">ERROR while parsing: While parsing \"M(föø  \\\
+      t b\\nz \\r m)\" at index 125: Module name \"föø  \\t b\\nz \\r m\" is not a
+      FQCN</span>\n   <em>  </em><code>  </code><b>    </b><code>    </code></p>"
+    md: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n\\! <b>foo\
+      \  \t bar\nbaz \r bam</b> \n <code>foo  \t bar\nbaz \r bam</code> \n <hr> x
+      <b>ERROR while parsing</b>: While parsing \\\"M\\(föø  \\\\t b\\\\nz \\\\r m\\\
+      )\\\" at index 125\\: Module name \\\"föø  \\\\t b\\\\nz \\\\r m\\\" is not
+      a FQCN\n   <em>  </em><code>  </code><b>    </b><code>    </code>"
+    rst: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! \\ :strong:`foo\
+      \  \t bar\nbaz \r bam`\\  \n \\ :literal:`foo  \t bar\nbaz \r bam`\\  \n \n\n\
+      .. raw:: html\n\n  <hr>\n\n x \\ :strong:`ERROR while parsing`\\ : While parsing
+      \"M(föø  \\\\t b\\\\nz \\\\r m)\" at index 125: Module name \"föø  \\\\t b\\\
+      \\nz \\\\r m\" is not a FQCN\\ \n   \\ :emphasis:`  `\\ \\ :literal:`  `\\ \\
+      :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
+    rst_plain: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n!
+      \\ :strong:`foo  \t bar\nbaz \r bam`\\  \n \\ :literal:`foo  \t bar\nbaz \r
+      bam`\\  \n \n\n------------\n\n x \\ :strong:`ERROR while parsing`\\ : While
+      parsing \"M(föø  \\\\t b\\\\nz \\\\r m)\" at index 125: Module name \"föø  \\\
+      \\t b\\\\nz \\\\r m\" is not a FQCN\\ \n   \\ :emphasis:`  `\\ \\ :literal:`  `\\
+      \\ :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
+    ansible_doc_text: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\
+      \n\n! *foo  \t bar\nbaz \r bam* \n `foo  \t bar\nbaz \r bam' \n \n-------------\n
+      x [[ERROR while parsing: While parsing \"M(föø  \\t b\\nz \\r m)\" at index
+      125: Module name \"föø  \\t b\\nz \\r m\" is not a FQCN]]\n   `  '`  '*    *`
+         '"
+  whitespace_strip:
+    source: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! B(foo\
+      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(föø\
+      \  \t b\nz \r m)\n   I(  )C(  )B(    )E(    )"
+    parse_opts:
+      whitespace: strip
+    html: |-
+      <p>Foo bar baz Welcome to white space fun ! <b>foo bar baz bam</b> <code class='docutils literal notranslate'>foo    bar baz   bam</code> <hr/> x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>   <em>  </em><code class='docutils literal notranslate'>  </code><b>    </b><code class="xref std std-envvar literal notranslate">    </code></p>
+    html_plain: |-
+      <p>Foo bar baz Welcome to white space fun ! <b>foo bar baz bam</b> <code>foo    bar baz   bam</code> <hr> x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>   <em>  </em><code>  </code><b>    </b><code>    </code></p>
+    md: |-
+      Foo bar baz Welcome to white space fun \! <b>foo bar baz bam</b> <code>foo    bar baz   bam</code> <hr> x <b>ERROR while parsing</b>: While parsing \"M\(föø  \\t b\\nz \\r m\)\" at index 125\: Module name \"föø b z m\" is not a FQCN   <em>  </em><code>  </code><b>    </b><code>    </code>
+    rst: |-
+      Foo bar baz Welcome to white space fun ! \ :strong:`foo bar baz bam`\  \ :literal:`foo    bar baz   bam`\  
+
+      .. raw:: html
+
+        <hr>
+
+       x \ :strong:`ERROR while parsing`\ : While parsing "M(föø  \\t b\\nz \\r m)" at index 125: Module name "föø b z m" is not a FQCN\    \ :emphasis:`  `\ \ :literal:`  `\ \ :strong:`\     \ `\ \ :envvar:`\     \ `\ 
+    rst_plain: |-
+      Foo bar baz Welcome to white space fun ! \ :strong:`foo bar baz bam`\  \ :literal:`foo    bar baz   bam`\  
+
+      ------------
+
+       x \ :strong:`ERROR while parsing`\ : While parsing "M(föø  \\t b\\nz \\r m)" at index 125: Module name "föø b z m" is not a FQCN\    \ :emphasis:`  `\ \ :literal:`  `\ \ :strong:`\     \ `\ \ :envvar:`\     \ `\ 
+    ansible_doc_text: |-
+      Foo bar baz Welcome to white space fun ! *foo bar baz bam* `foo    bar baz   bam' 
+      -------------
+       x [[ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN]]   `  '`  '*    *`    '
+  whitespace_keep_single_newlines:
+    source: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! B(foo\
+      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(föø\
+      \  \t b\nz \r m)\n   I(  )C(  )B(    )E(    )"
+    parse_opts:
+      whitespace: keep_single_newlines
+    html: |-
+      <p>Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! <b>foo bar baz bam</b>
+      <code class='docutils literal notranslate'>foo    bar baz   bam</code>
+      <hr/> x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>
+        <em>  </em><code class='docutils literal notranslate'>  </code><b>    </b><code class="xref std std-envvar literal notranslate">    </code></p>
+    html_plain: |-
+      <p>Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! <b>foo bar baz bam</b>
+      <code>foo    bar baz   bam</code>
+      <hr> x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>
+        <em>  </em><code>  </code><b>    </b><code>    </code></p>
+    md: |-
+      Foo bar baz
+      Welcome to
+      white space
+      fun
+      \! <b>foo bar baz bam</b>
+      <code>foo    bar baz   bam</code>
+      <hr> x <b>ERROR while parsing</b>: While parsing \"M\(föø  \\t b\\nz \\r m\)\" at index 125\: Module name \"föø b z m\" is not a FQCN
+        <em>  </em><code>  </code><b>    </b><code>    </code>
+    rst: |-
+      Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! \ :strong:`foo bar baz bam`\ 
+      \ :literal:`foo    bar baz   bam`\ 
+
+
+      .. raw:: html
+
+        <hr>
+
+       x \ :strong:`ERROR while parsing`\ : While parsing "M(föø  \\t b\\nz \\r m)" at index 125: Module name "föø b z m" is not a FQCN\ 
+        \ :emphasis:`  `\ \ :literal:`  `\ \ :strong:`\     \ `\ \ :envvar:`\     \ `\ 
+    rst_plain: |-
+      Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! \ :strong:`foo bar baz bam`\ 
+      \ :literal:`foo    bar baz   bam`\ 
+
+
+      ------------
+
+       x \ :strong:`ERROR while parsing`\ : While parsing "M(föø  \\t b\\nz \\r m)" at index 125: Module name "föø b z m" is not a FQCN\ 
+        \ :emphasis:`  `\ \ :literal:`  `\ \ :strong:`\     \ `\ \ :envvar:`\     \ `\ 
+    ansible_doc_text: |-
+      Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! *foo bar baz bam*
+      `foo    bar baz   bam'
+
+      -------------
+       x [[ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN]]
+        `  '`  '*    *`    '

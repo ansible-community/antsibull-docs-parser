@@ -10,6 +10,7 @@ Parser for formatted texts.
 import abc
 import re
 import typing as t
+from enum import Enum as _Enum
 
 from . import dom
 from ._parser_impl import parse_parameters_escaped, parse_parameters_unescaped
@@ -19,6 +20,11 @@ _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([^:]+):(.*)$")
 _FQCN = re.compile(r"^[a-z0-9_]+\.[a-z0-9_]+(?:\.[a-z0-9_]+)+$")
 _PLUGIN_TYPE = re.compile(r"^[a-z_]+$")
+_WHITESPACE = re.compile(r"([\s]+)")
+_DANGEROUS_WS = re.compile(r"[\t\n\r]")
+_SPACES_TO_KEEP = re.compile(
+    "([\u00A0\u202F\u2007\u2060\u200B\u200C\u200D\uFEFF]+)", flags=re.UNICODE
+)
 
 
 def _is_fqcn(text: str) -> bool:
@@ -31,6 +37,92 @@ def _is_plugin_type(text: str) -> bool:
     # identifier usually used for plugin types. If ansible-core ever adds one
     # with digits, we'll have to update this.
     return _PLUGIN_TYPE.match(text) is not None
+
+
+def _repr(text: str) -> str:
+    # Do something like repr(), but prefer double quotes
+    text = repr(text)
+    return f'"{text[1:-1]}"'
+
+
+class Whitespace(_Enum):
+    # Keep all whitespace as-is.
+    IGNORE = 0
+
+    # Reduce all whitespace (space, tabs, newlines, ...) to regular breakable or
+    # non-breakable spaces. Multiple spaces are kept in everything that's often
+    # rendered code-style, like C(), O(), V(), RV(), E().
+    STRIP = 1
+
+    # Similar to STRIP, but keep single newlines intact.
+    KEEP_SINGLE_NEWLINES = 2
+
+
+def _add_whitespace(
+    result: list[str],
+    ws: str,
+    /,
+    *,
+    whitespace: Whitespace,
+    no_newlines: bool = False,
+) -> None:
+    if (
+        whitespace == Whitespace.KEEP_SINGLE_NEWLINES
+        and not no_newlines
+        and any(lb in ws for lb in "\n\r")
+    ):
+        result.append("\n")
+    else:
+        result.append(" ")
+
+
+def _process_whitespace(
+    text: str,
+    /,
+    *,
+    whitespace: Whitespace,
+    code_environment: bool = False,
+    no_newlines: bool = False,
+) -> str:
+    if whitespace == Whitespace.IGNORE:
+        return text
+    length = len(text)
+    index = 0
+    result = []
+    while index < length:
+        m = _WHITESPACE.search(text, index)
+        if m is None:
+            result.append(text[index:])
+            break
+        if m.start(1) > index:
+            result.append(text[index : m.start(1)])
+        ws = m.group(1)
+        if code_environment:
+            result.append(_DANGEROUS_WS.sub(" ", ws))
+        else:
+            ws_index = 0
+            ws_length = len(ws)
+            while ws_index < ws_length:
+                wsm = _SPACES_TO_KEEP.search(ws, ws_index)
+                if wsm is None:
+                    _add_whitespace(
+                        result,
+                        ws[ws_index:],
+                        whitespace=whitespace,
+                        no_newlines=no_newlines,
+                    )
+                    break
+                if wsm.start(1) > ws_index:
+                    _add_whitespace(
+                        result,
+                        ws[ws_index : wsm.start(1)],
+                        whitespace=whitespace,
+                        no_newlines=no_newlines,
+                    )
+                result.append(wsm.group(1))
+                ws_index = wsm.end(1)
+        index = m.end(1)
+    return "".join(result)
 
 
 class Context(t.NamedTuple):
@@ -50,7 +142,11 @@ class CommandParser(abc.ABC):
 
     @abc.abstractmethod
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
         pass  # pragma: no cover
 
@@ -77,9 +173,18 @@ class _Italics(CommandParserEx):
         super().__init__("I", 1, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        return dom.ItalicPart(text=parameters[0], source=source)
+        return dom.ItalicPart(
+            text=_process_whitespace(
+                parameters[0], whitespace=whitespace, no_newlines=True
+            ),
+            source=source,
+        )
 
 
 class _Bold(CommandParserEx):
@@ -87,9 +192,18 @@ class _Bold(CommandParserEx):
         super().__init__("B", 1, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        return dom.BoldPart(text=parameters[0], source=source)
+        return dom.BoldPart(
+            text=_process_whitespace(
+                parameters[0], whitespace=whitespace, no_newlines=True
+            ),
+            source=source,
+        )
 
 
 class _Module(CommandParserEx):
@@ -97,11 +211,17 @@ class _Module(CommandParserEx):
         super().__init__("M", 1, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        fqcn = parameters[0]
+        fqcn = _process_whitespace(
+            parameters[0], whitespace=whitespace, no_newlines=True
+        )
         if not _is_fqcn(fqcn):
-            raise ValueError(f'Module name "{fqcn}" is not a FQCN')
+            raise ValueError(f"Module name {_repr(fqcn)} is not a FQCN")
         return dom.ModulePart(fqcn=fqcn, source=source)
 
 
@@ -110,9 +230,18 @@ class _URL(CommandParserEx):
         super().__init__("U", 1, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        return dom.URLPart(url=parameters[0], source=source)
+        return dom.URLPart(
+            url=_process_whitespace(
+                parameters[0], whitespace=whitespace, no_newlines=True
+            ),
+            source=source,
+        )
 
 
 class _Link(CommandParserEx):
@@ -120,10 +249,18 @@ class _Link(CommandParserEx):
         super().__init__("L", 2, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        text = parameters[0]
-        url = parameters[1]
+        text = _process_whitespace(
+            parameters[0], whitespace=whitespace, no_newlines=True
+        )
+        url = _process_whitespace(
+            parameters[1], whitespace=whitespace, no_newlines=True
+        )
         return dom.LinkPart(text=text, url=url, source=source)
 
 
@@ -132,10 +269,18 @@ class _RSTRef(CommandParserEx):
         super().__init__("R", 2, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        text = parameters[0]
-        ref = parameters[1]
+        text = _process_whitespace(
+            parameters[0], whitespace=whitespace, no_newlines=True
+        )
+        ref = _process_whitespace(
+            parameters[1], whitespace=whitespace, no_newlines=True
+        )
         return dom.RSTRefPart(text=text, ref=ref, source=source)
 
 
@@ -144,9 +289,21 @@ class _Code(CommandParserEx):
         super().__init__("C", 1, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        return dom.CodePart(text=parameters[0], source=source)
+        return dom.CodePart(
+            text=_process_whitespace(
+                parameters[0],
+                whitespace=whitespace,
+                code_environment=True,
+                no_newlines=True,
+            ),
+            source=source,
+        )
 
 
 class _HorizontalLine(CommandParserEx):
@@ -154,7 +311,11 @@ class _HorizontalLine(CommandParserEx):
         super().__init__("HORIZONTALLINE", 0, old_markup=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.HorizontalLinePart(source=source)
 
@@ -181,9 +342,9 @@ def _parse_option_like(
         plugin_fqcn = m.group(1)
         plugin_type = m.group(2)
         if not _is_fqcn(plugin_fqcn):
-            raise ValueError(f'Plugin name "{plugin_fqcn}" is not a FQCN')
+            raise ValueError(f"Plugin name {_repr(plugin_fqcn)} is not a FQCN")
         if not _is_plugin_type(plugin_type):
-            raise ValueError(f'Plugin type "{plugin_type}" is not valid')
+            raise ValueError(f"Plugin type {_repr(plugin_type)} is not valid")
         plugin_identifier = dom.PluginIdentifier(fqcn=plugin_fqcn, type=plugin_type)
         text = m.group(3)
     elif text.startswith(_IGNORE_MARKER):
@@ -200,7 +361,7 @@ def _parse_option_like(
         if entrypoint is None:
             raise ValueError("Role reference is missing entrypoint")
     if ":" in text or "#" in text:
-        raise ValueError(f'Invalid option/return value name "{text}"')
+        raise ValueError(f"Invalid option/return value name {_repr(text)}")
     return (
         plugin_identifier,
         entrypoint,
@@ -215,16 +376,22 @@ class _Plugin(CommandParserEx):
         super().__init__("P", 1, escaped_arguments=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        name = parameters[0]
+        name = _process_whitespace(
+            parameters[0], whitespace=whitespace, no_newlines=True
+        )
         if "#" not in name:
-            raise ValueError(f'Parameter "{name}" is not of the form FQCN#type')
+            raise ValueError(f"Parameter {_repr(name)} is not of the form FQCN#type")
         fqcn, ptype = name.split("#", 1)
         if not _is_fqcn(fqcn):
-            raise ValueError(f'Plugin name "{fqcn}" is not a FQCN')
+            raise ValueError(f"Plugin name {_repr(fqcn)} is not a FQCN")
         if not _is_plugin_type(ptype):
-            raise ValueError(f'Plugin type "{ptype}" is not valid')
+            raise ValueError(f"Plugin type {_repr(ptype)} is not valid")
         return dom.PluginPart(
             plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype), source=source
         )
@@ -235,9 +402,21 @@ class _EnvVar(CommandParserEx):
         super().__init__("E", 1, escaped_arguments=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        return dom.EnvVariablePart(name=parameters[0], source=source)
+        return dom.EnvVariablePart(
+            name=_process_whitespace(
+                parameters[0],
+                whitespace=whitespace,
+                code_environment=True,
+                no_newlines=True,
+            ),
+            source=source,
+        )
 
 
 class _OptionValue(CommandParserEx):
@@ -245,9 +424,21 @@ class _OptionValue(CommandParserEx):
         super().__init__("V", 1, escaped_arguments=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
-        return dom.OptionValuePart(value=parameters[0], source=source)
+        return dom.OptionValuePart(
+            value=_process_whitespace(
+                parameters[0],
+                whitespace=whitespace,
+                code_environment=True,
+                no_newlines=True,
+            ),
+            source=source,
+        )
 
 
 class _OptionName(CommandParserEx):
@@ -255,10 +446,20 @@ class _OptionName(CommandParserEx):
         super().__init__("O", 1, escaped_arguments=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
         plugin, entrypoint, link, name, value = _parse_option_like(
-            parameters[0], context
+            _process_whitespace(
+                parameters[0],
+                whitespace=whitespace,
+                code_environment=True,
+                no_newlines=True,
+            ),
+            context,
         )
         return dom.OptionNamePart(
             plugin=plugin,
@@ -275,10 +476,20 @@ class _ReturnValue(CommandParserEx):
         super().__init__("RV", 1, escaped_arguments=True)
 
     def parse(
-        self, parameters: t.List[str], context: Context, source: t.Optional[str]
+        self,
+        parameters: t.List[str],
+        context: Context,
+        source: t.Optional[str],
+        whitespace: Whitespace,
     ) -> dom.AnyPart:
         plugin, entrypoint, link, name, value = _parse_option_like(
-            parameters[0], context
+            _process_whitespace(
+                parameters[0],
+                whitespace=whitespace,
+                code_environment=True,
+                no_newlines=True,
+            ),
+            context,
         )
         return dom.ReturnValuePart(
             plugin=plugin,
@@ -340,9 +551,12 @@ class Parser:
         context: Context,
         errors: dom.ErrorType,
         where: str,
+        *,
         strict: bool,
         add_source: bool,
         helpful_errors: bool,
+        whitespace: Whitespace,
+        offset: int,
     ) -> int:
         args: t.List[str]
         error: t.Optional[str] = None
@@ -359,16 +573,18 @@ class Parser:
         source = text[index:end_index] if add_source else None
         if error is None:
             try:
-                result.append(cmd.parse(args, context, source=source))
+                result.append(
+                    cmd.parse(args, context, source=source, whitespace=whitespace)
+                )
             except Exception as exc:  # pylint:disable=broad-except
                 error = f"{exc}"
         if error is not None:
             error_source = (
-                f'"{text[index:end_index]}"'
+                _repr(text[index:end_index])
                 if helpful_errors
                 else f'{cmd.command}{"()" if cmd.parameters else ""}'
             )
-            error = f"While parsing {error_source} at index {index + 1}{where}: {error}"
+            error = f"While parsing {error_source} at index {index + offset}{where}: {error}"
             if errors == "message":
                 result.append(dom.ErrorPart(message=error, source=source))
             elif errors == "exception":
@@ -376,8 +592,11 @@ class Parser:
         return end_index
 
     @staticmethod
-    def _create_text(text: str, add_source: bool) -> dom.TextPart:
-        return dom.TextPart(text=text, source=text if add_source else None)
+    def _create_text(
+        text: str, add_source: bool, whitespace: Whitespace
+    ) -> dom.TextPart:
+        text_ws = _process_whitespace(text, whitespace=whitespace)
+        return dom.TextPart(text=text_ws, source=text if add_source else None)
 
     def parse_string(
         self,
@@ -388,17 +607,28 @@ class Parser:
         strict: bool = False,
         add_source: bool = False,
         helpful_errors: bool = True,
+        *,
+        whitespace: Whitespace = Whitespace.IGNORE,
     ) -> dom.Paragraph:
+        offset = 1
+        if whitespace != Whitespace.IGNORE:
+            old_length = len(text)
+            text = text.lstrip()
+            offset += old_length - len(text)
+            text = text.rstrip()
+
         result: dom.Paragraph = []
         length = len(text)
         index = 0
         while index < length:
             m = self._re.search(text, index)
             if m is None:
-                result.append(self._create_text(text[index:], add_source))
+                result.append(self._create_text(text[index:], add_source, whitespace))
                 break
             if m.start(1) > index:
-                result.append(self._create_text(text[index : m.start(1)], add_source))
+                result.append(
+                    self._create_text(text[index : m.start(1)], add_source, whitespace)
+                )
             index = self._parse_command(
                 result,
                 text,
@@ -411,6 +641,8 @@ class Parser:
                 strict=strict,
                 add_source=add_source,
                 helpful_errors=helpful_errors,
+                whitespace=whitespace,
+                offset=offset,
             )
         return result
 
@@ -427,6 +659,8 @@ def parse(
     strict: bool = False,
     add_source: bool = False,
     helpful_errors: bool = True,
+    *,
+    whitespace: Whitespace = Whitespace.IGNORE,
 ) -> t.List[dom.Paragraph]:
     """
     Parse a string, or a sequence of strings, to a list of paragraphs.
@@ -439,6 +673,7 @@ def parse(
     :param strict: Whether to be extra strict while parsing.
     :param add_source: Whether to add the source of every part to the part (``source`` property).
     :param helpful_errors: Whether to include the faulty markup in error messages.
+    :param whitespace: How to handle whitespace.
     :return: A list of paragraphs. Each paragraph consists of a list of parts.
     """
     has_paragraphs = True
@@ -455,6 +690,7 @@ def parse(
             strict=strict,
             add_source=add_source,
             helpful_errors=helpful_errors,
+            whitespace=whitespace,
         )
         for index, par in enumerate(text)
     ]

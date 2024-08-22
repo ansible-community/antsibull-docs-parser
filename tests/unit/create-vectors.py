@@ -24,8 +24,12 @@ from antsibull_docs_parser.rst import to_rst, to_rst_plain
 
 
 def add(test_data: t.Dict[str, t.Any], key: str, value: t.Any) -> None:
-    if isinstance(value, str):
-        if "\n" in value:
+    if isinstance(value, str) and value:
+        if "\r" in value or "\t" in value:
+            pass
+        elif "\n" in value:
+            value = LiteralScalarString(value)
+        elif value == value.rstrip(" "):
             value = LiteralScalarString(value)
     test_data[key] = value
 
