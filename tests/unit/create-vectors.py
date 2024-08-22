@@ -104,7 +104,11 @@ def main() -> None:
         )
         stream.write(
             yaml.dump(
-                data, Dumper=IndentedDumper, default_flow_style=False, sort_keys=False
+                data,
+                Dumper=IndentedDumper,
+                default_flow_style=False,
+                sort_keys=False,
+                allow_unicode=True,
             )
         )
 

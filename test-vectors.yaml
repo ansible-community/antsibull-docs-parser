@@ -1381,119 +1381,122 @@ test_vectors:
       \ Cannot find closing \")\" after last parameter\\ "
   whitespace_ignore:
     source: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! B(foo\
-      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(f\xF6\
-      \xF8  \t b\nz \r m)\n \_\_I(\_\_)C(\_\_)B( \_\_ )E( \_\_ )"
+      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(föø\
+      \  \t b\nz \r m)\n   I(  )C(  )B(    )E(    )"
     parse_opts:
       whitespace: ignore
     html: "<p>Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! <b>foo\
       \  \t bar\nbaz \r bam</b> \n <code class='docutils literal notranslate'>foo\
       \  \t bar\nbaz \r bam</code> \n<hr/>x <span class=\"error\">ERROR while parsing:\
-      \ While parsing \"M(f\xF6\xF8  \\t b\\nz \\r m)\" at index 125: Module name\
-      \ \"f\xF6\xF8  \\t b\\nz \\r m\" is not a FQCN</span>\n \_\_<em>\_\_</em><code\
-      \ class='docutils literal notranslate'>\_\_</code><b> \_\_ </b><code class=\"\
-      xref std std-envvar literal notranslate\"> \_\_ </code></p>"
+      \ While parsing \"M(föø  \\t b\\nz \\r m)\" at index 125: Module name \"föø\
+      \  \\t b\\nz \\r m\" is not a FQCN</span>\n   <em>  </em><code class='docutils\
+      \ literal notranslate'>  </code><b>    </b><code class=\"xref std std-envvar\
+      \ literal notranslate\">    </code></p>"
     html_plain: "<p>Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\
       \n! <b>foo  \t bar\nbaz \r bam</b> \n <code>foo  \t bar\nbaz \r bam</code> \n\
-      <hr>x <span class=\"error\">ERROR while parsing: While parsing \"M(f\xF6\xF8\
-      \  \\t b\\nz \\r m)\" at index 125: Module name \"f\xF6\xF8  \\t b\\nz \\r m\"\
-      \ is not a FQCN</span>\n \_\_<em>\_\_</em><code>\_\_</code><b> \_\_ </b><code>\
-      \ \_\_ </code></p>"
+      <hr>x <span class=\"error\">ERROR while parsing: While parsing \"M(föø  \\t\
+      \ b\\nz \\r m)\" at index 125: Module name \"föø  \\t b\\nz \\r m\" is not a\
+      \ FQCN</span>\n   <em>  </em><code>  </code><b>    </b><code>    </code></p>"
     md: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n\\! <b>foo\
       \  \t bar\nbaz \r bam</b> \n <code>foo  \t bar\nbaz \r bam</code> \n<hr>x <b>ERROR\
-      \ while parsing</b>: While parsing \\\"M\\(f\xF6\xF8  \\\\t b\\\\nz \\\\r m\\\
-      )\\\" at index 125\\: Module name \\\"f\xF6\xF8  \\\\t b\\\\nz \\\\r m\\\" is\
-      \ not a FQCN\n \_\_<em>\_\_</em><code>\_\_</code><b> \_\_ </b><code> \_\_ </code>"
+      \ while parsing</b>: While parsing \\\"M\\(föø  \\\\t b\\\\nz \\\\r m\\)\\\"\
+      \ at index 125\\: Module name \\\"föø  \\\\t b\\\\nz \\\\r m\\\" is not a FQCN\n\
+      \   <em>  </em><code>  </code><b>    </b><code>    </code>"
     rst: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! \\ :strong:`foo\
       \  \t bar\nbaz \r bam`\\  \n \\ :literal:`foo  \t bar\nbaz \r bam`\\  \n\n\n\
       .. raw:: html\n\n  <hr>\n\nx \\ :strong:`ERROR while parsing`\\ : While parsing\
-      \ \"M(f\xF6\xF8  \\\\t b\\\\nz \\\\r m)\" at index 125: Module name \"f\xF6\xF8\
-      \  \\\\t b\\\\nz \\\\r m\" is not a FQCN\\ \n \_\_\\ :emphasis:`\_\_`\\ \\ :literal:`\_\
-      \_`\\ \\ :strong:`\\  \_\_ \\ `\\ \\ :envvar:`\\  \_\_ \\ `\\ "
+      \ \"M(föø  \\\\t b\\\\nz \\\\r m)\" at index 125: Module name \"föø  \\\\t b\\\
+      \\nz \\\\r m\" is not a FQCN\\ \n   \\ :emphasis:`  `\\ \\ :literal:`  `\\ \\\
+      \ :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
     rst_plain: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n!\
       \ \\ :strong:`foo  \t bar\nbaz \r bam`\\  \n \\ :literal:`foo  \t bar\nbaz \r\
       \ bam`\\  \n\n\n------------\n\nx \\ :strong:`ERROR while parsing`\\ : While\
-      \ parsing \"M(f\xF6\xF8  \\\\t b\\\\nz \\\\r m)\" at index 125: Module name\
-      \ \"f\xF6\xF8  \\\\t b\\\\nz \\\\r m\" is not a FQCN\\ \n \_\_\\ :emphasis:`\_\
-      \_`\\ \\ :literal:`\_\_`\\ \\ :strong:`\\  \_\_ \\ `\\ \\ :envvar:`\\  \_\_\
-      \ \\ `\\ "
+      \ parsing \"M(föø  \\\\t b\\\\nz \\\\r m)\" at index 125: Module name \"föø\
+      \  \\\\t b\\\\nz \\\\r m\" is not a FQCN\\ \n   \\ :emphasis:`  `\\ \\ :literal:`  `\\\
+      \ \\ :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
     ansible_doc_text: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\
       \n\n! *foo  \t bar\nbaz \r bam* \n `foo  \t bar\nbaz \r bam' \n\n-------------\n\
-      x [[ERROR while parsing: While parsing \"M(f\xF6\xF8  \\t b\\nz \\r m)\" at\
-      \ index 125: Module name \"f\xF6\xF8  \\t b\\nz \\r m\" is not a FQCN]]\n \_\
-      \_`\_\_'`\_\_'* \_\_ *` \_\_ '"
+      x [[ERROR while parsing: While parsing \"M(föø  \\t b\\nz \\r m)\" at index\
+      \ 125: Module name \"föø  \\t b\\nz \\r m\" is not a FQCN]]\n   `  '`  '*   \
+      \ *`    '"
   whitespace_strip:
     source: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! B(foo\
-      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(f\xF6\
-      \xF8  \t b\nz \r m)\n \_\_I(\_\_)C(\_\_)B( \_\_ )E( \_\_ )"
+      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(föø\
+      \  \t b\nz \r m)\n   I(  )C(  )B(    )E(    )"
     parse_opts:
       whitespace: strip
-    html: "<p>Foo bar baz Welcome to white space fun ! <b>foo bar baz bam</b> <code\
-      \ class='docutils literal notranslate'>foo    bar baz   bam</code> <hr/>x <span\
-      \ class=\"error\">ERROR while parsing: While parsing \"M(f\xF6\xF8  \\t b\\\
-      nz \\r m)\" at index 125: Module name \"f\xF6\xF8 b z m\" is not a FQCN</span>\
-      \ \_\_<em>\_\_</em><code class='docutils literal notranslate'>\_\_</code><b>\
-      \ \_\_ </b><code class=\"xref std std-envvar literal notranslate\"> \_\_ </code></p>"
-    html_plain: "<p>Foo bar baz Welcome to white space fun ! <b>foo bar baz bam</b>\
-      \ <code>foo    bar baz   bam</code> <hr>x <span class=\"error\">ERROR while\
-      \ parsing: While parsing \"M(f\xF6\xF8  \\t b\\nz \\r m)\" at index 125: Module\
-      \ name \"f\xF6\xF8 b z m\" is not a FQCN</span> \_\_<em>\_\_</em><code>\_\_\
-      </code><b> \_\_ </b><code> \_\_ </code></p>"
-    md: "Foo bar baz Welcome to white space fun \\! <b>foo bar baz bam</b> <code>foo\
-      \    bar baz   bam</code> <hr>x <b>ERROR while parsing</b>: While parsing \\\
-      \"M\\(f\xF6\xF8  \\\\t b\\\\nz \\\\r m\\)\\\" at index 125\\: Module name \\\
-      \"f\xF6\xF8 b z m\\\" is not a FQCN \_\_<em>\_\_</em><code>\_\_</code><b> \_\
-      \_ </b><code> \_\_ </code>"
+    html: |-
+      <p>Foo bar baz Welcome to white space fun ! <b>foo bar baz bam</b> <code class='docutils literal notranslate'>foo    bar baz   bam</code> <hr/>x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>   <em>  </em><code class='docutils literal notranslate'>  </code><b>    </b><code class="xref std std-envvar literal notranslate">    </code></p>
+    html_plain: |-
+      <p>Foo bar baz Welcome to white space fun ! <b>foo bar baz bam</b> <code>foo    bar baz   bam</code> <hr>x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>   <em>  </em><code>  </code><b>    </b><code>    </code></p>
+    md: |-
+      Foo bar baz Welcome to white space fun \! <b>foo bar baz bam</b> <code>foo    bar baz   bam</code> <hr>x <b>ERROR while parsing</b>: While parsing \"M\(föø  \\t b\\nz \\r m\)\" at index 125\: Module name \"föø b z m\" is not a FQCN   <em>  </em><code>  </code><b>    </b><code>    </code>
     rst: "Foo bar baz Welcome to white space fun ! \\ :strong:`foo bar baz bam`\\\
       \  \\ :literal:`foo    bar baz   bam`\\  \n\n.. raw:: html\n\n  <hr>\n\nx \\\
-      \ :strong:`ERROR while parsing`\\ : While parsing \"M(f\xF6\xF8  \\\\t b\\\\\
-      nz \\\\r m)\" at index 125: Module name \"f\xF6\xF8 b z m\" is not a FQCN\\\
-      \  \_\_\\ :emphasis:`\_\_`\\ \\ :literal:`\_\_`\\ \\ :strong:`\\  \_\_ \\ `\\\
-      \ \\ :envvar:`\\  \_\_ \\ `\\ "
+      \ :strong:`ERROR while parsing`\\ : While parsing \"M(föø  \\\\t b\\\\nz \\\\\
+      r m)\" at index 125: Module name \"föø b z m\" is not a FQCN\\    \\ :emphasis:`  `\\\
+      \ \\ :literal:`  `\\ \\ :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
     rst_plain: "Foo bar baz Welcome to white space fun ! \\ :strong:`foo bar baz bam`\\\
       \  \\ :literal:`foo    bar baz   bam`\\  \n\n------------\n\nx \\ :strong:`ERROR\
-      \ while parsing`\\ : While parsing \"M(f\xF6\xF8  \\\\t b\\\\nz \\\\r m)\" at\
-      \ index 125: Module name \"f\xF6\xF8 b z m\" is not a FQCN\\  \_\_\\ :emphasis:`\_\
-      \_`\\ \\ :literal:`\_\_`\\ \\ :strong:`\\  \_\_ \\ `\\ \\ :envvar:`\\  \_\_\
-      \ \\ `\\ "
+      \ while parsing`\\ : While parsing \"M(föø  \\\\t b\\\\nz \\\\r m)\" at index\
+      \ 125: Module name \"föø b z m\" is not a FQCN\\    \\ :emphasis:`  `\\ \\ :literal:`  `\\\
+      \ \\ :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
     ansible_doc_text: "Foo bar baz Welcome to white space fun ! *foo bar baz bam*\
       \ `foo    bar baz   bam' \n-------------\nx [[ERROR while parsing: While parsing\
-      \ \"M(f\xF6\xF8  \\t b\\nz \\r m)\" at index 125: Module name \"f\xF6\xF8 b\
-      \ z m\" is not a FQCN]] \_\_`\_\_'`\_\_'* \_\_ *` \_\_ '"
+      \ \"M(föø  \\t b\\nz \\r m)\" at index 125: Module name \"föø b z m\" is not\
+      \ a FQCN]]   `  '`  '*    *`    '"
   whitespace_keep_single_newlines:
     source: "Foo  bar\tbaz \n   Welcome  to  \n\r\n\r white\tspace\nfun\n\n\n! B(foo\
-      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(f\xF6\
-      \xF8  \t b\nz \r m)\n \_\_I(\_\_)C(\_\_)B( \_\_ )E( \_\_ )"
+      \  \t bar\nbaz \r bam) \n C(foo  \t bar\nbaz \r bam) \n HORIZONTALLINE x M(föø\
+      \  \t b\nz \r m)\n   I(  )C(  )B(    )E(    )"
     parse_opts:
       whitespace: keep_single_newlines
-    html: "<p>Foo bar baz\nWelcome to\nwhite space\nfun\n! <b>foo bar baz bam</b>\n\
-      <code class='docutils literal notranslate'>foo    bar baz   bam</code>\n<hr/>x\
-      \ <span class=\"error\">ERROR while parsing: While parsing \"M(f\xF6\xF8  \\\
-      t b\\nz \\r m)\" at index 125: Module name \"f\xF6\xF8 b z m\" is not a FQCN</span>\n\
-      \_\_<em>\_\_</em><code class='docutils literal notranslate'>\_\_</code><b> \_\
-      \_ </b><code class=\"xref std std-envvar literal notranslate\"> \_\_ </code></p>"
-    html_plain: "<p>Foo bar baz\nWelcome to\nwhite space\nfun\n! <b>foo bar baz bam</b>\n\
-      <code>foo    bar baz   bam</code>\n<hr>x <span class=\"error\">ERROR while parsing:\
-      \ While parsing \"M(f\xF6\xF8  \\t b\\nz \\r m)\" at index 125: Module name\
-      \ \"f\xF6\xF8 b z m\" is not a FQCN</span>\n\_\_<em>\_\_</em><code>\_\_</code><b>\
-      \ \_\_ </b><code> \_\_ </code></p>"
-    md: "Foo bar baz\nWelcome to\nwhite space\nfun\n\\! <b>foo bar baz bam</b>\n<code>foo\
-      \    bar baz   bam</code>\n<hr>x <b>ERROR while parsing</b>: While parsing \\\
-      \"M\\(f\xF6\xF8  \\\\t b\\\\nz \\\\r m\\)\\\" at index 125\\: Module name \\\
-      \"f\xF6\xF8 b z m\\\" is not a FQCN\n\_\_<em>\_\_</em><code>\_\_</code><b> \_\
-      \_ </b><code> \_\_ </code>"
+    html: |-
+      <p>Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! <b>foo bar baz bam</b>
+      <code class='docutils literal notranslate'>foo    bar baz   bam</code>
+      <hr/>x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>
+        <em>  </em><code class='docutils literal notranslate'>  </code><b>    </b><code class="xref std std-envvar literal notranslate">    </code></p>
+    html_plain: |-
+      <p>Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! <b>foo bar baz bam</b>
+      <code>foo    bar baz   bam</code>
+      <hr>x <span class="error">ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN</span>
+        <em>  </em><code>  </code><b>    </b><code>    </code></p>
+    md: |-
+      Foo bar baz
+      Welcome to
+      white space
+      fun
+      \! <b>foo bar baz bam</b>
+      <code>foo    bar baz   bam</code>
+      <hr>x <b>ERROR while parsing</b>: While parsing \"M\(föø  \\t b\\nz \\r m\)\" at index 125\: Module name \"föø b z m\" is not a FQCN
+        <em>  </em><code>  </code><b>    </b><code>    </code>
     rst: "Foo bar baz\nWelcome to\nwhite space\nfun\n! \\ :strong:`foo bar baz bam`\\\
       \ \n\\ :literal:`foo    bar baz   bam`\\ \n\n\n.. raw:: html\n\n  <hr>\n\nx\
-      \ \\ :strong:`ERROR while parsing`\\ : While parsing \"M(f\xF6\xF8  \\\\t b\\\
-      \\nz \\\\r m)\" at index 125: Module name \"f\xF6\xF8 b z m\" is not a FQCN\\\
-      \ \n\_\_\\ :emphasis:`\_\_`\\ \\ :literal:`\_\_`\\ \\ :strong:`\\  \_\_ \\ `\\\
-      \ \\ :envvar:`\\  \_\_ \\ `\\ "
+      \ \\ :strong:`ERROR while parsing`\\ : While parsing \"M(föø  \\\\t b\\\\nz\
+      \ \\\\r m)\" at index 125: Module name \"föø b z m\" is not a FQCN\\ \n  \\\
+      \ :emphasis:`  `\\ \\ :literal:`  `\\ \\ :strong:`\\     \\ `\\ \\ :envvar:`\\\
+      \     \\ `\\ "
     rst_plain: "Foo bar baz\nWelcome to\nwhite space\nfun\n! \\ :strong:`foo bar baz\
       \ bam`\\ \n\\ :literal:`foo    bar baz   bam`\\ \n\n\n------------\n\nx \\ :strong:`ERROR\
-      \ while parsing`\\ : While parsing \"M(f\xF6\xF8  \\\\t b\\\\nz \\\\r m)\" at\
-      \ index 125: Module name \"f\xF6\xF8 b z m\" is not a FQCN\\ \n\_\_\\ :emphasis:`\_\
-      \_`\\ \\ :literal:`\_\_`\\ \\ :strong:`\\  \_\_ \\ `\\ \\ :envvar:`\\  \_\_\
-      \ \\ `\\ "
-    ansible_doc_text: "Foo bar baz\nWelcome to\nwhite space\nfun\n! *foo bar baz bam*\n\
-      `foo    bar baz   bam'\n\n-------------\nx [[ERROR while parsing: While parsing\
-      \ \"M(f\xF6\xF8  \\t b\\nz \\r m)\" at index 125: Module name \"f\xF6\xF8 b\
-      \ z m\" is not a FQCN]]\n\_\_`\_\_'`\_\_'* \_\_ *` \_\_ '"
+      \ while parsing`\\ : While parsing \"M(föø  \\\\t b\\\\nz \\\\r m)\" at index\
+      \ 125: Module name \"föø b z m\" is not a FQCN\\ \n  \\ :emphasis:`  `\\ \\\
+      \ :literal:`  `\\ \\ :strong:`\\     \\ `\\ \\ :envvar:`\\     \\ `\\ "
+    ansible_doc_text: |-
+      Foo bar baz
+      Welcome to
+      white space
+      fun
+      ! *foo bar baz bam*
+      `foo    bar baz   bam'
+
+      -------------
+      x [[ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN]]
+        `  '`  '*    *`    '
