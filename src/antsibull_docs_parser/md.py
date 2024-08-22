@@ -101,6 +101,13 @@ class MDFormatter(Formatter):
 DEFAULT_FORMATTER = MDFormatter()
 
 
+def postprocess_md_paragraph(par: str) -> str:
+    lines = par.strip().splitlines()
+    lines = [line.strip().replace("\t", " ") for line in lines]
+    lines = [line for line in lines if line]
+    return "\n".join(lines)
+
+
 def to_md(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_FORMATTER,
@@ -120,4 +127,5 @@ def to_md(
         par_sep=par_sep,
         par_empty=par_empty,
         current_plugin=current_plugin,
+        postprocess_paragraph=postprocess_md_paragraph,
     )
