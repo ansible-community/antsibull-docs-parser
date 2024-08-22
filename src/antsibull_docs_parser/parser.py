@@ -134,11 +134,20 @@ class CommandParser(abc.ABC):
     command: str
     parameters: int
     escaped_arguments: bool
+    strip_surrounding_whitespace: bool
 
-    def __init__(self, command: str, parameters: int, escaped_arguments: bool = False):
+    def __init__(
+        self,
+        command: str,
+        parameters: int,
+        escaped_arguments: bool = False,
+        *,
+        strip_surrounding_whitespace: bool = False,
+    ):
         self.command = command
         self.parameters = parameters
         self.escaped_arguments = escaped_arguments
+        self.strip_surrounding_whitespace = strip_surrounding_whitespace
 
     @abc.abstractmethod
     def parse(
@@ -160,8 +169,15 @@ class CommandParserEx(CommandParser):
         parameters: int,
         escaped_arguments: bool = False,
         old_markup: bool = False,
+        *,
+        strip_surrounding_whitespace: bool = False,
     ):
-        super().__init__(command, parameters, escaped_arguments)
+        super().__init__(
+            command,
+            parameters,
+            escaped_arguments=escaped_arguments,
+            strip_surrounding_whitespace=strip_surrounding_whitespace,
+        )
         self.old_markup = old_markup
 
 
@@ -308,7 +324,9 @@ class _Code(CommandParserEx):
 
 class _HorizontalLine(CommandParserEx):
     def __init__(self):
-        super().__init__("HORIZONTALLINE", 0, old_markup=True)
+        super().__init__(
+            "HORIZONTALLINE", 0, old_markup=True, strip_surrounding_whitespace=True
+        )
 
     def parse(
         self,
@@ -625,14 +643,16 @@ class Parser:
             if m is None:
                 result.append(self._create_text(text[index:], add_source, whitespace))
                 break
+            cmd = self._group_map[m.group(1)]
             if m.start(1) > index:
-                result.append(
-                    self._create_text(text[index : m.start(1)], add_source, whitespace)
-                )
+                pretext = text[index : m.start(1)]
+                if cmd.strip_surrounding_whitespace:
+                    pretext = pretext.rstrip(" \t")
+                result.append(self._create_text(pretext, add_source, whitespace))
             index = self._parse_command(
                 result,
                 text,
-                self._group_map[m.group(1)],
+                cmd,
                 m.start(1),
                 m.end(1),
                 context,
@@ -644,6 +664,9 @@ class Parser:
                 whitespace=whitespace,
                 offset=offset,
             )
+            if cmd.strip_surrounding_whitespace:
+                while index < length and text[index] in " \t":
+                    index += 1
         return result
 
 

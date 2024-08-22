@@ -126,7 +126,6 @@ TEST_PARSE_DATA: t.List[
                 dom.TextPart(text=" ) "),
                 dom.URLPart(url="https://example.com/?foo=bar"),
                 dom.HorizontalLinePart(),
-                dom.TextPart(text=" "),
                 dom.LinkPart(text="foo", url="https://bar.com"),
                 dom.TextPart(text=" "),
                 dom.RSTRefPart(text=" a", ref="b "),
@@ -154,7 +153,6 @@ TEST_PARSE_DATA: t.List[
                     source="U(https://example.com/?foo=bar)",
                 ),
                 dom.HorizontalLinePart(source="HORIZONTALLINE"),
-                dom.TextPart(text=" ", source=" "),
                 dom.LinkPart(
                     text="foo",
                     url="https://bar.com",
@@ -183,7 +181,6 @@ TEST_PARSE_DATA: t.List[
                 dom.TextPart(text=" ) "),
                 dom.URLPart(url="https://example.com/?foo=bar"),
                 dom.HorizontalLinePart(),
-                dom.TextPart(text=" "),
                 dom.LinkPart(text="foo", url="https://bar.com"),
                 dom.TextPart(text=" "),
                 dom.RSTRefPart(text=" a", ref="b "),
