@@ -5,7 +5,7 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.md import md_escape, to_md
+from antsibull_docs_parser.md import md_escape, postprocess_md_paragraph, to_md
 
 
 def test_md_escape():
@@ -17,6 +17,11 @@ def test_md_escape():
     )
 
 
-def test_to_rst():
+def test_postprocess_md_paragraph():
+    assert postprocess_md_paragraph("") == ""
+    assert postprocess_md_paragraph(" \n foo \n\r\n \n\tbar \n ") == "foo\nbar"
+
+
+def test_to_md():
     assert to_md([]) == ""
     assert to_md([[dom.TextPart(text="test")]]) == "test"

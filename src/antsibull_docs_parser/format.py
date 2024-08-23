@@ -212,6 +212,8 @@ def format_paragraphs(
     par_sep: str = "",
     par_empty: str = "",
     current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    *,
+    postprocess_paragraph: t.Optional[t.Callable[[str], str]] = None,
 ) -> str:
     """
     Apply the formatter to all parts of the given paragraphs, concatenate the results,
@@ -223,14 +225,20 @@ def format_paragraphs(
     if link_provider is None:
         link_provider = _DefaultLinkProvider()
     result: t.List[str] = []
-    walker = _FormatWalker(result, formatter, link_provider, current_plugin)
     for paragraph in paragraphs:
         if result:
             result.append(par_sep)
         result.append(par_start)
-        before_len = len(result)
+
+        par_result: t.List[str] = []
+        walker = _FormatWalker(par_result, formatter, link_provider, current_plugin)
         dom.walk(paragraph, walker)
-        if before_len == len(result):
-            result.append(par_empty)
+        par = "".join(par_result)
+        if postprocess_paragraph:
+            par = postprocess_paragraph(par)
+        if not par:
+            par = par_empty
+        result.append(par)
+
         result.append(par_end)
     return "".join(result)

@@ -1,0 +1,4 @@
+minor_changes:
+  - "Apply postprocessing to RST and MarkDown to avoid generating invalid markup when input contains whitespace at potentially dangerous places (https://github.com/ansible-community/antsibull-docs-parser/pull/56)."
+bugfixes:
+  - "Fix RST escaping to handle other whitespace than spaces correctly (https://github.com/ansible-community/antsibull-docs-parser/pull/56)."

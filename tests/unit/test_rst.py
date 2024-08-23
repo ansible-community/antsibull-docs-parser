@@ -5,7 +5,12 @@
 # SPDX-FileCopyrightText: 2023, Ansible Project
 
 from antsibull_docs_parser import dom
-from antsibull_docs_parser.rst import rst_escape, to_rst, to_rst_plain
+from antsibull_docs_parser.rst import (
+    postprocess_rst_paragraph,
+    rst_escape,
+    to_rst,
+    to_rst_plain,
+)
 
 
 def test_rst_escape():
@@ -13,6 +18,19 @@ def test_rst_escape():
     assert rst_escape("  foo  ") == "  foo  "
     assert rst_escape("  foo  ", True) == "\\   foo  \\ "
     assert rst_escape("\\<_>`*<_>*`\\") == "\\\\\\<\\_\\>\\`\\*\\<\\_\\>\\*\\`\\\\"
+
+
+def test_postprocess_rst_paragraph():
+    assert postprocess_rst_paragraph("") == ""
+    assert postprocess_rst_paragraph(" \n foo \n\r\n \n\tbar \n ") == "foo\nbar"
+    assert (
+        postprocess_rst_paragraph("\\ foo\\  \\  bar \\  \\ \n\nf\\ oo")
+        == "foo  bar\nf\\ oo"
+    )
+    assert postprocess_rst_paragraph("a\\ \\ \\ \\ \\ b") == "a\\ b"
+    assert postprocess_rst_paragraph("a\\ \\  \\ \\    \\ \\  ") == "a"
+    assert postprocess_rst_paragraph("\\ \\  \\ \\    \\ \\  a") == "a"
+    assert postprocess_rst_paragraph("\\ \\  \\ \\    \\ \\  ") == ""
 
 
 def test_to_rst():
