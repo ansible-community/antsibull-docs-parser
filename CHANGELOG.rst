@@ -4,6 +4,28 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 
 .. contents:: Topics
 
+v1.1.0
+======
+
+Release Summary
+---------------
+
+Bugfix and feature release that improves markup parsing and generation with respect to whitespace handling and escaping.
+
+Minor Changes
+-------------
+
+- Allow to determine how to handle whitespace during parsing with the new ``whitespace`` option (https://github.com/ansible-community/antsibull-docs-parser/pull/54).
+- Always remove some whitespace around ``HORIZONTALLINE`` (https://github.com/ansible-community/antsibull-docs-parser/pull/54).
+- Apply postprocessing to RST and MarkDown to avoid generating invalid markup when input contains whitespace at potentially dangerous places (https://github.com/ansible-community/antsibull-docs-parser/pull/56).
+
+Bugfixes
+--------
+
+- Do not apply URI encoding to visible URL (https://github.com/ansible-community/antsibull-docs-parser/pull/53).
+- Fix RST escaping to handle other whitespace than spaces correctly (https://github.com/ansible-community/antsibull-docs-parser/pull/56).
+- Improve handling of empty URL for links (https://github.com/ansible-community/antsibull-docs-parser/pull/53).
+
 v1.0.2
 ======
 

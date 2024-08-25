@@ -1,3 +1,0 @@
-minor_changes:
-  - "Allow to determine how to handle whitespace during parsing with the new ``whitespace`` option (https://github.com/ansible-community/antsibull-docs-parser/pull/54)."
-  - "Always remove some whitespace around ``HORIZONTALLINE`` (https://github.com/ansible-community/antsibull-docs-parser/pull/54)."
