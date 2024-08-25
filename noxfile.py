@@ -35,8 +35,6 @@ def install(session: nox.Session, *args, editable=False, **kwargs):
 
 @nox.session(python=["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"])
 def test(session: nox.Session):
-    if session.python in ("3.6",):
-        install(session, "pyparsing < 3.1.3")
     install(session, ".[test, coverage]", editable=True)
     covfile = Path(session.create_tmp(), ".coverage")
     more_args = []
