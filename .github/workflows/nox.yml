@@ -90,7 +90,7 @@ jobs:
         with:
           path: antsibull-docs-parser
       - name: Setup nox
-        uses: wntrblm/nox@2024.10.09
+        uses: wntrblm/nox@2024.03.02
         with:
           python-versions: "3.6"
       # https://github.com/ansible-community/antsibull-docs-parser/issues/25
