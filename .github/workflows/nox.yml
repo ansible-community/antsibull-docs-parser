@@ -29,19 +29,19 @@ jobs:
       matrix:
         include:
           - session: test
-            python-versions: "3.7, 3.8, 3.9, 3.10, 3.11, 3.12"
-            other-args: "-p 3.7 3.8 3.9 3.10 3.11 3.12"
+            python-versions: "3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13"
+            other-args: "-p 3.7 3.8 3.9 3.10 3.11 3.12 3.13"
             codecov: true
             packages: ""
 
           - session: lint
-            python-versions: "3.12"
+            python-versions: "3.13"
             other-args: ""
             codecov: false
             packages: ""
 
           - session: create_vectors
-            python-versions: "3.12"
+            python-versions: "3.13"
             other-args: ""
             codecov: false
             packages: ""
