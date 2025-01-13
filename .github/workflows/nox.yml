@@ -29,8 +29,8 @@ jobs:
       matrix:
         include:
           - session: test
-            python-versions: "3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13"
-            other-args: "-p 3.7 3.8 3.9 3.10 3.11 3.12 3.13"
+            python-versions: "3.8, 3.9, 3.10, 3.11, 3.12, 3.13"
+            other-args: "-p 3.8 3.9 3.10 3.11 3.12 3.13"
             codecov: true
             packages: ""
 
@@ -79,9 +79,44 @@ jobs:
           working-directory: antsibull-docs-parser
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  nox-test-37:
+    # python3.7 is not available on ubuntu-latest
+    runs-on: ubuntu-22.04
+    name: "Run nox test session (Python 3.7)"
+    defaults:
+      run:
+        working-directory: antsibull-docs-parser
+    steps:
+      - name: Check out antsibull-docs-parser
+        uses: actions/checkout@v4
+        with:
+          path: antsibull-docs-parser
+          persist-credentials: false
+      - name: Setup nox
+        uses: wntrblm/nox@2024.10.09
+        with:
+          python-versions: "3.7"
+      - name: Set up nox environments
+        run: |
+          nox -v -e "test" -p 3.7 --install-only
+          nox -v -e coverage --install-only
+      - name: "Run nox -e test -p 3.7"
+        run: |
+          nox -v -e "test" -p 3.7 --reuse-existing-virtualenvs --no-install
+      - name: Report coverage
+        run: |
+          nox -v -e coverage --reuse-existing-virtualenvs --no-install
+      - name: Upload coverage
+        uses: codecov/codecov-action@v5
+        with:
+          name: "test"
+          working-directory: antsibull-docs-parser
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   nox-test-36:
     # python3.6 is not available on ubuntu-latest
     runs-on: ubuntu-20.04
+    name: "Run nox test session (Python 3.6)"
     defaults:
       run:
         working-directory: antsibull-docs-parser
