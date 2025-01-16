@@ -106,3 +106,15 @@ releases:
       - 54-whitespace.yml
       - 56-postprocess.yml
     release_date: '2024-08-25'
+  1.1.1:
+    changes:
+      bugfixes:
+        - Make sure to also escape pipes (``\|``) in reStructured Text (https://github.com/ansible-community/antsibull-docs-parser/pull/65).
+      minor_changes:
+        - Declare support for Python 3.13 (https://github.com/ansible-community/antsibull-docs-parser/pull/59).
+      release_summary: Bugfix release.
+    fragments:
+      - 1.1.1.yml
+      - 65-rst-pipe.yml
+      - python-3.13.yml
+    release_date: '2025-01-16'

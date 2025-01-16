@@ -1,2 +1,0 @@
-bugfixes:
-  - "Make sure to also escape pipes (``\\|``) in reStructured Text (https://github.com/ansible-community/antsibull-docs-parser/pull/65)."
