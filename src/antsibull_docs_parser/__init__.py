@@ -7,6 +7,6 @@
 Library for processing Ansible documentation markup.
 """
 
-__version__ = "1.1.0.post0"
+__version__ = "1.1.1"
 
 __all__ = ("__version__",)
