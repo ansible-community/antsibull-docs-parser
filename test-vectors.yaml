@@ -1621,3 +1621,17 @@ test_vectors:
       -------------
       x [[ERROR while parsing: While parsing "M(föø  \t b\nz \r m)" at index 125: Module name "föø b z m" is not a FQCN]]
         `  '`  '*    *`    '
+  pipe_symbol:
+    source: Use C(0)|C(1).
+    html: |-
+      <p>Use <code class='docutils literal notranslate'>0</code>|<code class='docutils literal notranslate'>1</code>.</p>
+    html_plain: |-
+      <p>Use <code>0</code>|<code>1</code>.</p>
+    md: |-
+      Use <code>0</code>\|<code>1</code>\.
+    rst: |-
+      Use :literal:`0`\ |\ :literal:`1`.
+    rst_plain: |-
+      Use :literal:`0`\ |\ :literal:`1`.
+    ansible_doc_text: |-
+      Use `0'|`1'.
