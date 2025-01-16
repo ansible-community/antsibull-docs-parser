@@ -1630,8 +1630,8 @@ test_vectors:
     md: |-
       Use <code>0</code>\|<code>1</code>\.
     rst: |-
-      Use :literal:`0`\ |\ :literal:`1`.
+      Use :literal:`0`\ \|\ :literal:`1`.
     rst_plain: |-
-      Use :literal:`0`\ |\ :literal:`1`.
+      Use :literal:`0`\ \|\ :literal:`1`.
     ansible_doc_text: |-
       Use `0'|`1'.
