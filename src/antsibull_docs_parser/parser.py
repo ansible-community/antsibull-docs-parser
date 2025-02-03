@@ -23,7 +23,7 @@ _PLUGIN_TYPE = re.compile(r"^[a-z_]+$")
 _WHITESPACE = re.compile(r"([\s]+)")
 _DANGEROUS_WS = re.compile(r"[\t\n\r]")
 _SPACES_TO_KEEP = re.compile(
-    "([\u00A0\u202F\u2007\u2060\u200B\u200C\u200D\uFEFF]+)", flags=re.UNICODE
+    "([\u00a0\u202f\u2007\u2060\u200b\u200c\u200d\ufeff]+)", flags=re.UNICODE
 )
 
 
