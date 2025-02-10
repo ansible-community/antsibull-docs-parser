@@ -127,7 +127,7 @@ jobs:
           path: antsibull-docs-parser
           persist-credentials: false
       - name: Setup nox
-        uses: wntrblm/nox@2025.02.09  # DO NOT UPDATE THIS! Newer versions do not work with Python 3.6
+        uses: wntrblm/nox@2024.03.02  # DO NOT UPDATE THIS! Newer versions do not work with Python 3.6
         with:
           python-versions: "3.6"
       # https://github.com/ansible-community/antsibull-docs-parser/issues/25
