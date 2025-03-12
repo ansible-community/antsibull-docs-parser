@@ -118,3 +118,13 @@ releases:
       - 65-rst-pipe.yml
       - python-3.13.yml
     release_date: '2025-01-16'
+  1.2.0:
+    changes:
+      release_summary: Maintenance release that drops support for older Python releases.
+      removed_features:
+        - antsibull-docs-parser no longer supports Python 3.6, 3.7, and 3.8. Python
+          3.9+ is now required (https://github.com/ansible-community/antsibull-docs-parser/pull/68).
+    fragments:
+      - 1.2.0.yml
+      - 68-python.yml
+    release_date: '2025-03-12'
