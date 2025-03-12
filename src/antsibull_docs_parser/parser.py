@@ -7,6 +7,8 @@
 Parser for formatted texts.
 """
 
+from __future__ import annotations
+
 import abc
 import re
 import typing as t
@@ -59,7 +61,7 @@ class Whitespace(_Enum):
 
 
 def _add_whitespace(
-    result: t.List[str],
+    result: list[str],
     ws: str,
     *,
     whitespace: Whitespace,
@@ -124,8 +126,8 @@ def _process_whitespace(
 
 
 class Context(t.NamedTuple):
-    current_plugin: t.Optional[dom.PluginIdentifier] = None
-    role_entrypoint: t.Optional[str] = None
+    current_plugin: dom.PluginIdentifier | None = None
+    role_entrypoint: str | None = None
 
 
 class CommandParser(abc.ABC):
@@ -150,9 +152,9 @@ class CommandParser(abc.ABC):
     @abc.abstractmethod
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         pass  # pragma: no cover
@@ -188,9 +190,9 @@ class _Italics(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.ItalicPart(
@@ -207,9 +209,9 @@ class _Bold(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.BoldPart(
@@ -226,9 +228,9 @@ class _Module(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         fqcn = _process_whitespace(
@@ -245,9 +247,9 @@ class _URL(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.URLPart(
@@ -264,9 +266,9 @@ class _Link(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         text = _process_whitespace(
@@ -284,9 +286,9 @@ class _RSTRef(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         text = _process_whitespace(
@@ -304,9 +306,9 @@ class _Code(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.CodePart(
@@ -328,9 +330,9 @@ class _HorizontalLine(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.HorizontalLinePart(source=source)
@@ -342,17 +344,17 @@ class _HorizontalLine(CommandParserEx):
 def _parse_option_like(
     text: str,
     context: Context,
-) -> t.Tuple[
-    t.Optional[dom.PluginIdentifier],
-    t.Optional[str],
-    t.List[str],
+) -> tuple[
+    dom.PluginIdentifier | None,
+    str | None,
+    list[str],
     str,
-    t.Optional[str],
+    str | None,
 ]:
     value = None
     if "=" in text:
         text, value = text.split("=", 1)
-    entrypoint: t.Optional[str] = None
+    entrypoint: str | None = None
     m = _FQCN_TYPE_PREFIX_RE.match(text)
     if m:
         plugin_fqcn = m.group(1)
@@ -393,9 +395,9 @@ class _Plugin(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         name = _process_whitespace(
@@ -419,9 +421,9 @@ class _EnvVar(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.EnvVariablePart(
@@ -441,9 +443,9 @@ class _OptionValue(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         return dom.OptionValuePart(
@@ -463,9 +465,9 @@ class _OptionName(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         plugin, entrypoint, link, name, value = _parse_option_like(
@@ -493,9 +495,9 @@ class _ReturnValue(CommandParserEx):
 
     def parse(
         self,
-        parameters: t.List[str],
+        parameters: list[str],
         context: Context,
-        source: t.Optional[str],
+        source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
         plugin, entrypoint, link, name, value = _parse_option_like(
@@ -574,8 +576,8 @@ class Parser:
         whitespace: Whitespace,
         offset: int,
     ) -> int:
-        args: t.List[str]
-        error: t.Optional[str] = None
+        args: list[str]
+        error: str | None = None
         if cmd.parameters == 0:
             args = []
         elif cmd.escaped_arguments:
@@ -673,7 +675,7 @@ _SEMANTIC_MARKUP = Parser(_COMMANDS)
 
 
 def parse(
-    text: t.Union[str, t.Sequence[str]],
+    text: str | t.Sequence[str],
     context: Context,
     errors: dom.ErrorType = "message",
     only_classic_markup: bool = False,
@@ -682,7 +684,7 @@ def parse(
     helpful_errors: bool = True,
     *,
     whitespace: Whitespace = Whitespace.IGNORE,
-) -> t.List[dom.Paragraph]:
+) -> list[dom.Paragraph]:
     """
     Parse a string, or a sequence of strings, to a list of paragraphs.
 
