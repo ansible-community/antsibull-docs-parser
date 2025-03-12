@@ -7,6 +7,8 @@
 Flexible formatting of DOM.
 """
 
+from __future__ import annotations
+
 import abc
 import typing as t
 
@@ -21,21 +23,21 @@ class LinkProvider(abc.ABC):
     def plugin_link(  # pylint:disable=no-self-use
         self,
         plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
-    ) -> t.Optional[str]:
+    ) -> str | None:
         """Provides a link to a plugin."""
         return None
 
     def plugin_option_like_link(  # pylint:disable=no-self-use
         self,
         plugin: dom.PluginIdentifier,  # pylint:disable=unused-argument
-        entrypoint: t.Optional[str],  # pylint:disable=unused-argument
+        entrypoint: str | None,  # pylint:disable=unused-argument
         # pylint:disable-next=unused-argument
-        what: "t.Union[t.Literal['option'], t.Literal['retval']]",
+        what: t.Literal["option"] | t.Literal["retval"],
         # pylint:disable-next=unused-argument
-        name: t.List[str],
+        name: list[str],
         # pylint:disable-next=unused-argument
         current_plugin: bool,
-    ) -> t.Optional[str]:
+    ) -> str | None:
         """Provides a link to a plugin's option or return value."""
         return None
 
@@ -75,7 +77,7 @@ class Formatter(abc.ABC):
         pass  # pragma: no cover
 
     @abc.abstractmethod
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         pass  # pragma: no cover
 
     @abc.abstractmethod
@@ -95,7 +97,7 @@ class Formatter(abc.ABC):
         pass  # pragma: no cover
 
     @abc.abstractmethod
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         pass  # pragma: no cover
 
     @abc.abstractmethod
@@ -103,13 +105,11 @@ class Formatter(abc.ABC):
         pass  # pragma: no cover
 
     @abc.abstractmethod
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         pass  # pragma: no cover
 
     @abc.abstractmethod
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         pass  # pragma: no cover
 
 
@@ -118,17 +118,17 @@ class _FormatWalker(dom.Walker):
     Walker which calls a formatter's functions and stores the result in a list.
     """
 
-    destination: t.List[str]
+    destination: list[str]
     formatter: Formatter
     link_provider: LinkProvider
-    current_plugin: t.Optional[dom.PluginIdentifier]
+    current_plugin: dom.PluginIdentifier | None
 
     def __init__(
         self,
-        destination: t.List[str],
+        destination: list[str],
         formatter: Formatter,
         link_provider: LinkProvider,
-        current_plugin: t.Optional[dom.PluginIdentifier],
+        current_plugin: dom.PluginIdentifier | None,
     ):
         self.destination = destination
         self.formatter = formatter
@@ -206,14 +206,14 @@ class _FormatWalker(dom.Walker):
 def format_paragraphs(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "",
     par_end: str = "",
     par_sep: str = "",
     par_empty: str = "",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
     *,
-    postprocess_paragraph: t.Optional[t.Callable[[str], str]] = None,
+    postprocess_paragraph: t.Callable[[str], str] | None = None,
 ) -> str:
     """
     Apply the formatter to all parts of the given paragraphs, concatenate the results,
@@ -224,13 +224,13 @@ def format_paragraphs(
     """
     if link_provider is None:
         link_provider = _DefaultLinkProvider()
-    result: t.List[str] = []
+    result: list[str] = []
     for paragraph in paragraphs:
         if result:
             result.append(par_sep)
         result.append(par_start)
 
-        par_result: t.List[str] = []
+        par_result: list[str] = []
         walker = _FormatWalker(par_result, formatter, link_provider, current_plugin)
         dom.walk(paragraph, walker)
         par = "".join(par_result)

@@ -7,6 +7,8 @@
 Ansible-doc text serialization.
 """
 
+from __future__ import annotations
+
 import typing as t
 
 from . import dom
@@ -17,7 +19,7 @@ from .format import format_paragraphs as _format_paragraphs
 class AnsibleDocTextFormatter(Formatter):
     @staticmethod
     def _format_option_like(
-        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart],
+        part: dom.OptionNamePart | dom.ReturnValuePart,
     ) -> str:
         value = part.value
         if value is None:
@@ -54,7 +56,7 @@ class AnsibleDocTextFormatter(Formatter):
     def format_link(self, part: dom.LinkPart) -> str:
         return f"{part.text} <{part.url}>"
 
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         return f"[{part.fqcn}]"
 
     def format_rst_ref(self, part: dom.RSTRefPart) -> str:
@@ -69,18 +71,16 @@ class AnsibleDocTextFormatter(Formatter):
     def format_env_variable(self, part: dom.EnvVariablePart) -> str:
         return f"`{part.name}'"
 
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         return self._format_option_like(part)
 
     def format_option_value(self, part: dom.OptionValuePart) -> str:
         return f"`{part.value}'"
 
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         return f"[{part.plugin.fqcn}]"
 
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         return self._format_option_like(part)
 
 
@@ -90,12 +90,12 @@ DEFAULT_ANSIBLE_DOC_FORMATTER = AnsibleDocTextFormatter()
 def to_ansible_doc_text(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_ANSIBLE_DOC_FORMATTER,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "",
     par_end: str = "",
     par_sep: str = "\n\n",
     par_empty: str = "",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
     return _format_paragraphs(
         paragraphs,

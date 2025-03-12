@@ -11,7 +11,7 @@ name = "antsibull-docs-parser"
 dynamic = ["version"]
 description = "Python library for processing Ansible documentation markup"
 readme = "README.md"
-requires-python = ">=3.6.1"
+requires-python = ">=3.9"
 license = "GPL-3.0-or-later AND BSD-2-Clause"
 license-files.globs = ["LICENSES/*.txt"]
 authors = [
@@ -22,13 +22,10 @@ maintainers = [
   { name = "Maxwell G", email = "maxwell@gtmx.me" },
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Framework :: Ansible",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",

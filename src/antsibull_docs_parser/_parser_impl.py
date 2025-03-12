@@ -7,8 +7,9 @@
 Internal parsing code.
 """
 
+from __future__ import annotations
+
 import re
-import typing as t
 
 _ESCAPE_OR_COMMA = re.compile(r"\\(.)| *(,) *")
 _ESCAPE_OR_CLOSING = re.compile(r"\\(.)|([)])")
@@ -19,12 +20,12 @@ def parse_parameters_escaped(
     index: int,
     parameter_count: int,
     strict: bool,
-) -> t.Tuple[t.List[str], int, t.Optional[str]]:
-    result: t.List[str] = []
+) -> tuple[list[str], int, str | None]:
+    result: list[str] = []
     parameters_left = parameter_count
     while parameters_left > 1:
         parameters_left -= 1
-        value: t.List[str] = []
+        value: list[str] = []
         while True:
             match = _ESCAPE_OR_COMMA.search(text, pos=index)
             if not match:
@@ -77,8 +78,8 @@ def parse_parameters_unescaped(
     index: int,
     parameter_count: int,
     strict: bool,  # pylint: disable=unused-argument
-) -> t.Tuple[t.List[str], int, t.Optional[str]]:
-    result: t.List[str] = []
+) -> tuple[list[str], int, str | None]:
+    result: list[str] = []
     first = True
     parameters_left = parameter_count
     while parameters_left > 1:

@@ -7,6 +7,8 @@
 MarkDown serialization.
 """
 
+from __future__ import annotations
+
 import re
 import typing as t
 
@@ -26,7 +28,7 @@ def md_escape(text: str) -> str:
 class MDFormatter(Formatter):
     @staticmethod
     def _format_option_like(
-        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart], url: t.Optional[str]
+        part: dom.OptionNamePart | dom.ReturnValuePart, url: str | None
     ) -> str:
         link_start = ""
         link_end = ""
@@ -63,7 +65,7 @@ class MDFormatter(Formatter):
         url_escaped = md_escape(_url_escape(part.url))
         return f"[{md_escape(part.text)}]({url_escaped})"
 
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         if url:
             return f"[{md_escape(part.fqcn)}]({md_escape(_url_escape(url))})"
         return md_escape(part.fqcn)
@@ -81,20 +83,18 @@ class MDFormatter(Formatter):
     def format_env_variable(self, part: dom.EnvVariablePart) -> str:
         return f"<code>{md_escape(part.name)}</code>"
 
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         return self._format_option_like(part, url)
 
     def format_option_value(self, part: dom.OptionValuePart) -> str:
         return f"<code>{md_escape(part.value)}</code>"
 
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         if url:
             return f"[{md_escape(part.plugin.fqcn)}]({md_escape(_url_escape(url))})"
         return md_escape(part.plugin.fqcn)
 
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         return self._format_option_like(part, url)
 
 
@@ -111,12 +111,12 @@ def postprocess_md_paragraph(par: str) -> str:
 def to_md(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_FORMATTER,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "",
     par_end: str = "",
     par_sep: str = "\n\n",
     par_empty: str = " ",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
     return _format_paragraphs(
         paragraphs,

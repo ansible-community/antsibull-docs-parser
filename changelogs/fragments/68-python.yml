@@ -1,0 +1,2 @@
+removed_features:
+  - "antsibull-docs-parser no longer supports Python 3.6, 3.7, and 3.8. Python 3.9+ is now required (https://github.com/ansible-community/antsibull-docs-parser/pull/68)."

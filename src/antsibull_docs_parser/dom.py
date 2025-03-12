@@ -7,19 +7,14 @@
 DOM classes used by parser.
 """
 
+from __future__ import annotations
+
 import abc
-import sys
 import typing as t
 from enum import Enum
 from typing import NamedTuple
 
-if sys.version_info >= (3, 8):
-    ErrorType = t.Union[
-        t.Literal["ignore"], t.Literal["message"], t.Literal["exception"]
-    ]
-else:
-    # Python 3.6/3.7 do not have t.Literal
-    ErrorType = str  # pragma: no cover
+ErrorType = t.Union[t.Literal["ignore"], t.Literal["message"], t.Literal["exception"]]
 
 
 class PluginIdentifier(NamedTuple):
@@ -47,101 +42,101 @@ class PartType(Enum):
 
 class TextPart(NamedTuple):
     text: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.TEXT]" = PartType.TEXT
+    source: str | None = None
+    type: t.Literal[PartType.TEXT] = PartType.TEXT
 
 
 class ItalicPart(NamedTuple):
     text: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.ITALIC]" = PartType.ITALIC
+    source: str | None = None
+    type: t.Literal[PartType.ITALIC] = PartType.ITALIC
 
 
 class BoldPart(NamedTuple):
     text: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.BOLD]" = PartType.BOLD
+    source: str | None = None
+    type: t.Literal[PartType.BOLD] = PartType.BOLD
 
 
 class ModulePart(NamedTuple):
     fqcn: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.MODULE]" = PartType.MODULE
+    source: str | None = None
+    type: t.Literal[PartType.MODULE] = PartType.MODULE
 
 
 class PluginPart(NamedTuple):
     plugin: PluginIdentifier
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.PLUGIN]" = PartType.PLUGIN
+    source: str | None = None
+    type: t.Literal[PartType.PLUGIN] = PartType.PLUGIN
 
 
 class URLPart(NamedTuple):
     url: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.URL]" = PartType.URL
+    source: str | None = None
+    type: t.Literal[PartType.URL] = PartType.URL
 
 
 class LinkPart(NamedTuple):
     text: str
     url: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.LINK]" = PartType.LINK
+    source: str | None = None
+    type: t.Literal[PartType.LINK] = PartType.LINK
 
 
 class RSTRefPart(NamedTuple):
     text: str
     ref: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.RST_REF]" = PartType.RST_REF
+    source: str | None = None
+    type: t.Literal[PartType.RST_REF] = PartType.RST_REF
 
 
 class CodePart(NamedTuple):
     text: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.CODE]" = PartType.CODE
+    source: str | None = None
+    type: t.Literal[PartType.CODE] = PartType.CODE
 
 
 class OptionNamePart(NamedTuple):
-    plugin: t.Optional[PluginIdentifier]
-    entrypoint: t.Optional[str]  # present iff plugin.type == 'role'
-    link: t.List[str]
+    plugin: PluginIdentifier | None
+    entrypoint: str | None  # present iff plugin.type == 'role'
+    link: list[str]
     name: str
-    value: t.Optional[str]
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.OPTION_NAME]" = PartType.OPTION_NAME
+    value: str | None
+    source: str | None = None
+    type: t.Literal[PartType.OPTION_NAME] = PartType.OPTION_NAME
 
 
 class OptionValuePart(NamedTuple):
     value: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.OPTION_VALUE]" = PartType.OPTION_VALUE
+    source: str | None = None
+    type: t.Literal[PartType.OPTION_VALUE] = PartType.OPTION_VALUE
 
 
 class EnvVariablePart(NamedTuple):
     name: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.ENV_VARIABLE]" = PartType.ENV_VARIABLE
+    source: str | None = None
+    type: t.Literal[PartType.ENV_VARIABLE] = PartType.ENV_VARIABLE
 
 
 class ReturnValuePart(NamedTuple):
-    plugin: t.Optional[PluginIdentifier]
-    entrypoint: t.Optional[str]  # present iff plugin.type == 'role'
-    link: t.List[str]
+    plugin: PluginIdentifier | None
+    entrypoint: str | None  # present iff plugin.type == 'role'
+    link: list[str]
     name: str
-    value: t.Optional[str]
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.RETURN_VALUE]" = PartType.RETURN_VALUE
+    value: str | None
+    source: str | None = None
+    type: t.Literal[PartType.RETURN_VALUE] = PartType.RETURN_VALUE
 
 
 class HorizontalLinePart(NamedTuple):
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.HORIZONTAL_LINE]" = PartType.HORIZONTAL_LINE
+    source: str | None = None
+    type: t.Literal[PartType.HORIZONTAL_LINE] = PartType.HORIZONTAL_LINE
 
 
 class ErrorPart(NamedTuple):
     message: str
-    source: t.Optional[str] = None
-    type: "t.Literal[PartType.ERROR]" = PartType.ERROR
+    source: str | None = None
+    type: t.Literal[PartType.ERROR] = PartType.ERROR
 
 
 AnyPart = t.Union[
@@ -163,7 +158,7 @@ AnyPart = t.Union[
 ]
 
 
-Paragraph = t.List[AnyPart]
+Paragraph = list[AnyPart]
 
 
 class Walker(abc.ABC):

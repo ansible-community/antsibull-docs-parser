@@ -7,6 +7,8 @@
 HTML serialization.
 """
 
+from __future__ import annotations
+
 import typing as t
 from html import escape as _html_escape
 from urllib.parse import quote
@@ -29,7 +31,7 @@ def _url_escape(url: str) -> str:
 class AntsibullHTMLFormatter(Formatter):
     @staticmethod
     def _format_option_like(
-        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart], url: t.Optional[str]
+        part: dom.OptionNamePart | dom.ReturnValuePart, url: str | None
     ) -> str:
         link_start = ""
         link_end = ""
@@ -77,7 +79,7 @@ class AntsibullHTMLFormatter(Formatter):
     def format_link(self, part: dom.LinkPart) -> str:
         return f"<a href='{_html_escape(_url_escape(part.url))}'>{html_escape(part.text)}</a>"
 
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         if not url:
             return f"<span class='module'>{html_escape(part.fqcn)}</span>"
         return (
@@ -103,13 +105,13 @@ class AntsibullHTMLFormatter(Formatter):
             f"{html_escape(part.name)}</code>"
         )
 
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         return self._format_option_like(part, url)
 
     def format_option_value(self, part: dom.OptionValuePart) -> str:
         return f'<code class="ansible-value literal notranslate">{html_escape(part.value)}</code>'
 
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         if not url:
             return f"<span class='module'>{html_escape(part.plugin.fqcn)}</span>"
         return (
@@ -117,16 +119,14 @@ class AntsibullHTMLFormatter(Formatter):
             f"{html_escape(part.plugin.fqcn)}</a>"
         )
 
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         return self._format_option_like(part, url)
 
 
 class PlainHTMLFormatter(Formatter):
     @staticmethod
     def _format_option_like(
-        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart], url: t.Optional[str]
+        part: dom.OptionNamePart | dom.ReturnValuePart, url: str | None
     ) -> str:
         link_start = ""
         link_end = ""
@@ -162,7 +162,7 @@ class PlainHTMLFormatter(Formatter):
     def format_link(self, part: dom.LinkPart) -> str:
         return f"<a href='{_html_escape(_url_escape(part.url))}'>{html_escape(part.text)}</a>"
 
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         if not url:
             return f"<span>{html_escape(part.fqcn)}</span>"
         return (
@@ -184,20 +184,18 @@ class PlainHTMLFormatter(Formatter):
     def format_env_variable(self, part: dom.EnvVariablePart) -> str:
         return f"<code>{html_escape(part.name)}</code>"
 
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         return self._format_option_like(part, url)
 
     def format_option_value(self, part: dom.OptionValuePart) -> str:
         return f"<code>{html_escape(part.value)}</code>"
 
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         if not url:
             return f"<span>{html_escape(part.plugin.fqcn)}</span>"
         return f"<a href='{_html_escape(_url_escape(url))}'>{html_escape(part.plugin.fqcn)}</a>"
 
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         return self._format_option_like(part, url)
 
 
@@ -208,12 +206,12 @@ DEFAULT_PLAIN_FORMATTER = PlainHTMLFormatter()
 def to_html(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_ANTSIBULL_FORMATTER,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "<p>",
     par_end: str = "</p>",
     par_sep: str = "",
     par_empty: str = "",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
     return _format_paragraphs(
         paragraphs,
@@ -230,12 +228,12 @@ def to_html(
 def to_html_plain(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_PLAIN_FORMATTER,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "<p>",
     par_end: str = "</p>",
     par_sep: str = "",
     par_empty: str = "",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
     return _format_paragraphs(
         paragraphs,

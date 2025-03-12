@@ -7,6 +7,8 @@
 ReStructured Text serialization.
 """
 
+from __future__ import annotations
+
 import re
 import typing as t
 
@@ -49,9 +51,9 @@ def rst_escape(
 class AntsibullRSTFormatter(Formatter):
     @staticmethod
     def _format_option_like(
-        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart], role: str
+        part: dom.OptionNamePart | dom.ReturnValuePart, role: str
     ) -> str:
-        result: t.List[str] = []
+        result: list[str] = []
         plugin = part.plugin
         if plugin:
             result.append(plugin.fqcn)
@@ -107,7 +109,7 @@ class AntsibullRSTFormatter(Formatter):
         text = rst_escape(part.text, escape_ending_whitespace=True)
         return f"\\ `{text} <{_url_escape(part.url)}>`__\\ "
 
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         text = rst_escape(
             part.fqcn, escape_ending_whitespace=True, must_not_be_empty=True
         )
@@ -134,7 +136,7 @@ class AntsibullRSTFormatter(Formatter):
         )
         return f"\\ :envvar:`{text}`\\ "
 
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         return self._format_option_like(part, "ansopt")
 
     def format_option_value(self, part: dom.OptionValuePart) -> str:
@@ -143,24 +145,22 @@ class AntsibullRSTFormatter(Formatter):
         )
         return f"\\ :ansval:`{text}`\\ "
 
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         return (
             f"\\ :ref:`{rst_escape(part.plugin.fqcn)} "
             f"<ansible_collections.{part.plugin.fqcn}_{part.plugin.type}>`\\ "
         )
 
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         return self._format_option_like(part, "ansretval")
 
 
 class PlainRSTFormatter(Formatter):
     @staticmethod
     def _format_option_like(
-        part: t.Union[dom.OptionNamePart, dom.ReturnValuePart],
+        part: dom.OptionNamePart | dom.ReturnValuePart,
     ) -> str:
-        plugin_result: t.List[str] = []
+        plugin_result: list[str] = []
         plugin = part.plugin
         if plugin:
             plugin_result.append(plugin.type)
@@ -225,7 +225,7 @@ class PlainRSTFormatter(Formatter):
         text = rst_escape(part.text, escape_ending_whitespace=True)
         return f"\\ `{text} <{_url_escape(part.url)}>`__\\ "
 
-    def format_module(self, part: dom.ModulePart, url: t.Optional[str]) -> str:
+    def format_module(self, part: dom.ModulePart, url: str | None) -> str:
         text = rst_escape(
             part.fqcn, escape_ending_whitespace=True, must_not_be_empty=True
         )
@@ -252,7 +252,7 @@ class PlainRSTFormatter(Formatter):
         )
         return f"\\ :envvar:`{text}`\\ "
 
-    def format_option_name(self, part: dom.OptionNamePart, url: t.Optional[str]) -> str:
+    def format_option_name(self, part: dom.OptionNamePart, url: str | None) -> str:
         return self._format_option_like(part)
 
     def format_option_value(self, part: dom.OptionValuePart) -> str:
@@ -261,15 +261,13 @@ class PlainRSTFormatter(Formatter):
         )
         return f"\\ :literal:`{text}`\\ "
 
-    def format_plugin(self, part: dom.PluginPart, url: t.Optional[str]) -> str:
+    def format_plugin(self, part: dom.PluginPart, url: str | None) -> str:
         return (
             f"\\ :ref:`{rst_escape(part.plugin.fqcn)} "
             f"<ansible_collections.{part.plugin.fqcn}_{part.plugin.type}>`\\ "
         )
 
-    def format_return_value(
-        self, part: dom.ReturnValuePart, url: t.Optional[str]
-    ) -> str:
+    def format_return_value(self, part: dom.ReturnValuePart, url: str | None) -> str:
         return self._format_option_like(part)
 
 
@@ -330,13 +328,13 @@ def _remove_backslash_space(line: str) -> str:
     return line
 
 
-def _check_line(index: int, lines: t.List[str], line: str) -> bool:
+def _check_line(index: int, lines: list[str], line: str) -> bool:
     if index < 0 or index >= len(lines):
         return False
     return lines[index] == line
 
 
-def _modify_line(index: int, line: str, lines: t.List[str]) -> bool:
+def _modify_line(index: int, line: str, lines: list[str]) -> bool:
     raw_html = ".. raw:: html"
     dashes = "------------"
     hr = "  <hr>"
@@ -380,12 +378,12 @@ def postprocess_rst_paragraph(par: str) -> str:
 def to_rst(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_ANTSIBULL_FORMATTER,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "",
     par_end: str = "",
     par_sep: str = "\n\n",
     par_empty: str = "\\",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
     return _format_paragraphs(
         paragraphs,
@@ -403,12 +401,12 @@ def to_rst(
 def to_rst_plain(
     paragraphs: t.Sequence[dom.Paragraph],
     formatter: Formatter = DEFAULT_PLAIN_FORMATTER,
-    link_provider: t.Optional[LinkProvider] = None,
+    link_provider: LinkProvider | None = None,
     par_start: str = "",
     par_end: str = "",
     par_sep: str = "\n\n",
     par_empty: str = "\\",
-    current_plugin: t.Optional[dom.PluginIdentifier] = None,
+    current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
     return _format_paragraphs(
         paragraphs,
