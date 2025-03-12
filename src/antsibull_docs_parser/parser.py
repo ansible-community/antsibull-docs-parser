@@ -546,7 +546,7 @@ def _command_re(command: CommandParser) -> str:
 
 class Parser:
     _group_map: t.Mapping[str, CommandParser]
-    _re: "re.Pattern"  # on Python 3.6 the type is called differently
+    _re: re.Pattern
 
     def __init__(self, commands: t.Sequence[CommandParser]):
         self._group_map = {
