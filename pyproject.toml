@@ -22,7 +22,7 @@ maintainers = [
   { name = "Maxwell G", email = "maxwell@gtmx.me" },
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 5 - Production/Stable",
     "Framework :: Ansible",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
