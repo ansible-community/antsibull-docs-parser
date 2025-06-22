@@ -80,7 +80,9 @@ Renderers that can not link to RST labels should simply show the title instead.
 
 ### Environment variable references
 
-The `E(...)` markup's parameter is the name of an environment variable.
+The `E(...)` markup's parameter is the name of an environment variable, with an optional value.
+
+If the argument contains `=`, the part before the `=` is the environment variable's name, and the part after its value. If no `=` is present, the whole argument is the environment variable's name.
 
 ### Ansible values
 

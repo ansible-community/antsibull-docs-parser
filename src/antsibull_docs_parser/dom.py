@@ -251,6 +251,9 @@ class EnvVariablePart(NamedTuple):
     name: str
     """The environment variable's name."""
 
+    value: str | None
+    """The (optional) environment variable's value."""
+
     source: str | None = None
     """The (optional) source of the markup."""
 
