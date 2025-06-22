@@ -1,2 +1,0 @@
-bugfixes:
-  - "Accept upper-case letters when validating FQCNs (https://github.com/ansible-community/antsibull-docs-parser/pull/71)."

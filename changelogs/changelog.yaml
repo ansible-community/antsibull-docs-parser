@@ -128,3 +128,12 @@ releases:
       - 1.2.0.yml
       - 68-python.yml
     release_date: '2025-03-12'
+  1.2.1:
+    changes:
+      bugfixes:
+        - Accept upper-case letters when validating FQCNs (https://github.com/ansible-community/antsibull-docs-parser/pull/71).
+      release_summary: Bugfix release.
+    fragments:
+      - 1.2.1.yml
+      - 71-fqcn-upper-case.yml
+    release_date: '2025-06-22'

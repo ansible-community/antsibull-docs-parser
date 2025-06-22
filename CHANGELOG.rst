@@ -4,6 +4,19 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 
 .. contents:: Topics
 
+v1.2.1
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Accept upper-case letters when validating FQCNs (https://github.com/ansible-community/antsibull-docs-parser/pull/71).
+
 v1.2.0
 ======
 
