@@ -20,7 +20,7 @@ from ._parser_impl import parse_parameters_escaped, parse_parameters_unescaped
 _IGNORE_MARKER = "ignore:"
 _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([^:]+):(.*)$")
-_FQCN = re.compile(r"^[a-z0-9_]+\.[a-z0-9_]+(?:\.[a-z0-9_]+)+$")
+_FQCN = re.compile(r"^[A-Za-z0-9_]+\.[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$")
 _PLUGIN_TYPE = re.compile(r"^[a-z_]+$")
 _WHITESPACE = re.compile(r"([\s]+)")
 _DANGEROUS_WS = re.compile(r"[\t\n\r]")
