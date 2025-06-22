@@ -120,7 +120,9 @@ class PluginPart(NamedTuple):
     plugin: PluginIdentifier
     """The plugin."""
 
-    entrypoint: str | None  # can be present if plugin.type == "role"
+    entrypoint: str | None = (
+        None  # can be present if plugin.type == "role"; default value for backwards compatibility
+    )
     """In case the plugin is a role, this can be an entrypoint of that role."""
 
     source: str | None = None
@@ -251,7 +253,7 @@ class EnvVariablePart(NamedTuple):
     name: str
     """The environment variable's name."""
 
-    value: str | None
+    value: str | None = None  # default value for backwards compatibility
     """The (optional) environment variable's value."""
 
     source: str | None = None
