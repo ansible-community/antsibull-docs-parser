@@ -115,6 +115,7 @@ class OptionValuePart(NamedTuple):
 
 class EnvVariablePart(NamedTuple):
     name: str
+    value: str | None
     source: str | None = None
     type: t.Literal[PartType.ENV_VARIABLE] = PartType.ENV_VARIABLE
 
