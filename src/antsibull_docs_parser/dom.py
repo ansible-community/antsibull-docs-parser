@@ -66,6 +66,7 @@ class ModulePart(NamedTuple):
 
 class PluginPart(NamedTuple):
     plugin: PluginIdentifier
+    entrypoint: str | None  # can be present if plugin.type == "role"
     source: str | None = None
     type: t.Literal[PartType.PLUGIN] = PartType.PLUGIN
 

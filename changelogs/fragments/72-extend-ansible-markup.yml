@@ -1,0 +1,2 @@
+major_changes:
+  - "Extend plugin reference ``P(...)`` to allow referencing a role's entrypoint (https://github.com/ansible-community/antsibull-docs-parser/pull/72)."
