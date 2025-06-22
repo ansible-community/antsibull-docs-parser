@@ -70,7 +70,7 @@ The `U(...)` markup describes a single URL without a title. The `L(..., ...)` ma
 
 Module references `M(...)` use FQCNs (fully qualified collection names) to reference modules in collections. The collection name `ansible.builtin` is used for modules included with ansible-core.
 
-Plugin references `P(...)` must have a parameter of the form `fqcn#type`, where `fqcn` is the FQCN of the plugin, and `type` the plugin's type.
+Plugin references `P(...)` must have a parameter of the form `fqcn#type`, where `fqcn` is the FQCN of the plugin, and `type` the plugin's type. In case `type` is `role`, the form `fqcn#role:entrypoint` is allowed as well.
 
 ### ReStructuredText references
 

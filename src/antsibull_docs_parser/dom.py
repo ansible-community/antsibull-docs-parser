@@ -120,6 +120,9 @@ class PluginPart(NamedTuple):
     plugin: PluginIdentifier
     """The plugin."""
 
+    entrypoint: str | None  # can be present if plugin.type == "role"
+    """In case the plugin is a role, this can be an entrypoint of that role."""
+
     source: str | None = None
     """The (optional) source of the markup."""
 
