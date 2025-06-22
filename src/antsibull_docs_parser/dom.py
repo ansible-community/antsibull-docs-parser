@@ -66,7 +66,9 @@ class ModulePart(NamedTuple):
 
 class PluginPart(NamedTuple):
     plugin: PluginIdentifier
-    entrypoint: str | None  # can be present if plugin.type == "role"
+    entrypoint: str | None = (
+        None  # can be present if plugin.type == "role"; default value for backwards compatibility
+    )
     source: str | None = None
     type: t.Literal[PartType.PLUGIN] = PartType.PLUGIN
 
@@ -115,7 +117,7 @@ class OptionValuePart(NamedTuple):
 
 class EnvVariablePart(NamedTuple):
     name: str
-    value: str | None
+    value: str | None = None  # default value for backwards compatibility
     source: str | None = None
     type: t.Literal[PartType.ENV_VARIABLE] = PartType.ENV_VARIABLE
 
