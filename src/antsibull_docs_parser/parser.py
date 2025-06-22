@@ -465,13 +465,17 @@ class _EnvVar(CommandParserEx):
         source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
+        name = _process_whitespace(
+            parameters[0],
+            whitespace=whitespace,
+            code_environment=True,
+            no_newlines=True,
+        )
+        name, sep, value_ = name.partition("=")
+        value = value_ if sep else None
         return dom.EnvVariablePart(
-            name=_process_whitespace(
-                parameters[0],
-                whitespace=whitespace,
-                code_environment=True,
-                no_newlines=True,
-            ),
+            name=name,
+            value=value,
             source=source,
         )
 

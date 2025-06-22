@@ -192,13 +192,15 @@ TEST_PARSE_DATA: t.List[
     ),
     # semantic markup:
     (
-        "foo E(a\\),b) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
+        "foo E(a\\),b) E(foo=bar=baz) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
         Context(),
         {},
         [
             [
                 dom.TextPart(text="foo "),
-                dom.EnvVariablePart(name="a),b"),
+                dom.EnvVariablePart(name="a),b", value=None),
+                dom.TextPart(text=" "),
+                dom.EnvVariablePart(name="foo", value="bar=baz"),
                 dom.TextPart(text=" "),
                 dom.PluginPart(
                     plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam"),
@@ -215,13 +217,17 @@ TEST_PARSE_DATA: t.List[
         ],
     ),
     (
-        "foo E(a\\),b) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
+        "foo E(a\\),b) E(foo=bar=baz) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
         Context(),
         dict(add_source=True),
         [
             [
                 dom.TextPart(text="foo ", source="foo "),
-                dom.EnvVariablePart(name="a),b", source="E(a\\),b)"),
+                dom.EnvVariablePart(name="a),b", value=None, source="E(a\\),b)"),
+                dom.TextPart(text=" ", source=" "),
+                dom.EnvVariablePart(
+                    name="foo", value="bar=baz", source="E(foo=bar=baz)"
+                ),
                 dom.TextPart(text=" ", source=" "),
                 dom.PluginPart(
                     plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam"),
