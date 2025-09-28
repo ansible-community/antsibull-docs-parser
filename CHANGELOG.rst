@@ -4,6 +4,19 @@ antsibull-docs-parser -- Python library for processing Ansible documentation mar
 
 .. contents:: Topics
 
+v1.2.2
+======
+
+Release Summary
+---------------
+
+Bugfix release.
+
+Bugfixes
+--------
+
+- Make sure that ``-`` is escaped correctly (https://github.com/ansible-community/antsibull-docs-parser/pull/74).
+
 v1.2.1
 ======
 
