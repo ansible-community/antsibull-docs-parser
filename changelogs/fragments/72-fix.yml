@@ -1,2 +1,0 @@
-bugfixes:
-  - "Make sure that ``-`` is escaped correctly (https://github.com/ansible-community/antsibull-docs-parser/pull/72)."
