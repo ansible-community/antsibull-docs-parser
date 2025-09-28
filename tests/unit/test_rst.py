@@ -17,7 +17,7 @@ def test_rst_escape():
     assert rst_escape("") == ""
     assert rst_escape("  foo  ") == "  foo  "
     assert rst_escape("  foo  ", True) == "\\   foo  \\ "
-    assert rst_escape("\\<_>`*<_>*`\\|") == "\\\\\\<\\_\\>\\`\\*\\<\\_\\>\\*\\`\\\\\\|"
+    assert rst_escape("\\<_>`*<_>*`\\|-") == "\\\\\\<\\_\\>\\`\\*\\<\\_\\>\\*\\`\\\\\\|\\-"
 
 
 def test_postprocess_rst_paragraph():

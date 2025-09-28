@@ -35,6 +35,7 @@ def rst_escape(
     value = value.replace("*", "\\*")
     value = value.replace("`", "\\`")
     value = value.replace("|", "\\|")
+    value = value.replace("-", "\\-")
 
     # RST does not like it when the inside of `...` starts or ends with a whitespace
     # (here, all kind of whitespaces count, not just spaces...)
