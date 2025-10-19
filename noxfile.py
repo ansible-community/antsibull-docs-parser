@@ -33,12 +33,12 @@ def install(session: nox.Session, *args, editable=False, **kwargs):
     session.install(*args, "-U", **kwargs)
 
 
-@nox.session(python=["3.9", "3.10", "3.11", "3.12", "3.13"])
+@nox.session(python=["3.9", "3.10", "3.11", "3.12", "3.13", "3.14"])
 def test(session: nox.Session):
     install(session, ".[test, coverage]", editable=True)
     covfile = Path(session.create_tmp(), ".coverage")
     more_args = []
-    if session.python in {"3.11", "3.12", "3.13"}:
+    if session.python not in {"3.9", "3.10"}:
         more_args.append("--error-for-skips")
     session.run(
         "pytest",
