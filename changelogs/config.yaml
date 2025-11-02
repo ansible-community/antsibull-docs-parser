@@ -40,5 +40,9 @@ output:
     format: md
     global_toc: true
     per_release_toc: false
+  - file: docs/changelog.md
+    format: md
+    global_toc: false
+    per_release_toc: false
 changelog_nice_yaml: true
 changelog_sort: version
