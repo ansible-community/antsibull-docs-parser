@@ -118,6 +118,9 @@ def to_md(
     par_empty: str = " ",
     current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
+    """
+    Formats one or multiple paragraphs as MarkDown.
+    """
     return _format_paragraphs(
         paragraphs,
         formatter=formatter,

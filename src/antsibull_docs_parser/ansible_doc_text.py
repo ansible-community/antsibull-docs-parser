@@ -97,6 +97,9 @@ def to_ansible_doc_text(
     par_empty: str = "",
     current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
+    """
+    Converts one or multiple paragraphs into plain text, similar to ``ansible-doc``'s text output.
+    """
     return _format_paragraphs(
         paragraphs,
         formatter=formatter,

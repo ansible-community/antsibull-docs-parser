@@ -213,6 +213,9 @@ def to_html(
     par_empty: str = "",
     current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
+    """
+    Formats one or multiple paragraphs as HTML output that is suited for use in Sphinx docsites.
+    """
     return _format_paragraphs(
         paragraphs,
         formatter=formatter,
@@ -235,6 +238,9 @@ def to_html_plain(
     par_empty: str = "",
     current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
+    """
+    Formats one or multiple paragraphs as plain HTML output.
+    """
     return _format_paragraphs(
         paragraphs,
         formatter=formatter,
