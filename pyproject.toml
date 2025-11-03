@@ -36,6 +36,7 @@ classifiers = [
 ]
 
 [project.urls]
+"Documentation" = "https://ansible.readthedocs.io/projects/antsibull-docs-parser/"
 "Source code" = "https://github.com/ansible-community/antsibull-docs-parser/"
 "Code of Conduct" = "https://docs.ansible.com/ansible/latest/community/code_of_conduct.html"
 "Bug tracker" = "https://github.com/ansible-community/antsibull-docs-parser/issues"
