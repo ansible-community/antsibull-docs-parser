@@ -386,6 +386,10 @@ def to_rst(
     par_empty: str = "\\",
     current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
+    """
+    Formats one or multiple paragraphs as RST output that is suited for use in Sphinx docsites
+    that use antsibull-docs' ``sphinx_antsibull_ext`` Sphinx extension.
+    """
     return _format_paragraphs(
         paragraphs,
         formatter=formatter,
@@ -409,6 +413,9 @@ def to_rst_plain(
     par_empty: str = "\\",
     current_plugin: dom.PluginIdentifier | None = None,
 ) -> str:
+    """
+    Formats one or multiple paragraphs as plain RST output.
+    """
     return _format_paragraphs(
         paragraphs,
         formatter=formatter,

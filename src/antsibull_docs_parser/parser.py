@@ -48,16 +48,22 @@ def _repr(text: str) -> str:
 
 
 class Whitespace(_Enum):
-    # Keep all whitespace as-is.
+    """
+    How whitespace should be parsed.
+    """
+
     IGNORE = 0
+    """Keep all whitespace as-is."""
 
-    # Reduce all whitespace (space, tabs, newlines, ...) to regular breakable or
-    # non-breakable spaces. Multiple spaces are kept in everything that's often
-    # rendered code-style, like C(), O(), V(), RV(), E().
     STRIP = 1
+    """
+    Reduce all whitespace (space, tabs, newlines, ...) to regular breakable or
+    non-breakable spaces. Multiple spaces are kept in everything that's often
+    rendered code-style, like ``C()``, ``O()``, ``V()``, ``RV()``, ``E()``.
+    """
 
-    # Similar to STRIP, but keep single newlines intact.
     KEEP_SINGLE_NEWLINES = 2
+    """Similar to STRIP, but keep single newlines intact."""
 
 
 def _add_whitespace(
@@ -126,8 +132,23 @@ def _process_whitespace(
 
 
 class Context(t.NamedTuple):
+    """
+    Describes the context in which markup is parsed.
+
+    If an option or return value is referenced without a plugin or role entrypoint,
+    the information from the context is used, if available.
+
+    So if ``O(bam)`` is used in the context of a plugin ``foo.bar.baz``,
+    it is assumed that ``bam`` is an option of ``foo.bar.baz``.
+
+    If the context does not have a current plugin, ``O(bam)`` references an unknown plugin.
+    """
+
     current_plugin: dom.PluginIdentifier | None = None
+    """The current plugin for this context."""
+
     role_entrypoint: str | None = None
+    """The role entrypoint for this context, if the current plugin is a role."""
 
 
 class CommandParser(abc.ABC):
@@ -690,13 +711,52 @@ def parse(
 
     :param text: A string or a sequence of strings. If given a sequence of strings, will assume
         that this is a list of paragraphs.
+
     :param context: Contextual information.
+
+        Set ``current_plugin`` if the Ansible markup is parsed in the context of a specific plugin,
+        like when parsing a plugin's description, or the option and return value descriptions
+        of a plugin. If a role's documentation is parsed, and the markup belongs to a specific
+        entrypoint, you can also specify this entrypoint as ``role_entrypoint``.
+
+        This allows to automatically fill in this context in option and return value parts
+        so it is clear which plugin's or role entrypoint's option or return value is referenced
+        in case the markup does not specify the plugin resp. role entrypoint.
+
+        Simply use an unmodified instance of ``Context`` when parsing general markup.
+
     :param errors: How to handle errors while parsing.
+
+        ``"ignore"``
+            Simply ignores errors.
+
+        ``"message"``
+            Inserts errors as :class:`antsibull_docs_parser.dom.ErrorPart` parts into the output.
+
+        ``"exception"``
+            Makes the function throw Python exceptions.
+            This also means that it will stop processing on the first error.
+
     :param only_classic_markup: Whether to ignore semantic markup and treat it as raw text.
+
+        Should only be used in very special cases. This is mostly for backwards compatibility
+        for processors that do not want to understand semantic markup.
+
     :param strict: Whether to be extra strict while parsing.
+
+        Whether escaping should only be accepted if necessary.
+        Only ever enable this when linting markup.
+
     :param add_source: Whether to add the source of every part to the part (``source`` property).
+
     :param helpful_errors: Whether to include the faulty markup in error messages.
+
     :param whitespace: How to handle whitespace.
+
+        In case the parsed markup is used to format output in a markup format that is
+        whitespace sensitive, we recommend to use :attr:`.Whitespace.STRIP` or
+        :attr:`.Whitespace.KEEP_SINGLE_NEWLINES`.
+
     :return: A list of paragraphs. Each paragraph consists of a list of parts.
     """
     has_paragraphs = True
