@@ -18,6 +18,40 @@ copyright: >
   Copyright (C) 2025 Ansible Project Authors |
   SPDX-License-Identifier: <a style="text-decoration: underline;" href="https://github.com/ansible-community/antsibull-docs/blob/main/LICENSE">GPL-3.0-or-later</a>
 # REUSE-IgnoreEnd
+plugins:
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths:
+            - src
+          inventories:
+            - https://docs.python.org/3/objects.inv
+          options:
+            docstring_style: sphinx
+            docstring_section_style: list
+            signature_crossrefs: true
+            unwrap_annotated: true
+            inherited_members: true
+            summary: true
+            parameter_headings: false
+            type_parameter_headings: false
+            show_root_heading: true
+            show_root_full_path: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            line_length: 80
+            merge_init_into_class: false
+            separate_signature: true
+            show_signature_annotations: true
+            show_signature_type_parameters: true
+            show_bases: true
+            members_order: source
+            # It would be better to set summary=true and members=false, but that doesn't work yet...
+            summary: false
+            members: true
+            show_labels: false
+
 markdown_extensions:
   # Builtin
   - admonition
