@@ -10,7 +10,7 @@ SPDX-License-Identifier: GPL-3.0-or-later
 
 This is a Python library for processing Ansible documentation markup. It is named after [antsibull-docs](https://github.com/ansible-community/antsibull-docs/) where this code originates from. It was moved out to make it easier to reuse the markup code in other projects without having to depend on all of antsibull-docs's dependencies.
 
-antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/ansible/latest/community/code_of_conduct.html).
+antsibull-docs is covered by the [Ansible Code of Conduct](https://docs.ansible.com/projects/ansible/latest/community/code_of_conduct.html).
 
 !!! note
     Need help or want to discuss the project? See our [Community guide](community.md) to learn how to join the conversation!

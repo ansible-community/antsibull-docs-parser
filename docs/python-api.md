@@ -24,7 +24,7 @@ from antsibull_docs_parser.parser import parse
 from antsibull_docs_parser.parser import Context, parse
 from antsibull_docs_parser.html import to_html
 
-input = "This is a B(simple) example of L(Ansible markup, https://docs.ansible.com/ansible/devel/dev_guide/ansible_markup.html)."
+input = "This is a B(simple) example of L(Ansible markup, https://docs.ansible.com/projects/ansible/devel/dev_guide/ansible_markup.html)."
 context = Context()
 data = parse(input, context, strict=True)
 print(to_html(data))
@@ -32,7 +32,7 @@ print(to_html(data))
 
 This prints:
 ```html
-<p>This is a <b>simple</b> example of <a href='https://docs.ansible.com/ansible/devel/dev_guide/ansible_markup.html'>Ansible markup</a>.</p>
+<p>This is a <b>simple</b> example of <a href='https://docs.ansible.com/projects/ansible/devel/dev_guide/ansible_markup.html'>Ansible markup</a>.</p>
 ```
 
 ## The internal representation
