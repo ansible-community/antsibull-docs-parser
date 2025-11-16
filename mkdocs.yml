@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 site_name: antsibull-docs-parser – Library for processing Ansible markup
-site_url: https://ansible.readthedocs.io/projects/antsibull-docs-parser
+site_url: https://docs.ansible.com/projects/antsibull-docs-parser/
 repo_url: https://github.com/ansible-community/antsibull-docs-parser
 theme:
   name: ansible
