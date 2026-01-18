@@ -94,14 +94,12 @@ def main() -> None:
         update(test_name, test_data)
 
     with open(VECTORS_FILE, "w") as stream:
-        stream.write(
-            r"""---
+        stream.write(r"""---
 # Simplified BSD License (see LICENSES/BSD-2-Clause.txt or https://opensource.org/licenses/BSD-2-Clause)
 # SPDX-FileCopyrightText: Ansible Project
 # SPDX-License-Identifier: BSD-2-Clause
 
-"""
-        )
+""")
         stream.write(
             yaml.dump(
                 data,
