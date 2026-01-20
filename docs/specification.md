@@ -70,7 +70,7 @@ The `U(...)` markup describes a single URL without a title. The `L(..., ...)` ma
 
 Module references `M(...)` use FQCNs (fully qualified collection names) to reference modules in collections. The collection name `ansible.builtin` is used for modules included with ansible-core.
 
-Plugin references `P(...)` must have a parameter of the form `fqcn#type`, where `fqcn` is the FQCN of the plugin, and `type` the plugin's type.
+Plugin references `P(...)` must have a parameter of the form `fqcn#type`, where `fqcn` is the FQCN of the plugin, and `type` the plugin's type. In case `type` is `role`, the form `fqcn#role:entrypoint` is allowed as well.
 
 ### ReStructuredText references
 
@@ -80,7 +80,9 @@ Renderers that can not link to RST labels should simply show the title instead.
 
 ### Environment variable references
 
-The `E(...)` markup's parameter is the name of an environment variable.
+The `E(...)` markup's parameter is the name of an environment variable, with an optional value.
+
+If the argument contains `=`, the part before the `=` is the environment variable's name, and the part after its value. If no `=` is present, the whole argument is the environment variable's name.
 
 ### Ansible values
 
