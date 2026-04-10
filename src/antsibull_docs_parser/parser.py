@@ -21,6 +21,7 @@ _IGNORE_MARKER = "ignore:"
 _ARRAY_STUB_RE = re.compile(r"\[([^\]]*)\]")
 _FQCN_TYPE_PREFIX_RE = re.compile(r"^([^.]+\.[^.]+\.[^#]+)#([^:]+):(.*)$")
 _FQCN = re.compile(r"^[A-Za-z0-9_]+\.[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$")
+_ENTRYPOINT = re.compile(r"^[A-Za-z0-9_]+$")
 _PLUGIN_TYPE = re.compile(r"^[a-z_]+$")
 _WHITESPACE = re.compile(r"([\s]+)")
 _DANGEROUS_WS = re.compile(r"[\t\n\r]")
@@ -31,6 +32,10 @@ _SPACES_TO_KEEP = re.compile(
 
 def _is_fqcn(text: str) -> bool:
     return _FQCN.match(text) is not None
+
+
+def _is_entrypoint(text: str) -> bool:
+    return _ENTRYPOINT.match(text) is not None
 
 
 def _is_plugin_type(text: str) -> bool:
@@ -397,6 +402,8 @@ def _parse_option_like(
         if sep:
             entrypoint = part1
             text = part2
+            if not _is_entrypoint(entrypoint):
+                raise ValueError(f"Entrypoint {_repr(entrypoint)} is not valid")
         if entrypoint is None:
             raise ValueError("Role reference is missing entrypoint")
     if ":" in text or "#" in text:
@@ -427,12 +434,23 @@ class _Plugin(CommandParserEx):
         if "#" not in name:
             raise ValueError(f"Parameter {_repr(name)} is not of the form FQCN#type")
         fqcn, ptype = name.split("#", 1)
+        entrypoint = None
+        part1, sep, part2 = ptype.partition(":")
+        if sep:
+            ptype = part1
+            entrypoint = part2
+            if not _is_entrypoint(entrypoint):
+                raise ValueError(f"Entrypoint {_repr(entrypoint)} is not valid")
         if not _is_fqcn(fqcn):
             raise ValueError(f"Plugin name {_repr(fqcn)} is not a FQCN")
         if not _is_plugin_type(ptype):
             raise ValueError(f"Plugin type {_repr(ptype)} is not valid")
+        if entrypoint is not None and ptype != "role":
+            raise ValueError("Only role references can have entrypoints")
         return dom.PluginPart(
-            plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype), source=source
+            plugin=dom.PluginIdentifier(fqcn=fqcn, type=ptype),
+            entrypoint=entrypoint,
+            source=source,
         )
 
 
@@ -447,13 +465,17 @@ class _EnvVar(CommandParserEx):
         source: str | None,
         whitespace: Whitespace,
     ) -> dom.AnyPart:
+        name = _process_whitespace(
+            parameters[0],
+            whitespace=whitespace,
+            code_environment=True,
+            no_newlines=True,
+        )
+        name, sep, value_ = name.partition("=")
+        value = value_ if sep else None
         return dom.EnvVariablePart(
-            name=_process_whitespace(
-                parameters[0],
-                whitespace=whitespace,
-                code_environment=True,
-                no_newlines=True,
-            ),
+            name=name,
+            value=value,
             source=source,
         )
 
