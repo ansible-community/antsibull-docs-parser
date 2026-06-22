@@ -48,7 +48,7 @@ jobs:
     name: "Run nox ${{ matrix.session }} session"
     steps:
       - name: Check out antsibull-docs-parser
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: antsibull-docs-parser
           persist-credentials: false
