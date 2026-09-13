@@ -101,9 +101,11 @@ TEST_WALKER = [
     ],
     [
         dom.TextPart(text="foo "),
-        dom.EnvVariablePart(name="a),b"),
+        dom.EnvVariablePart(name="a),b", value=None),
         dom.TextPart(text=" "),
-        dom.PluginPart(plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam")),
+        dom.PluginPart(
+            plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam"), entrypoint=None
+        ),
         dom.TextPart(text=" baz "),
         dom.OptionValuePart(value=" b,na)\\m, "),
         dom.TextPart(text=" "),

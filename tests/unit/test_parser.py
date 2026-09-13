@@ -192,16 +192,19 @@ TEST_PARSE_DATA: t.List[
     ),
     # semantic markup:
     (
-        "foo E(a\\),b) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
+        "foo E(a\\),b) E(foo=bar=baz) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
         Context(),
         {},
         [
             [
                 dom.TextPart(text="foo "),
-                dom.EnvVariablePart(name="a),b"),
+                dom.EnvVariablePart(name="a),b", value=None),
+                dom.TextPart(text=" "),
+                dom.EnvVariablePart(name="foo", value="bar=baz"),
                 dom.TextPart(text=" "),
                 dom.PluginPart(
-                    plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam")
+                    plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam"),
+                    entrypoint=None,
                 ),
                 dom.TextPart(text=" baz "),
                 dom.OptionValuePart(value=" b,na)\\m, "),
@@ -214,16 +217,21 @@ TEST_PARSE_DATA: t.List[
         ],
     ),
     (
-        "foo E(a\\),b) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
+        "foo E(a\\),b) E(foo=bar=baz) P(foo.bar.baz#bam) baz V( b\\,\\na\\)\\\\m\\, ) O(foo) ",
         Context(),
         dict(add_source=True),
         [
             [
                 dom.TextPart(text="foo ", source="foo "),
-                dom.EnvVariablePart(name="a),b", source="E(a\\),b)"),
+                dom.EnvVariablePart(name="a),b", value=None, source="E(a\\),b)"),
+                dom.TextPart(text=" ", source=" "),
+                dom.EnvVariablePart(
+                    name="foo", value="bar=baz", source="E(foo=bar=baz)"
+                ),
                 dom.TextPart(text=" ", source=" "),
                 dom.PluginPart(
                     plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="bam"),
+                    entrypoint=None,
                     source="P(foo.bar.baz#bam)",
                 ),
                 dom.TextPart(text=" baz ", source=" baz "),
@@ -240,6 +248,26 @@ TEST_PARSE_DATA: t.List[
                     source="O(foo)",
                 ),
                 dom.TextPart(text=" ", source=" "),
+            ],
+        ],
+    ),
+    (
+        "P(foo.bar.baz#role) P(foo.bar.baz#role:entrypoint)",
+        Context(),
+        dict(add_source=True),
+        [
+            [
+                dom.PluginPart(
+                    plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="role"),
+                    entrypoint=None,
+                    source="P(foo.bar.baz#role)",
+                ),
+                dom.TextPart(text=" ", source=" "),
+                dom.PluginPart(
+                    plugin=dom.PluginIdentifier(fqcn="foo.bar.baz", type="role"),
+                    entrypoint="entrypoint",
+                    source="P(foo.bar.baz#role:entrypoint)",
+                ),
             ],
         ],
     ),
@@ -843,6 +871,18 @@ TEST_PARSE_THROW_DATA: t.List[
         dict(errors="exception", helpful_errors=False),
         'While parsing P() at index 1: Plugin type "b m" is not valid',
     ),
+    (
+        "P(foo.bar.baz#module:e p)",
+        Context(),
+        dict(errors="exception", helpful_errors=False),
+        'While parsing P() at index 1: Entrypoint "e p" is not valid',
+    ),
+    (
+        "P(foo.bar.baz#module:entrypoint)",
+        Context(),
+        dict(errors="exception", helpful_errors=False),
+        "While parsing P() at index 1: Only role references can have entrypoints",
+    ),
     # bad option name/return value (throw error):
     (
         "O(f o.b r.b z#bam:foobar)",
@@ -867,6 +907,12 @@ TEST_PARSE_THROW_DATA: t.List[
         Context(),
         dict(errors="exception", helpful_errors=False),
         "While parsing O() at index 1: Role reference is missing entrypoint",
+    ),
+    (
+        "O(foo.bar.baz#role:e p:bam)",
+        Context(),
+        dict(errors="exception", helpful_errors=False),
+        'While parsing O() at index 1: Entrypoint "e p" is not valid',
     ),
 ]
 
