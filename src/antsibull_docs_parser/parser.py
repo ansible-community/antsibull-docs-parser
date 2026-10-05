@@ -181,7 +181,7 @@ class CommandParser(abc.ABC):
         pass  # pragma: no cover
 
 
-class CommandParserEx(CommandParser):
+class CommandParserEx(CommandParser):  # pylint: disable=abstract-method
     old_markup: bool
 
     def __init__(
