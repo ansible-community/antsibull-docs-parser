@@ -17,10 +17,14 @@ name: nox
 
 env:
   FORCE_COLOR: "1"
+  OTHER_ANTSIBULL_MODE: local
+
+permissions:
+  contents: read
 
 jobs:
   nox:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.image || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix:
@@ -31,6 +35,7 @@ jobs:
             other-args: ""
             codecov: true
             packages: ""
+            image: ""
 
           - session: lint
             python-versions: "3.14"
@@ -38,6 +43,7 @@ jobs:
             other-args: ""
             codecov: false
             packages: ""
+            image: ""
 
           - session: create_vectors
             python-versions: "3.14"
@@ -45,6 +51,7 @@ jobs:
             other-args: ""
             codecov: false
             packages: ""
+            image: ""
     name: "Run nox ${{ matrix.session }} session"
     steps:
       - name: Check out antsibull-docs-parser
