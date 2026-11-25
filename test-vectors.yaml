@@ -103,6 +103,24 @@ test_vectors:
       The [a.b.c] lookup plugin.
     rst_plain: |-
       The :ref:`a.b.c <ansible_collections.a.b.c_lookup>` lookup plugin.
+  eda_plugin:
+    source: The P(a.b.c#eda_event_source) event source plugin.
+    html: |-
+      <p>The <a href='https://docs.ansible.com/ansible/devel/collections/a/b/c_eda_event_source.html' class='module'>a.b.c</a> event source plugin.</p>
+    html_opts:
+      pluginLinkTemplate: https://docs.ansible.com/ansible/devel/collections/{plugin_fqcn_slashes}_{plugin_type}.html
+    html_plain: |-
+      <p>The <a href='https://docs.ansible.com/ansible/devel/collections/a/b/c_eda_event_source.html'>a.b.c</a> event source plugin.</p>
+    md: |-
+      The [a\.b\.c](https\://docs\.ansible\.com/ansible/devel/collections/a/b/c\_eda\_event\_source\.html) event source plugin\.
+    md_opts:
+      pluginLinkTemplate: https://docs.ansible.com/ansible/devel/collections/{plugin_fqcn_slashes}_{plugin_type}.html
+    rst: |-
+      The :ref:`a.b.c <ansible_collections.a.b.c_eda_event_source>` event source plugin.
+    ansible_doc_text: |-
+      The [a.b.c] event source plugin.
+    rst_plain: |-
+      The :ref:`a.b.c <ansible_collections.a.b.c_eda_event_source>` event source plugin.
   plugin_no_link:
     source: The P(a.b.c#lookup) lookup plugin.
     html: |-
