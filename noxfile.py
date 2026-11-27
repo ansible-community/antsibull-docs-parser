@@ -37,7 +37,7 @@ def install(session: nox.Session, *args, editable=False, **kwargs):
     python=["3.9", "3.10", "3.11", "3.12", "3.13", "3.14", "3.15"], allow_parallel=True
 )
 def test(session: nox.Session):
-    install(session, ".[test, coverage]", editable=True)
+    install(session, ".", "--group", "test", "--group", "coverage", editable=True)
     covfile = Path(session.create_tmp(), ".coverage")
     more_args = []
     if session.python not in {"3.9", "3.10"}:
@@ -73,7 +73,7 @@ def lint(session: nox.Session):
 
 @nox.session(allow_parallel=IN_CI)
 def formatters(session: nox.Session):
-    install(session, ".[formatters]")
+    install(session, ".", "--group", "formatters")
     posargs = list(session.posargs)
     if IN_CI:
         posargs.append("--check")
@@ -83,7 +83,7 @@ def formatters(session: nox.Session):
 
 @nox.session(allow_parallel=True)
 def codeqa(session: nox.Session):
-    install(session, ".[codeqa]", editable=True)
+    install(session, ".", "--group", "codeqa", editable=True)
     session.run("flake8", "src/antsibull_docs_parser", *session.posargs)
     session.run(
         "pylint", "--rcfile", ".pylintrc.automated", "src/antsibull_docs_parser"
@@ -95,7 +95,7 @@ def codeqa(session: nox.Session):
 @nox.session(allow_parallel=True)
 def typing(session: nox.Session):
     # pyre does not work when we don't install ourself in editable mode 🙄.
-    install(session, "-e", ".[typing]")
+    install(session, "-e", ".", "--group", "typing")
     session.run("mypy", "src/antsibull_docs_parser")
     session.run("pyre", "--source-directory", "src")
 

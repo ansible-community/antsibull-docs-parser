@@ -43,7 +43,7 @@ classifiers = [
 "Bug tracker" = "https://github.com/ansible-community/antsibull-docs-parser/issues"
 "Changelog" = "https://github.com/ansible-community/antsibull-docs-parser/tree/main/CHANGELOG.md"
 
-[project.optional-dependencies]
+[dependency-groups]
 codeqa = [
     "antsibull-changelog",
     "flake8",
@@ -72,11 +72,11 @@ typing = [
 ]
 dev = [
     # Used by nox sessions
-    "antsibull-docs-parser[codeqa]",
-    "antsibull-docs-parser[coverage]",
-    "antsibull-docs-parser[formatters]",
-    "antsibull-docs-parser[test]",
-    "antsibull-docs-parser[typing]",
+    {include-group = "codeqa"},
+    {include-group = "coverage"},
+    {include-group = "formatters"},
+    {include-group = "test"},
+    {include-group = "typing"},
     # misc
     "nox",
 ]
